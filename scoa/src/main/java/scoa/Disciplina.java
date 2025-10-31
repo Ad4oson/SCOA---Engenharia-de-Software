@@ -8,11 +8,11 @@ public class Disciplina {
     private int carga_horaria;
     private int creditos;
     private String bibliografia;
-    private Disciplina disciplinapre_id;
 
     private LocalDateTime created_at;
     private boolean deleted;
 
+    private Disciplina disciplinapre_id;
     private Curso curso_id;
 
 }

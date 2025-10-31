@@ -1,16 +1,18 @@
 package main.java.scoa;
 
-public class Avaliacao {
-
+public class PautaDeAula {
+    
     private int id;
-    private TipoAvaliacao tipo;
     private LocalDate data;
-    private int peso;
-    private String descricao;
     private String conteudo;
+    private String atividades;
+    private String observacoes;
+
+
     private LocalDateTime created_at;
     private boolean deleted;
 
     private Turma turma_id;
-    
+    private Aluno aluno_id;
+
 }

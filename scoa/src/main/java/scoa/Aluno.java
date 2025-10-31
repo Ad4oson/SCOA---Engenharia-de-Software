@@ -23,6 +23,8 @@ public class Aluno {
     private Bolsa bolsa_id;
     private Boleto boleto_id;
 
+    private Turma turma_id;
+    private ContatosAluno contatos_id;
 
 
 
