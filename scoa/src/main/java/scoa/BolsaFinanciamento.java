@@ -13,4 +13,7 @@ public class BolsaFinanciamento {
 
     private Mensalidade mensalidade_id;
 
+    @OneToOne(mappedBy = "bolsa")
+    private Aluno aluno_id;
+
 }

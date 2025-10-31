@@ -1,0 +1,59 @@
+
+>> Anotações referentes à sintaxe de integração com o BD <<
+
+-------------RELAÇÕES---------
+@Entity
+@Table(name = "curso")
+public class Curso {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String nome;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    private List<Aluno> alunos;
+}
+
+
+@Entity
+@Table(name = "aluno")
+public class Aluno {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
+
+}
+
+
+@ManyToMany
+    @JoinTable(
+        name = "aluno_curso",
+        joinColumns = @JoinColumn(name = "aluno_id"),
+        inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private List<Curso> cursos;
+
+@ManyToMany(mappedBy = "cursos")
+private List<Aluno> alunos;
+
+
+
+Curso c1 = new Curso("Engenharia de Software");
+Curso c2 = new Curso("Banco de Dados");
+
+Aluno a1 = new Aluno("Maria");
+Aluno a2 = new Aluno("João");
+
+// Relação Many-to-Many
+a1.setCursos(List.of(c1, c2));
+a2.setCursos(List.of(c1));
+
+-------------COMANDOS---------
+

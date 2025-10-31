@@ -1,8 +1,13 @@
 package main.java.scoa;
 
+import java.lang.annotation.Inherited;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "Aluno")
 public class Aluno {
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int id;
 
@@ -19,10 +24,17 @@ public class Aluno {
     private boolean deleted;
 
     //Relações, integrar com BD utilizando ORM JPA/Hibernate depois
-    private Curso curso_id;
-    private Bolsa bolsa_id;
-    private Boleto boleto_id;
+    //@JoinColumn(name = "curso_id", referencedColumnName = "id")
 
+    //@ManyToOne
+    //@JoinColumn(name = "curso_id")
+    private Curso curso;
+
+    @OneToOne
+    @JoinColumn(name = "bolsa_id")
+    private Bolsa bolsa;
+
+    private Boleto boleto_id;
     private Turma turma_id;
     private ContatosAluno contatos_id;
 
