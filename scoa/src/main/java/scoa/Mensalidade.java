@@ -2,8 +2,12 @@ package main.java.scoa;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "Mensalidade")
 public class Mensalidade {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private int valorbase;
@@ -15,6 +19,12 @@ public class Mensalidade {
     private boolean deleted;
 
     //Relações, integrar com BD utilizando ORM JPA/Hibernate depois
-    private Aluno aluno_id;
-    private BolsaFinanciamento bolsa_id;
+
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
+
+    @ManyToOne
+    @JoinColumn(name = "bolsa_id")
+    private BolsaFinanciamento bolsa;
 }

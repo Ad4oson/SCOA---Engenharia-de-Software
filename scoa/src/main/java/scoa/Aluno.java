@@ -8,11 +8,9 @@ import java.time.LocalDateTime;
 public class Aluno {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
 
     private String nome;
-    //Lembrar de adicionar nome no aluno BD
     private String cpf;
     private String rg;
     private String nascimento;
@@ -23,21 +21,32 @@ public class Aluno {
     private LocalDateTime create_at;
     private boolean deleted;
 
-    //Relações, integrar com BD utilizando ORM JPA/Hibernate depois
-    //@JoinColumn(name = "curso_id", referencedColumnName = "id")
 
-    //@ManyToOne
-    //@JoinColumn(name = "curso_id")
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<Boleto> boletos;
+
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<Mensalidade> mensalidades;
+
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<ContatosAluno> contatos;
+
+    @ManyToMany(mappedBy = "alunos")
+    private List<Turma> turmas;
+
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
     private Curso curso;
 
     @OneToOne
     @JoinColumn(name = "bolsa_id")
     private Bolsa bolsa;
 
-    private Boleto boleto_id;
-    private Turma turma_id;
-    private ContatosAluno contatos_id;
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<NotaAluno> notas;
 
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<DocumentosAluno> documentos;
 
 
 }

@@ -1,10 +1,17 @@
 package main.java.scoa;
 
+import java.lang.annotation.Inherited;
+
+@Entity
+@Table(name = "EspecialidadesProfessor")
 public class EspecialidadesProfessor {
 
-    private int id_professor;
+    @Id
     private String especialidade;
 
-    private Professor professor_id;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "professor_id")
+    private Professor professor;
     
 }

@@ -1,7 +1,11 @@
 package main.java.scoa;
 
+@Entity
+@Table(name = "CentroCusto")
 public class CentroCusto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String descricao;
@@ -13,6 +17,11 @@ public class CentroCusto {
     private boolean deleted;
 
 
-    
-    private TransacaoFinanceira transacao_financeira_id;
+    @ManyToMany
+    @JoinTable(
+        name = "TransacaoCentro",
+        joinColumns = @JoinColumn(name = "centro_id"),
+        inverseJoinColumns = @JoinColumn(name = "transacao_id")
+    )
+    private List<TransacaoFinanceira> transacoes;
 }

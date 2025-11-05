@@ -55,5 +55,8 @@ Aluno a2 = new Aluno("João");
 a1.setCursos(List.of(c1, c2));
 a2.setCursos(List.of(c1));
 
+
+@JoinColumn(name = "curso_id", referencedColumnName = "id")
+
 -------------COMANDOS---------
 

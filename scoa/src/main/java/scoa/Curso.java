@@ -1,15 +1,22 @@
 package main.java.scoa;
 
 import java.time.LocalDate;
+import java.util.List;
 
+@Entity
+@Table(name = "Curso")
 public class Curso {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nome;
     private String mensalidade;
-    //EDITAR NO BD medalidade -> mensalidade 
 
+    @Enumerated(EnumType.STRING)
     private TurnoType turno;
+
     private int cargahoraria;
     private int periodos;
     private LocalDate prazoconclusao;
@@ -19,8 +26,18 @@ public class Curso {
     private LocalDate created_at;
     private boolean deleted;
 
+    @Enumerated(EnumType.STRING)
     private StatusCurso status;
-    private Coordenador coordenador_id;
-    private Disciplina disciplina_id;
-    
+
+    @OneToOne
+    @JoinColumn(name = "coordenador_id")
+    private Professor coordenador;
+
+
+    @ManyToMany(mappedBy = "cursos")
+    private List<Disciplina> disciplinas;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    private List<Aluno> alunos;
+
 }

@@ -4,16 +4,25 @@ import java.time.LocalDateTime;
 
 import main.java.scoa.enums.status_bolsa;
 
+@Entity
+@Table(name = "BolsaFinanciamento")
 public class BolsaFinanciamento {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private status_bolsa status;
+
+    @Enumerated(EnumType.STRING)
+    private StatusBolsa status;
+
     private LocalDateTime created_at;
     private boolean deleted;
 
-    private Mensalidade mensalidade_id;
+    @OneToMany(mappedBy = "bolsa", cascade = CascadeType.ALL)
+    private List<Mensalidade> mensalidades;
+
 
     @OneToOne(mappedBy = "bolsa")
-    private Aluno aluno_id;
+    private Aluno aluno;
 
 }

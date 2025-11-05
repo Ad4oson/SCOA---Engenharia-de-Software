@@ -1,10 +1,19 @@
 package main.java.scoa;
 
+import java.lang.annotation.Inherited;
+
+import javax.annotation.processing.Generated;
+
+@Entity
+@Table(name = "ContatosAluno")
 public class ContatosAluno {
 
-    private int id_aluno;
+    @Id
     private String contato;
 
-    private Aluno aluno_id;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
 
 }

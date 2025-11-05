@@ -1,7 +1,11 @@
 package main.java.scoa;
 
+@Entity
+@Table(name = "PautaDeAula")
 public class PautaDeAula {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate data;
     private String conteudo;
@@ -12,7 +16,9 @@ public class PautaDeAula {
     private LocalDateTime created_at;
     private boolean deleted;
 
-    private Turma turma_id;
-    private Aluno aluno_id;
+    @ManyToOne
+    @JoinColumn(name = "turma_id")
+    private Turma turma;
+
 
 }

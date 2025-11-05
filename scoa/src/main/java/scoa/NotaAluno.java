@@ -1,7 +1,13 @@
 package main.java.scoa;
 
+import javax.annotation.processing.Generated;
+
+@Entity
+@Table(name = "NotaAluno")
 public class NotaAluno {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int valor;
     private float mediaparcial;
@@ -11,8 +17,13 @@ public class NotaAluno {
     private LocalDateTime created_at;
     private boolean deleted;
 
-    private Aluno aluno_id;
-    private Avaliacao avaliacao_id;
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
+
+    @ManyToOne
+    @JoinColumn(name = "avaliacao_id")
+    private Avaliacao avaliacao;
 
 
 }

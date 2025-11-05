@@ -3,12 +3,14 @@ package main.java.scoa;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "transacaofinanceira")
 public class TransacaoFinanceira {
 
     private int id;
     private float valor;
     private LocalDateTime data_transacao;
-    //data_transacao como  LocalDateTIME
+  
 
     private String origem;
     private String destinatario;
@@ -16,9 +18,14 @@ public class TransacaoFinanceira {
     private LocalDateTime created_at;
     private boolean deleted;
 
-    private BoletoPagamento boleto_pagamento_id;
-    private CentroCusto centro_custo_id;
-
-
+    @Id
+    @OneToOne
+    @JoinColumn(name = "pagamento_id")
+    private BoletoPagamento pagamento;
     
+
+    @ManyToMany(mappedBy = "transacoes")
+    private List<CentroCusto> centros;
+
+
 }
