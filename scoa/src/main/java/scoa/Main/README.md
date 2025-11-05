@@ -8,6 +8,16 @@
 
 - Lembrar de adicionar nome no aluno BD
 
+- Adicionar matrícula para aluno no BD
+
+- Criado classe genérica Usuário e extensões dela como: aluno -> secretário, professor -> coordenador
+
+
+### Alterar diagrama de UserCase conforme comentado pelo professor na entrega do trabalho:
+
+- Modelo de caso de uso ainda apr4senta problemas com as extensões e relacionamentos. Eliminar as dependências entre os módulos. Optar por informar isso textualmente na descrição dos UCs.
+
+
 ### Boleto Pagamento:
 
 - CRIADO ENUM PARA STATUS PAGAMENTO, ALTERAR NO BD
