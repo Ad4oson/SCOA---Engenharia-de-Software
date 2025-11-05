@@ -10,7 +10,9 @@
 
 - Adicionar matrícula para aluno no BD
 
-- Criado classe genérica Usuário e extensões dela como: aluno -> secretário, professor -> coordenador
+- Criado classe genérica Usuário e extensões dela como: aluno -> secretário, professor -> coordenador, ALTERAR NO DC. 
+
+- Criar "entidade" usuário no BD, com login / senha / tipo_usuário / created_at / deleted, alterar no Diagrama BD.
 
 
 ### Alterar diagrama de UserCase conforme comentado pelo professor na entrega do trabalho:
@@ -48,6 +50,8 @@
 ### Professor:
 
 - ALTERAR NO BD, transformar CPF e RG em VARCHAR
+
+- Adicionar Polo no BD e DC
 
 ### Transação Financeira:
 

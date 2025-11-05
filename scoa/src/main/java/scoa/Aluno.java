@@ -5,21 +5,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Aluno")
-public class Aluno {
+public class Aluno extends Usuario {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String nome;
-    private String cpf;
-    private String rg;
-    private String nascimento;
-    private String polo;
-    private String endereco;
     private String statusfinanceiro;
-
-    private LocalDateTime create_at;
-    private boolean deleted;
+    private String matricula;
 
 
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
@@ -57,52 +48,11 @@ public class Aluno {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(String nascimento) {
-        this.nascimento = nascimento;
-    }
-
-    public String getPolo() {
-        return polo;
-    }
-
-    public void setPolo(String polo) {
-        this.polo = polo;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public String getMatricula() {
+        return matricula;
     }
 
     public String getStatusfinanceiro() {
@@ -119,14 +69,6 @@ public class Aluno {
 
     public void setCreate_at(LocalDateTime create_at) {
         this.create_at = create_at;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     public List<Boleto> getBoletos() {
