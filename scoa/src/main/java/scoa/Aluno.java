@@ -136,7 +136,37 @@ public class Aluno extends Usuario {
     }
 //#endregion
 
-    
+    //Construtor padrão p/ JPA
+    public Aluno() {
+    }
+
+    //Construtor total
+    public Aluno(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String matricula, String statusfinanceiro,
+    String cpf, String rg, String nascimento, String polo, String endereco, LocalDateTime created_at, boolean deleted) {
+        setId(id);
+        setLogin(login);
+        setSenha(senha);
+        setTipoUsuario(tipoUsuario);
+        setNome(nome);
+        setMatricula(matricula);
+        setStatusfinanceiro(statusfinanceiro);
+        setCpf(cpf);
+        setRg(rg);
+        setNascimento(nascimento);
+        setPolo(polo);
+        setEndereco(endereco);
+        setCreated_at(created_at);
+        setDeleted(deleted);
+    }
 
 
+    //Construtor parcial
+    public Aluno(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String matricula) {
+        setId(id);
+        setLogin(login);
+        setSenha(senha);
+        setTipoUsuario(tipoUsuario);
+        setNome(nome);
+        setMatricula(matricula);
+    }
 }
