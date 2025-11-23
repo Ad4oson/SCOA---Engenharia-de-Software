@@ -1,4 +1,22 @@
 
+--------------CÓDIGO PARA EXECUTAR O PROGRAMA--------------
+mvn -U -DskipTests clean package   //Constrói o executável e baixa as dependencias
+mvn dependency:build-classpath -Dmdep.outputFile=cp.txt
+set /p CP=<cp.txt
+java -cp "$cp;target\classes" scoa.Main  |OU| java -cp "target\dependency\*;target\classes" scoa.Main  //Executa-o
+
+
+O processo geral seria:
+1º mvn -DskipTests clean package
+2º mvn dependency:copy-dependencies -DoutputDirectory=target/dependency      //buildar
+3º java -cp "target/dependency/*;target/classes" scoa.Main          //rodar
+
+---para execução rápida--
+mvn -DskipTests clean package
+mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
+java -cp "target/dependency/*;target/classes" scoa.Main  
+
+
 >> Anotações referentes à sintaxe de integração com o BD <<
 
 -------------RELAÇÕES---------
@@ -60,3 +78,87 @@ a2.setCursos(List.of(c1));
 
 -------------COMANDOS---------
 
+
+---- LOG PRIMEIRA EXECUÇÃO BEM-SUCEDIDA ----
+
+nov. 23, 2025 11:13:46 AM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [name: meuPU]
+nov. 23, 2025 11:13:46 AM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 6.4.2.Final
+nov. 23, 2025 11:13:46 AM org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/scoa]
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {user=postgres, password=****}
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+nov. 23, 2025 11:13:47 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000038: Composite-id class does not override equals(): main.java.scoa.ContatosAluno
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000039: Composite-id class does not override hashCode(): main.java.scoa.ContatosAluno
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000038: Composite-id class does not override equals(): main.java.scoa.EspecialidadesProfessor
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000039: Composite-id class does not override hashCode(): main.java.scoa.EspecialidadesProfessor
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000038: Composite-id class does not override equals(): main.java.scoa.TransacaoFinanceira
+nov. 23, 2025 11:13:47 AM org.hibernate.mapping.RootClass checkCompositeIdentifier
+WARN: HHH000039: Composite-id class does not override hashCode(): main.java.scoa.TransacaoFinanceira
+nov. 23, 2025 11:13:48 AM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+nov. 23, 2025 11:13:48 AM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator
+$ConnectionProviderJdbcConnectionAccess@47187f50] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' 
+will be committed and the Connection will be set into auto-commit mode.
+Hibernate: alter table if exists turma alter column horario set data type timestamp(6)
+nov. 23, 2025 11:13:48 AM org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl handleException
+WARN: GenerationTarget encountered exception accepting command : Error executing DDL "alter table if exists turma alter column horario set 
+data type timestamp(6)" via JDBC [ERRO: coluna "horario" não pode ser convertida automaticamente para tipo timestamp without time zone
+  Dica: Talvez seja necessário especificar "USING horario::timestamp(6) without time zone".]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table if exists turma alter column horario 
+set data type timestamp(6)" via JDBC [ERRO: coluna "horario" não pode ser convertida automaticamente para tipo timestamp without time zone
+  Dica: Talvez seja necessário especificar "USING horario::timestamp(6) without time zone".]
+        at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94)
+        at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:574)
+        at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:514)
+        at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:333)
+        at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84)
+        at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:232)
+        at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:117)
+        at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:286)
+        at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:145)
+        at java.base/java.util.HashMap.forEach(HashMap.java:1430)
+        at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:142)
+        at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+        at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+        at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:315)
+        at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:450)
+        at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1507)
+        at org.hibernate.jpa.HibernatePersistenceProvider.createEntityManagerFactory(HibernatePersistenceProvider.java:55)
+        at jakarta.persistence.Persistence.createEntityManagerFactory(Persistence.java:80)
+        at jakarta.persistence.Persistence.createEntityManagerFactory(Persistence.java:55)
+        at main.java.scoa.JPAUtil.<clinit>(JPAUtil.java:8)
+        at scoa.Main.main(Main.java:74)
+Caused by: org.postgresql.util.PSQLException: ERRO: coluna "horario" não pode ser convertida automaticamente para tipo timestamp without time zone
+  Dica: Talvez seja necessário especificar "USING horario::timestamp(6) without time zone".
+        at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+        at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+        at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+        at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+        at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+        at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:341)
+        at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:326)
+        at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:302)
+        at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:297)
+        at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80)
+        ... 20 more
+
+Hibernate: insert into Aluno (bolsa_id,cpf,created_at,curso_id,deleted,endereco,login,matricula,nascimento,nome,polo,rg,
+senha,statusfinanceiro,tipoUsuario) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)

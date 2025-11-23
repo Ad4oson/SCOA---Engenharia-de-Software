@@ -2,17 +2,32 @@ package main.java.scoa;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "Usuario")
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.MappedSuperclass;
+
+//@Entity
+//@Table(name = "Usuario")
+@MappedSuperclass
 public class Usuario {
 
     //Nesta classe terá atributos que todos usuários terão em comum, porém a classe não se espelha em sua respectiva no BD.
 
     //login / senha / tipo_usuário / created_at / deleted
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Id
+    //@Id
     private String login;
     private String senha;
     private TipoUsuario tipoUsuario;

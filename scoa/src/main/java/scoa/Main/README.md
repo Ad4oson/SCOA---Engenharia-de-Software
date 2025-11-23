@@ -15,9 +15,22 @@
 - Criar "entidade" usuário no BD, com login / senha / tipo_usuário / created_at / deleted, alterar no Diagrama BD.
 
 
+### Notas importantes do log de execução com função cadastrar aluno
+
+Implementar equals()/hashCode() nas classes de chave composta: adicione equals() e hashCode() nas classes usadas como composite-id (por exemplo ContatosAluno, EspecialidadesProfessor, TransacaoFinanceira).
+
+Desabilitar hbm2ddl.auto=update em produção: use migrações controladas (Flyway, Liquibase) para evitar alterações automáticas perigosas.
+
+Substituir pool embutido por um pool de produção: configure HikariCP (ou similar) em persistence.xml/application.properties para maior robustez.
+
+
 ### Alterar diagrama de UserCase conforme comentado pelo professor na entrega do trabalho:
 
 - Modelo de caso de uso ainda apr4senta problemas com as extensões e relacionamentos. Eliminar as dependências entre os módulos. Optar por informar isso textualmente na descrição dos UCs.
+
+### Aluno:
+
+- Alterar coluna nascimento de varchar() para DATE
 
 
 ### Boleto Pagamento:
@@ -37,6 +50,7 @@
 ### Contatos Professor:
 
 - Alterar contato para PK ao invés de Id
+- Adicionar coluna int salario
 
 ### Curso:
 

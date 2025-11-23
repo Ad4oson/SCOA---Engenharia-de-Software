@@ -3,12 +3,22 @@ package main.java.scoa;
 import java.lang.annotation.Inherited;
 import java.time.LocalDateTime;
 
+import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+
 @Entity
 @Table(name = "Aluno")
 public class Aluno extends Usuario {
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     private String statusfinanceiro;
     private String matricula;
 
@@ -31,7 +41,7 @@ public class Aluno extends Usuario {
 
     @OneToOne
     @JoinColumn(name = "bolsa_id")
-    private Bolsa bolsa;
+    private BolsaFinanciamento bolsa;
 
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
     private List<NotaAluno> notas;
@@ -40,13 +50,7 @@ public class Aluno extends Usuario {
     private List<DocumentosAluno> documentos;
 
     // #region Getters e Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
@@ -61,14 +65,6 @@ public class Aluno extends Usuario {
 
     public void setStatusfinanceiro(String statusfinanceiro) {
         this.statusfinanceiro = statusfinanceiro;
-    }
-
-    public LocalDateTime getCreate_at() {
-        return create_at;
-    }
-
-    public void setCreate_at(LocalDateTime create_at) {
-        this.create_at = create_at;
     }
 
     public List<Boleto> getBoletos() {
@@ -111,11 +107,11 @@ public class Aluno extends Usuario {
         this.curso = curso;
     }
 
-    public Bolsa getBolsa() {
+    public BolsaFinanciamento getBolsa() {
         return bolsa;
     }
 
-    public void setBolsa(Bolsa bolsa) {
+    public void setBolsa(BolsaFinanciamento bolsa) {
         this.bolsa = bolsa;
     }
 
@@ -137,16 +133,15 @@ public class Aluno extends Usuario {
 //#endregion
 
     //Construtor padrão p/ JPA
-    public Aluno() {
-    }
+    public Aluno() { }
 
     //Construtor total
     public Aluno(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String matricula, String statusfinanceiro,
     String cpf, String rg, String nascimento, String polo, String endereco, LocalDateTime created_at, boolean deleted) {
         setId(id);
-        setLogin(login);
-        setSenha(senha);
-        setTipoUsuario(tipoUsuario);
+        super.setLogin(login);
+        super.setSenha(senha);
+        super.setTipoUsuario(tipoUsuario);
         setNome(nome);
         setMatricula(matricula);
         setStatusfinanceiro(statusfinanceiro);
@@ -155,8 +150,8 @@ public class Aluno extends Usuario {
         setNascimento(nascimento);
         setPolo(polo);
         setEndereco(endereco);
-        setCreated_at(created_at);
-        setDeleted(deleted);
+        super.setCreated_at(created_at);
+        super.setDeleted(deleted);
     }
 
 
