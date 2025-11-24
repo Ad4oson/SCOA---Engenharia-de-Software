@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 
-import main.java.scoa.enums.status_bolsa;
+import scoa.enums.status_bolsa;
 
 @Entity
 @Table(name = "BolsaFinanciamento")

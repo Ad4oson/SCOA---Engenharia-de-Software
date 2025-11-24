@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import java.time.LocalTime;
 
@@ -122,7 +122,7 @@ public class Professor extends Usuario {
         setId(id);
         setLogin(login);    
         setSenha(senha);
-        setTipoUsuario(tipoUsuario);
+        setTipoUsuario(TipoUsuario.PROFESSOR);
         setNome(nome);
         setCpf(cpf);
         setRg(rg);

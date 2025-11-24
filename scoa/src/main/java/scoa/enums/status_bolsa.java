@@ -1,4 +1,4 @@
-package main.java.scoa.enums;
+package scoa.enums;
 
 public enum status_bolsa {
     Suspensa,

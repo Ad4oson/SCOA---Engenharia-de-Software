@@ -12,7 +12,10 @@
 
 - Criado classe genérica Usuário e extensões dela como: aluno -> secretário, professor -> coordenador, ALTERAR NO DC. 
 
-- Criar "entidade" usuário no BD, com login / senha / tipo_usuário / created_at / deleted, alterar no Diagrama BD.
+- Criar "entidade" >>usuário<< no BD, com login / senha / tipo_usuário / created_at / deleted, alterar no Diagrama BD. FAZER LOGIN SER MATRICULA.
+
+- Melhorar a tabela "funcionários" e adicionar sempre secretários dentro de funcionários
+
 
 
 ### Notas importantes do log de execução com função cadastrar aluno
@@ -66,6 +69,8 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 - ALTERAR NO BD, transformar CPF e RG em VARCHAR
 
 - Adicionar Polo no BD e DC
+
+- Transformar login e senha em PK compartilhada OU fazer o controle de login e senha através da tabela usuário
 
 ### Transação Financeira:
 

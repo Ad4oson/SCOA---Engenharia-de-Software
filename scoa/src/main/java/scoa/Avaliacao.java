@@ -1,6 +1,6 @@
-package main.java.scoa;
+package scoa;
 
-import main.java.scoa.TipoAvaliacao;
+import scoa.TipoAvaliacao;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 

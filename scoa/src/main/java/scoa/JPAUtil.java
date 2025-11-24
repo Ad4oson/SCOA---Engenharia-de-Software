@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;

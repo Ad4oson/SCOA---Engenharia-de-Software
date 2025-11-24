@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 public enum TipoAvaliacao {
 

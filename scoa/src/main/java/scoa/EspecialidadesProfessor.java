@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

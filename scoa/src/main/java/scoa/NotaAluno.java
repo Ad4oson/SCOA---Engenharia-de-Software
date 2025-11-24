@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import javax.annotation.processing.Generated;
 import java.time.LocalDateTime;

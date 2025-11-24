@@ -14,7 +14,11 @@ O processo geral seria:
 ---para execução rápida--
 mvn -DskipTests clean package
 mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
-java -cp "target/dependency/*;target/classes" scoa.Main  
+mvn exec:java -Dexec.mainClass=scoa.Main -Dexec.classpathScope=runtime
+
+
+cd /d "c:\Coisas Programis\SCOA GIT\SCOA---Engenharia-de-Software\scoa"
+mvn -DskipTests clean package
 
 
 >> Anotações referentes à sintaxe de integração com o BD <<

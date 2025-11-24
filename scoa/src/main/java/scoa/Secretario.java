@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -76,7 +76,7 @@ public class Secretario extends Aluno{
 
             Curso curso = em.getReference(Curso.class, cursoId);
             BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
-            Aluno novoAluno = new Aluno(0, login, senha, "ALUNO", nome, matricula);
+            Aluno novoAluno = new Aluno(0, login, senha, TipoUsuario.ALUNO, nome, matricula);
             // preencher campos obrigatórios que vêm do formulário
             novoAluno.setCurso(curso);
             novoAluno.setBolsa(bolsa);
@@ -102,30 +102,34 @@ public class Secretario extends Aluno{
 
 
     public void CadastrarProfessor(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, String nascimento, String endereco, String matricula, int cursoId, int bolsaId){
+         String rg, String nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao){
         
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
 
-            Curso curso = em.getReference(Curso.class, cursoId);
-            BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
-            Aluno novoAluno = new Aluno(0, login, senha, "PROFESSOR", nome, matricula);
+            Professor novoProfessor = new Professor();
             // preencher campos obrigatórios que vêm do formulário
-            novoAluno.setCurso(curso);
-            novoAluno.setBolsa(bolsa);
-            novoAluno.setCpf(cpf);
-            novoAluno.setRg(rg);
-            novoAluno.setEndereco(endereco);
-            novoAluno.setNascimento(nascimento);
+        
+            novoProfessor.setLogin(login);
+            novoProfessor.setSenha(senha);
+            novoProfessor.setNome(nome);
+            novoProfessor.setCpf(cpf);
+            novoProfessor.setRg(rg);
+            novoProfessor.setEndereco(endereco);
+            novoProfessor.setNascimento(nascimento);
+            novoProfessor.setFormacao(formacao);
+            novoProfessor.setRegistros(registros);
+            novoProfessor.setDataAdmissao(dataAdmissao);
+            novoProfessor.setTipoUsuario(TipoUsuario.PROFESSOR);
             
-            novoAluno.setCreated_at(LocalDateTime.now());
-            novoAluno.setDeleted(false);
-            em.persist(novoAluno);
+            novoProfessor.setCreated_at(LocalDateTime.now());
+            novoProfessor.setDeleted(false);
+            em.persist(novoProfessor);
             
             tx.commit();
-            System.out.println("\n\nAluno cadastrado com sucesso!\n\n");
+            System.out.println("\n\nProfessor cadastrado com sucesso!\n\n");
 
         } catch (Exception e) { 
             if (tx.isActive()) tx.rollback();

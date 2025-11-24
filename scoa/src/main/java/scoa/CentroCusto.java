@@ -1,4 +1,4 @@
-package main.java.scoa;
+package scoa;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;
