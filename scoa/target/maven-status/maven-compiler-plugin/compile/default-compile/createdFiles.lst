@@ -2,10 +2,10 @@ scoa\Curso.class
 scoa\TipoAvaliacao.class
 scoa\Avaliacao.class
 scoa\Boleto.class
-scoa\Main.class
 scoa\Turma.class
 scoa\Aluno.class
 scoa\Professor.class
+scoa\Main\Main.class
 scoa\DocumentosAluno.class
 scoa\EspecialidadesProfessor.class
 scoa\StatusCurso.class

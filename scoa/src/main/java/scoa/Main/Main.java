@@ -1,4 +1,4 @@
-package scoa;
+package scoa.Main;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +21,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
+import scoa.Aluno;
+import scoa.Curso;
 import scoa.JPAUtil;
 import scoa.Secretario;
+import scoa.Professor;
 import scoa.TipoUsuario;
 
 
@@ -30,9 +33,8 @@ public class Main { //Ler
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "UTF-8");
         boolean rodando = true;
-        int choice = 0;
 
         while (rodando) {
 
@@ -46,6 +48,7 @@ public class Main { //Ler
             
             Secretario secretario = new Secretario();
             boolean cadastro = true;
+            int choice = 0;
 
             switch (choiceNew) {
                 
@@ -65,7 +68,7 @@ public class Main { //Ler
                         System.out.println("\nNome: ");
                         String nome = sc.nextLine(); 
 
-                        System.out.println("\nMatricula (nulo caso secretario): ");
+                        System.out.println("\nMatricula: ");
                         String matricula = sc.nextLine();
 
                         System.out.println("\nCPF: ");
@@ -80,8 +83,25 @@ public class Main { //Ler
                         System.out.println("\nEndereço: ");
                         String endereco = sc.nextLine();
 
+                        System.out.println("\nCurso: ");
+                        String cursoT = sc.nextLine();
+                        int curso = 0;
+                        try {
+                            TypedQuery<Curso> q = JPAUtil.getEntityManager().createQuery(
+                                "SELECT c FROM Curso c WHERE c.nome = :nome", Curso.class
+                            );
+                            q.setParameter("nome", cursoT);
+                            Curso resultado = q.getSingleResult();
+                            curso = resultado.getId();
+                        }
+                        catch(NoResultException e1) {
+                            System.out.println("\nNenhum resultado encontrado!\n");
+                            break;
+                        }
+
+
                         secretario.CadastrarAluno(JPAUtil.getEntityManager(),login,senha, nome, cpf, rg, 
-                        nascimento, endereco, matricula, 1, 1);
+                        nascimento, endereco, matricula, curso, 1);
 
                         cadastro = false;
                     }
@@ -147,18 +167,23 @@ public class Main { //Ler
 
                         cadastro = false;
                     }
+                    break;
                     
                 case "3":
                     System.out.println("\nConsultar Aluno...");
-                    System.out.println("\nFiltros: 1- Nome | 2- Curso | 0- Nenhum\n");
+                    System.out.println("\nFiltros: 1- Nome | 0- Nenhum\n");
                     String filtro = sc.nextLine();
                     String filtroValor = "";
+                    String order = "";
+
                     if (!"0".equals(filtro)) {
                         System.out.print("\nDigite o valor para o filtro: ");
                         filtroValor = sc.nextLine();
                     }
-                    System.out.println("\nOrdenação: 1- Alfabética | 2- Curso | 0- Nenhum\n");
-                    String order = sc.nextLine();
+                    else {
+                        System.out.println("\nOrdenação: 1- Alfabética | 2- Curso | 0- Nenhum\n");
+                        order = sc.nextLine();
+                    }
 
                     if (filtroValor.isEmpty()) {
 
@@ -176,33 +201,126 @@ public class Main { //Ler
                             }
                             
                         }
+                        else if ("1".equals(order)) {
+                            try {
+                                TypedQuery<Aluno> q = JPAUtil.getEntityManager().createQuery(
+                                    "SELECT a FROM Aluno a ORDER BY a.nome", Aluno.class);
+                                List <Aluno> resultadoAluno = q.getResultList();
+                                resultadoAluno.forEach(a -> System.out.println("\nNome: " + a.getNome() + " | Matrícula: " + a.getMatricula() + " | Curso: " + a.getCurso().getNome()));
+
+                            }
+                            catch (NoResultException e2) {
+                                System.out.println("\nNenhum resultado encontrado!\n");
+                            }
+                        }
+                        else if ("2".equals(order)) {
+                            try {
+                                TypedQuery<Aluno> q = JPAUtil.getEntityManager().createQuery(
+                                    "SELECT a FROM Aluno a INNER JOIN a.curso c ORDER BY c.nome", Aluno.class
+                                );
+                                List<Aluno> resultadoAluno = q.getResultList();
+                                resultadoAluno.forEach(a -> System.out.println("\nNome: " + a.getNome() + " | Matrícula: " + a.getMatricula() + " | Curso: " + a.getCurso().getNome()));
+
+                            }
+                            catch (NoResultException e1) {
+                                System.out.println("\nNenhum resultado encontrado!\n");
+                            }
+                        }
 
                     }
-                    break;
+                    else {
+                        
+        
+                        try {
+                            TypedQuery<Aluno> q = JPAUtil.getEntityManager().createQuery(
+                                "SELECT a FROM Aluno a INNER JOIN a.curso c WHERE a.nome = :nome"
+                                ,Aluno.class);
+                            q.setParameter("nome", filtroValor);
+                            List<Aluno> resultado = q.getResultList();
+                            resultado.forEach(a-> System.out.println("\nNome: " + a.getNome() + " | Matrícula: " + a.getMatricula() + " | Curso: " + a.getCurso().getNome()));
 
+                        }
+                        catch(NoResultException e1) {}
+                        
+                    }
+                    break;
+                
+                case "4":
+                    while(true){
+                        System.out.println("\nConsultar Professor...\n");
+                        System.out.println("1- Lista de Professores | 2- Busca por nome\n");
+                        String choice1 = sc.nextLine();
+                        if ("1".equals(choice1)){
+
+                            try {
+                                TypedQuery<Professor> q = JPAUtil.getEntityManager().createQuery(
+                                    "SELECT p FROM Professor p", Professor.class);
+                                List<Professor> resultado = q.getResultList();
+
+                                resultado.forEach(a-> System.out.println("\nNome: " + a.getNome() + " | CPF: " + a.getCpf()));
+
+
+                            }
+                            catch (Exception e1) {
+                                System.out.println("\nErro encontrado!\n");
+                            }
+        
+                            break;
+                        }
+                        else if ("2".equals(choice1)) {
+
+                            try {
+
+                                System.out.print("\nDigite o nome desejado: ");
+                                String nomeP = sc.nextLine();
+                                TypedQuery<Professor> q = JPAUtil.getEntityManager().createQuery(
+                                    "SELECT p FROM Professor p WHERE p.nome = :nomeP", Professor.class);
+                                q.setParameter("nomeP", nomeP);
+                                List<Professor> resultado = q.getResultList();
+
+                                if (!resultado.isEmpty()) {
+                                    resultado.forEach(a-> System.out.println("\nNome: " + a.getNome() + " | CPF: " + a.getCpf()));
+                                    System.out.println("\nNenhum resultado encontrado!");
+                                }
+                                else System.out.println("\nNenhum resultado encontrado!");
+                            }
+                            catch (Exception e2){
+                                System.out.println("\nErro encontrado!\n");
+                            }
+                            break;
+                        }
+                        else {
+                            System.out.println("\nDígito incorreto, por favor tente novamente.\n");
+                        }
+                    }
+                    break;
+                case "0" :
+                    System.out.println("\nEncerrando programa...");
+                    rodando = false;
+                    break;
                 
                 }
 
 
 
             //#region
-            try {
-                choice = System.in.read();
-            }
-            catch (IOException e) {
-                System.out.println("Ocorreu um erro!");
-            }
-          
 
-            if (choice == '0') rodando = false;
+            if (rodando) {
+                try {
+                    choice = System.in.read();
+                }
+                catch (IOException e) {
+                    System.out.println("Ocorreu um erro!");
+                }
 
-            try {
-                 System.in.read();
-            }
-            catch (IOException e) { 
-                System.out.println("Ocorreu um erro 2!");
-            }
-           //#endregion
+                try {
+                    System.in.read();
+                }
+                catch (IOException e) { 
+                    System.out.println("Ocorreu um erro 2!");
+                }
+            //#endregion
+           }
         }
 
         sc.close();
