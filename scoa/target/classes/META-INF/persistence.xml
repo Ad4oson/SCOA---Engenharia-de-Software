@@ -6,17 +6,17 @@
              version="3.0">
   <persistence-unit name="meuPU" transaction-type="RESOURCE_LOCAL">
     <!-- List entity classes here (use your actual package names) -->
-    <class>scoa.Aluno</class>
-    <class>scoa.Curso</class>
-    <class>scoa.Avaliacao</class>
-    <class>scoa.Boleto</class>
-    <class>scoa.BoletoPagamento</class>
-    <class>scoa.BolsaFinanciamento</class>
-    <class>scoa.CentroCusto</class>
-    <class>scoa.ContatosAluno</class>
-    <class>scoa.ContatosProfessor</class>
-    <class>scoa.Disciplina</class>
-    <class>scoa.Professor</class>
+    <class>academico.Aluno</class>
+    <class>academico.Curso</class>
+    <class>academico.Avaliacao</class>
+    <class>academico.Boleto</class>
+    <class>academico.BoletoPagamento</class>
+    <class>academico.BolsaFinanciamento</class>
+    <class>academico.CentroCusto</class>
+    <class>academico.ContatosAluno</class>
+    <class>academico.ContatosProfessor</class>
+    <class>academico.Disciplina</class>
+    <class>academico.Professor</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/scoa"/>
