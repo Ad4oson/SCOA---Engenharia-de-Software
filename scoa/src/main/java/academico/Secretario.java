@@ -118,8 +118,6 @@ public class Secretario extends Aluno{
                 try {
 
                     ArrayList<Turma> turmasL = new ArrayList<>();
-
-
                     for (Integer id : turmas){
                         Turma turma = em.getReference(Turma.class, id);
                         turmasL.add(turma);
@@ -128,8 +126,6 @@ public class Secretario extends Aluno{
                         t.setProfessor(novoProfessor);
                         em.merge(t);
                     }
-
-
                 }
                 catch (EntityNotFoundException e1) {
                     System.out.println("\nTurma não encontrada!\n");
@@ -165,5 +161,86 @@ public class Secretario extends Aluno{
         }
 
     }
+
+
+    public void cadastrarCurso(EntityManager em, String nome, String mensalidade, TurnoType turno, Integer cargahoraria, Integer periodos,
+        LocalDate prazoconclusao, String descricao, String portaria, StatusCurso status, 
+        ArrayList<Integer> disciplinas, ArrayList<Integer> alunos, Integer coordenador) {
+
+        Curso cursoNovo = new Curso();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+
+            em.getReference(Coordenador.class, coordenador);
+
+            if (disciplinas != null) {
+                try {
+
+                    ArrayList<Disciplina> disciplinasL = new ArrayList<>();
+                    for (Integer id : disciplinas){
+                        Disciplina disciplina = em.getReference(Disciplina.class, id);
+                        disciplinasL.add(disciplina);
+                    }
+                    for (Disciplina d : disciplinasL) {
+                        cursoNovo.setDisciplinas(disciplinasL);;
+                        em.merge(d);
+                    }
+                }
+                catch (EntityNotFoundException e1) {
+                    System.out.println("\nDisciplina não encontrada!\n");
+                    tx.rollback();
+                    return;
+                }
+            }
+
+            if (alunos != null) {
+                try {
+
+                    ArrayList<Aluno> alunosL = new ArrayList<>();
+                    for (Integer id : alunos){
+                        Aluno aluno = em.getReference(Aluno.class, id);
+                        alunosL.add(aluno);
+                    }
+                    for (Aluno a : alunosL) {
+                        cursoNovo.setAlunos(alunosL);
+                        em.merge(a);
+                    }
+                }
+                catch (EntityNotFoundException e1) {
+                    System.out.println("\nAluno não encontrada!\n");
+                    tx.rollback();
+                    return;
+                }
+            }
+
+            cursoNovo.setNome(nome);
+            cursoNovo.setMensalidade(mensalidade);
+            cursoNovo.setTurno(turno);
+
+            cursoNovo.setCargahoraria(cargahoraria);
+            cursoNovo.setPeriodos(periodos);
+            cursoNovo.setPrazoconclusao(prazoconclusao);
+
+            cursoNovo.setDescricao(descricao);
+            cursoNovo.setPortaria(portaria);
+            cursoNovo.setStatus(status);
+
+            cursoNovo.setDeleted(false);
+            cursoNovo.setCreated_at(LocalDate.now());
+
+            em.persist(cursoNovo);
+            tx.commit();
+            System.out.println("\nCurso cadastrado com sucesso!\n");
+
+        }
+        catch(Exception e) {
+            if (tx.isActive()) tx.rollback();
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

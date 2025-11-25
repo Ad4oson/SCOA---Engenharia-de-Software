@@ -4,8 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,14 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import academico.Aluno;
-import academico.BolsaFinanciamento;
-import academico.Curso;
-import academico.Secretario;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
-import net.bytebuddy.asm.Advice.Local;
+import jakarta.persistence.NoResultException;
+
+
+
 
 public class SecretarioTest {
 
@@ -275,5 +273,74 @@ public class SecretarioTest {
             verify(tx).rollback();
         }
     }
+
+
+    //Cadastro de Curso (ALUNOS null | DISCIPLINAS null | COORDENADOR null), sem referências
+    @Test
+    void testCadastrarCurso() {
+
+    
+        secretario.cadastrarCurso(
+        em,
+        "cursonome1", 
+        "mensalidade1", 
+        TurnoType.MATUTINO, 
+        3600, 
+        8, 
+        null, 
+        null, 
+        null, 
+        StatusCurso.AGUARDO, 
+        null, 
+        null, 
+        null);
+
+        verify(tx).begin();
+        ArgumentCaptor<Curso> cursoCaptor = ArgumentCaptor.forClass(Curso.class);
+        verify(em).persist(cursoCaptor.capture());
+        verify(tx).commit();
+
+    }
+
+    @Test
+    void testCadastrarCursoCoordenadorInexistente(){
+
+        when(em.getReference(Coordenador.class, 999))
+        .thenThrow(new jakarta.persistence.EntityNotFoundException("\nCoordenador Inexistente"));
+  
+        try {
+                
+            secretario.cadastrarCurso(
+            em,
+            "cursonome1", 
+            "mensalidade1", 
+            TurnoType.MATUTINO, 
+            3600, 
+            8, 
+            null, 
+            null, 
+            null, 
+            StatusCurso.AGUARDO, 
+            null, 
+            null, 
+            999);
+
+            verify(tx).begin();
+            
+            //tenta buscar o coordenador
+            verify(em).getReference(Coordenador.class, 999);
+
+            verify(em, never()).persist(any());
+            verify(tx, never()).commit();
+        }
+        catch(EntityNotFoundException e1){
+            verify(tx).rollback();
+        }
+
+
+
+    }
+
+
 
 }

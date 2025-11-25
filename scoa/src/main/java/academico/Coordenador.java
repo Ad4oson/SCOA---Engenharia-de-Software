@@ -1,16 +1,18 @@
 package academico;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 public class Coordenador extends Professor{
     //Não necessária integração com JPA, apenas utilizar construtor com base em Professor
@@ -22,11 +24,11 @@ public class Coordenador extends Professor{
 
     // Construtor do Coordenador, utilizando dados de um professor existente
     public Coordenador(Professor professor) {
-        // Use default superclass constructor then copy properties via setters
+        // Usar construtor padrao
         super();
         if (professor == null) return;
 
-        // Usuario fields
+        // campos do usuario
         setId(professor.getId());
         setLogin(professor.getLogin());
         setSenha(professor.getSenha());
@@ -40,17 +42,20 @@ public class Coordenador extends Professor{
         setCreated_at(professor.getCreated_at());
         setDeleted(professor.isDeleted());
 
-        // Professor fields
+        // campos do professor
         setFormacao(professor.getFormacao());
         setRegistros(professor.getRegistros());
         setDataAdmissao(professor.getDataAdmissao());
         setSalario(professor.getSalario());
 
-        // Collections / relations
+        // relações
         setContatos(professor.getContatos());
         setEspecialidades(professor.getEspecialidades());
         setCurso(professor.getCurso());
         setTurmas(professor.getTurmas());
 
     }
+
+
+
 }
