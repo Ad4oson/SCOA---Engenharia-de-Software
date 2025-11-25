@@ -7,6 +7,9 @@ import java.time.LocalDate;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -136,6 +139,60 @@ public class Professor extends Usuario {
         setDeleted(deleted);
             }
 
+
+    public void lancarPauta(
+        EntityManager em,
+        Integer turmaId,
+        LocalDate data,
+        String conteudo,
+        String atividades,
+        String observacoes
+    ){
+        EntityTransaction tx = em.getTransaction();
+        PautaDeAula pauta = new PautaDeAula();
+        try {
+            tx.begin();
+
+            Turma turma = em.getReference(Turma.class, turmaId);
+
+            pauta.setData(data);
+            pauta.setConteudo(conteudo);
+            pauta.setAtividades(atividades);
+            pauta.setObservacoes(observacoes);
+            pauta.setTurma(turma);
+
+            pauta.setCreated_at(LocalDateTime.now());
+            pauta.setDeleted(false);
+            em.persist(pauta);
+            tx.commit();
+        }
+        catch(Exception e){
+            if(tx.isActive()) tx.rollback();
+            e.printStackTrace();
+            
+        }
+
+    }
+
+    
+/* 
+
+        // 2. Atualizar os atributos desejados
+        if (novoNome != null) disciplina.setNome(novoNome);
+        if (novaCargaHoraria != null) disciplina.setCarga_horaria(novaCargaHoraria);
+        if (novosCreditos != null) disciplina.setCreditos(novosCreditos);
+
+        // 3. O JPA detecta automaticamente as mudanças (dirty checking)
+        tx.commit();
+    }
+    catch (Exception e) {
+        if (tx.isActive()) tx.rollback();
+        throw e;
+    }
+}
+
+
+*/
 
             
     }

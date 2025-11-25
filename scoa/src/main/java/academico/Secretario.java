@@ -245,7 +245,7 @@ public class Secretario extends Aluno{
             cursoNovo.setStatus(status);
 
             cursoNovo.setDeleted(false);
-            cursoNovo.setCreated_at(LocalDate.now());
+            cursoNovo.setCreated_at(LocalDateTime.now());
 
             em.persist(cursoNovo);
             tx.commit();
@@ -258,11 +258,6 @@ public class Secretario extends Aluno{
         }
 
     }
-
-
-
-    private LocalDateTime created_at;
-    private boolean deleted;
 
 
     public void cadastrarTurma(
@@ -314,6 +309,8 @@ public class Secretario extends Aluno{
             turmaNova.setHorario(horario);
             turmaNova.setNumerovagas(numerovagas);
             turmaNova.setTurno(turno);
+            turmaNova.setCreated_at(LocalDateTime.now());
+            turmaNova.setDeleted(false);
 
             em.persist(turmaNova);
             tx.commit();
@@ -328,6 +325,7 @@ public class Secretario extends Aluno{
 
     }
 
+    
 /* 
     public void atualizarDisciplina(
         EntityManager em,
@@ -366,4 +364,6 @@ public class Secretario extends Aluno{
 
 
 */
+
+
 }

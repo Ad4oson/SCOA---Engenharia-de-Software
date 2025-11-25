@@ -1,6 +1,7 @@
 package academico;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import java.util.List;
 import jakarta.persistence.Entity;
@@ -37,7 +38,7 @@ public class Curso {
     private String descricao;
     private String portaria;
 
-    private LocalDate created_at;
+    private LocalDateTime created_at;
     private boolean deleted;
 
     @Enumerated(EnumType.STRING)
@@ -132,11 +133,11 @@ public class Curso {
         this.portaria = portaria;
     }
 
-    public LocalDate getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDate created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 
@@ -187,7 +188,7 @@ public class Curso {
 
     //Construtor total
     public Curso(int id, String nome, String mensalidade, TurnoType turno, int cargahoraria, int periodos,
-            LocalDate prazoconclusao, String descricao, String portaria, LocalDate created_at, boolean deleted,
+            LocalDate prazoconclusao, String descricao, String portaria, LocalDateTime created_at, boolean deleted,
             StatusCurso status, Professor coordenador) {
         this.id = id;
         this.nome = nome;

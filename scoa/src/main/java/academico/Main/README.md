@@ -30,6 +30,8 @@
 
 - TURMA: numero de vagas = nullable
 
+- PADRONIZAR LocalDateTime PARA TODAS TABELAS EM CREATED_AT
+
 -CREATE TABLE Curso (
 id serial,
 nome varchar(50) not null,
