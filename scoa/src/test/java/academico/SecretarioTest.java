@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -283,7 +284,6 @@ public class SecretarioTest {
     @Test
     void testCadastrarCurso() {
 
-    
         secretario.cadastrarCurso(
         em,
         "cursonome1", 
@@ -302,7 +302,6 @@ public class SecretarioTest {
         verify(tx).begin();
 
         ArgumentCaptor<Curso> cursoCaptor = ArgumentCaptor.forClass(Curso.class);
-
 
         verify(em).persist(cursoCaptor.capture());
   
@@ -352,10 +351,46 @@ public class SecretarioTest {
             verify(tx).rollback();
         }
 
-
-
     }
 
+    //Cadastro turma (SALA null | ALUNOS null)
+    @Test
+    void cadastrarTurma(){
+
+            Disciplina disciplinaNova = new Disciplina();
+            disciplinaNova.setId(1);
+            when(em.getReference(Disciplina.class, 1)).thenReturn(disciplinaNova);
+            
+            Professor professorNovo = new Professor();
+            professorNovo.setId(1);
+            when(em.getReference(Professor.class, 1)).thenReturn(professorNovo);
+
+            LocalTime horario = LocalTime.parse("22:45");
+            secretario.cadastrarTurma(em,
+                horario,
+                10, 
+                TurnoType.VESPERTINO, 
+                null, 
+                1, 
+                1, 
+                null);
+
+            verify(tx).begin();
+
+            
+            ArgumentCaptor<Turma> turmaCaptor = ArgumentCaptor.forClass(Turma.class);
+            verify(em).persist(turmaCaptor.capture());
+            Turma turma = turmaCaptor.getValue();
+            
+            
+            assertEquals(10, turma.getNumerovagas());
+            assertEquals(null, turma.getSala());
+            assertEquals(1, turma.getDisciplina().getId());
+            assertEquals(1, turma.getProfessor().getId());
+            assertEquals(null, turma.getAlunos());
+
+            verify(tx).commit();
+    }
 
 
 }

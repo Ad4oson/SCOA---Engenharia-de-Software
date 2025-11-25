@@ -2,11 +2,17 @@ package academico;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Persistence;
 import java.util.ArrayList;
+import java.util.List;
+
 import academico.Turma;
 
 import jakarta.persistence.Entity;
@@ -19,6 +25,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.CascadeType;
 
 public class Secretario extends Aluno{
@@ -180,7 +187,10 @@ public class Secretario extends Aluno{
         try {
             tx.begin();
 
-            em.getReference(Coordenador.class, coordenador);
+            if (coordenador != null){
+                Coordenador coordenadorNovo = em.getReference(Coordenador.class, coordenador);
+                cursoNovo.setCoordenador(coordenadorNovo);
+            }
 
             if (disciplinas != null) {
                 try {
@@ -250,4 +260,110 @@ public class Secretario extends Aluno{
     }
 
 
+
+    private LocalDateTime created_at;
+    private boolean deleted;
+
+
+    public void cadastrarTurma(
+        EntityManager em, 
+        LocalTime horario, 
+        Integer numerovagas, 
+        TurnoType turno,
+        Integer sala,
+        Integer disciplina,
+        Integer professor,
+        List<Integer> alunos
+    ){
+
+        Turma turmaNova = new Turma();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+
+            if (sala !=null){
+                Sala salaNova = em.getReference(Sala.class, sala);
+                turmaNova.setSala(salaNova);
+            }
+            if (disciplina !=null) {
+                Disciplina disciplinaNova = em.getReference(Disciplina.class, disciplina);
+                turmaNova.setDisciplina(disciplinaNova);
+            }
+            if(professor !=null){
+                Professor professorNovo = em.getReference(Professor.class, professor);
+                turmaNova.setProfessor(professorNovo);
+            }
+            
+            if(alunos!= null){
+
+                ArrayList<Aluno> alunosL = new ArrayList<>();
+                for (Integer id : alunos){
+
+                    Aluno aluno = em.getReference(Aluno.class, id);
+                    alunosL.add(aluno);
+                }
+
+                for (Aluno a : alunosL){
+
+                    a.getTurmas().add(turmaNova);
+                    em.merge(a);
+                }
+            }
+
+            turmaNova.setHorario(horario);
+            turmaNova.setNumerovagas(numerovagas);
+            turmaNova.setTurno(turno);
+
+            em.persist(turmaNova);
+            tx.commit();
+            System.out.println("\nTurma cadastrada com sucesso!!\n");
+        }
+        catch (Exception e){
+
+            if(tx.isActive()) tx.rollback();
+            e.printStackTrace();
+        }
+
+
+    }
+
+/* 
+    public void atualizarDisciplina(
+        EntityManager em,
+        Integer idDisciplina,
+        String novoNome,
+        Integer novaCargaHoraria,
+        Integer novosCreditos) {
+
+    EntityTransaction tx = em.getTransaction();
+
+    try {
+        tx.begin();
+
+        // 1. Buscar a disciplina existente
+        Disciplina disciplina = em.find(Disciplina.class, idDisciplina);
+
+        if (disciplina == null) {
+            throw new EntityNotFoundException(
+                "Disciplina com ID " + idDisciplina + " não encontrada."
+            );
+        }
+
+        // 2. Atualizar os atributos desejados
+        if (novoNome != null) disciplina.setNome(novoNome);
+        if (novaCargaHoraria != null) disciplina.setCarga_horaria(novaCargaHoraria);
+        if (novosCreditos != null) disciplina.setCreditos(novosCreditos);
+
+        // 3. O JPA detecta automaticamente as mudanças (dirty checking)
+        tx.commit();
+    }
+    catch (Exception e) {
+        if (tx.isActive()) tx.rollback();
+        throw e;
+    }
+}
+
+
+*/
 }

@@ -29,7 +29,7 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalTime horario;
-    private int numerovagas;
+    private Integer numerovagas;
 
     @Enumerated(EnumType.STRING)
     private TurnoType turno;
@@ -81,11 +81,11 @@ public class Turma {
         this.horario = horario;
     }
 
-    public int getNumerovagas() {
+    public Integer getNumerovagas() {
         return numerovagas;
     }
 
-    public void setNumerovagas(int numerovagas) {
+    public void setNumerovagas(Integer numerovagas) {
         this.numerovagas = numerovagas;
     }
 
