@@ -35,6 +35,29 @@ public class CoordenadorTest {
     }
 
 
+    //Cadastro Disciplina (DISCIPLINAPRE: NULL | CURSO: NULL | TURMA: NULL)
+    @Test
+    void cadastrarDisciplinaTest() {
+
+        coordenador.cadastrarDisciplina(
+            em,
+            "Probabilidade", 
+            null, 
+            100, 
+            null, 
+            null, 
+            null, 
+            null,
+            null);
+
+        verify(tx).begin();
+        
+        ArgumentCaptor<Disciplina> disciplinaCaptor = ArgumentCaptor.forClass(Disciplina.class);
+
+        verify(em).persist(disciplinaCaptor.capture());
+
+        verify(tx).commit();
+    }
 
     
 }

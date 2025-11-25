@@ -192,6 +192,8 @@ public class SecretarioTest {
     void cadastrarProfessorTeste() {
         
         when(em.getReference(Turma.class, 1)).thenReturn(new Turma());
+        when(em.getReference(Turma.class, 2)).thenReturn(new Turma());
+        when(em.getReference(Turma.class, 3)).thenReturn(new Turma());
         //Transforma String em LocalDate
         String dataAdmissao = "2025-10-20";
         LocalDate dataAdmissaoReal = LocalDate.parse(dataAdmissao);
@@ -201,6 +203,8 @@ public class SecretarioTest {
 
         ArrayList<Integer> turmas = new ArrayList<>();
         turmas.add(1);
+        turmas.add(2);
+        turmas.add(3);
 
         secretario.CadastrarProfessor(em,
             "login01", 
@@ -296,12 +300,23 @@ public class SecretarioTest {
         null);
 
         verify(tx).begin();
+
         ArgumentCaptor<Curso> cursoCaptor = ArgumentCaptor.forClass(Curso.class);
+
+
         verify(em).persist(cursoCaptor.capture());
+  
+        Curso c = cursoCaptor.getValue();
+        assertEquals(c.getNome(), "cursonome1");
+        assertEquals(c.getPrazoconclusao(), null);
+        assertEquals(c.getDescricao(), null);
+        assertEquals(c.getPortaria(), null);
+
         verify(tx).commit();
 
     }
 
+    //Cadastro de Curso Coordenador Inexistente
     @Test
     void testCadastrarCursoCoordenadorInexistente(){
 

@@ -51,7 +51,7 @@ public class Secretario extends Aluno{
 
   
 
-        //Construtor total
+    //Construtor total
     public Secretario(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String cpf, String rg,
     LocalDate nascimento, String polo, String endereco, LocalDateTime created_at, boolean deleted) {
 
@@ -71,18 +71,25 @@ public class Secretario extends Aluno{
 
 
     public void CadastrarAluno(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, LocalDate nascimento, String endereco, String matricula, int cursoId, int bolsaId){
+         String rg, LocalDate nascimento, String endereco, String matricula, Integer cursoId, Integer bolsaId){
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
-
-            Curso curso = em.getReference(Curso.class, cursoId);
-            BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
             Aluno novoAluno = new Aluno(0, login, senha, TipoUsuario.ALUNO, nome, matricula);
+
             // preencher campos obrigatórios que vêm do formulário
-            novoAluno.setCurso(curso);
-            novoAluno.setBolsa(bolsa);
+            
+            if (cursoId != null){
+                 Curso curso = em.getReference(Curso.class, cursoId);
+                 novoAluno.setCurso(curso);
+            }
+           
+            if (bolsaId != null) {
+                BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
+                novoAluno.setBolsa(bolsa);
+            }
+            
             novoAluno.setCpf(cpf);
             novoAluno.setRg(rg);
             novoAluno.setEndereco(endereco);
