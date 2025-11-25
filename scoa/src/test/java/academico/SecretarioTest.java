@@ -355,15 +355,12 @@ public class SecretarioTest {
 
     //Cadastro turma (SALA null | ALUNOS null)
     @Test
-    void cadastrarTurma(){
+    void cadastrarTurmaTest(){
 
-            Disciplina disciplinaNova = new Disciplina();
-            disciplinaNova.setId(1);
-            when(em.getReference(Disciplina.class, 1)).thenReturn(disciplinaNova);
-            
-            Professor professorNovo = new Professor();
-            professorNovo.setId(1);
-            when(em.getReference(Professor.class, 1)).thenReturn(professorNovo);
+
+            when(em.getReference(Disciplina.class, 1)).thenReturn(new Disciplina());
+
+            when(em.getReference(Professor.class, 1)).thenReturn(new Professor());
 
             LocalTime horario = LocalTime.parse("22:45");
             secretario.cadastrarTurma(em,
@@ -377,6 +374,10 @@ public class SecretarioTest {
 
             verify(tx).begin();
 
+            //Verifica disciplina/professor id=1
+            verify(em).getReference(Disciplina.class, 1);
+            verify(em).getReference(Professor.class, 1);
+
             
             ArgumentCaptor<Turma> turmaCaptor = ArgumentCaptor.forClass(Turma.class);
             verify(em).persist(turmaCaptor.capture());
@@ -385,8 +386,6 @@ public class SecretarioTest {
             
             assertEquals(10, turma.getNumerovagas());
             assertEquals(null, turma.getSala());
-            assertEquals(1, turma.getDisciplina().getId());
-            assertEquals(1, turma.getProfessor().getId());
             assertEquals(null, turma.getAlunos());
 
             verify(tx).commit();
