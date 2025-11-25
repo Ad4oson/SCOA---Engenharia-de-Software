@@ -3,8 +3,11 @@ package academico;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import java.util.ArrayList;
+import academico.Turma;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -102,7 +105,7 @@ public class Secretario extends Aluno{
 
 
     public void CadastrarProfessor(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao){
+         String rg, LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao, ArrayList<Integer> turmas){
         
         EntityTransaction tx = em.getTransaction();
 
@@ -110,6 +113,31 @@ public class Secretario extends Aluno{
             tx.begin();
 
             Professor novoProfessor = new Professor();
+
+            if (turmas != null) {
+                try {
+
+                    ArrayList<Turma> turmasL = new ArrayList<>();
+
+
+                    for (Integer id : turmas){
+                        Turma turma = em.getReference(Turma.class, id);
+                        turmasL.add(turma);
+                    }
+                    for (Turma t : turmasL) {
+                        t.setProfessor(novoProfessor);
+                        em.merge(t);
+                    }
+
+
+                }
+                catch (EntityNotFoundException e1) {
+                    System.out.println("\nTurma não encontrada!\n");
+                    tx.rollback();
+                    return;
+                }
+            }
+   
             // preencher campos obrigatórios que vêm do formulário
         
             novoProfessor.setLogin(login);

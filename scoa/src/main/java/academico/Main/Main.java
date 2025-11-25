@@ -1,11 +1,13 @@
 package academico.Main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+
 
 import academico.Aluno;
 import academico.Curso;
@@ -122,7 +124,21 @@ public class Main { //Ler
                         String rg = sc.nextLine();
 
                         System.out.println("\nData de Nascimento: ");
-                        LocalDate nascimento = LocalDate.parse(sc.nextLine());
+                        LocalDate nascimentoReal = null;
+                        while(nascimentoReal == null){
+                            String nascimento = sc.nextLine();
+                            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            DateTimeFormatter fmt2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    
+
+                            try {nascimentoReal = LocalDate.parse(nascimento, fmt);} catch (DateTimeParseException e1){}
+                            try {nascimentoReal = LocalDate.parse(nascimento);} catch (DateTimeParseException e2) {}
+                            try {nascimentoReal = LocalDate.parse(nascimento, fmt2);}
+                            catch (DateTimeParseException e3) {
+                                    System.out.println("\nFormado inválido, tente o formato dd/MM/yyyy:\n");
+                                }
+
+                        }
 
                         System.out.println("\nEndereço: ");
                         String endereco = sc.nextLine();
@@ -150,9 +166,11 @@ public class Main { //Ler
 
                         }
                         
+                        ArrayList<Integer> turmas = new ArrayList<>();
+                        turmas.add(1);
 
                         secretario.CadastrarProfessor(JPAUtil.getEntityManager(), login, senha, nome, cpf, rg, 
-                        nascimento, endereco, formacao, registros, dataAdmissaoReal);
+                        nascimentoReal, endereco, formacao, registros, dataAdmissaoReal, turmas);
 
                         cadastro = false;
                     }

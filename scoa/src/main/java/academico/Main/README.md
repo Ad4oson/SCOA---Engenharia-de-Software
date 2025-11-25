@@ -6,6 +6,8 @@
 
 - Lembrar de criar classes para login e senha futuramente
 
+- Criar tabela "feedback" com sugestões/reclamações dos alunos. Campos: aluno_id, text
+
 - Lembrar de adicionar nome no aluno BD
 
 - Adicionar matrícula para aluno no BD
@@ -15,6 +17,17 @@
 - Criar "entidade" >>usuário<< no BD, com login / senha / tipo_usuário / created_at / deleted, alterar no Diagrama BD. FAZER LOGIN SER MATRICULA.
 
 - Melhorar a tabela "funcionários" e adicionar sempre secretários dentro de funcionários
+
+
+### Dúvidas perguntar professor
+
+- Necessário criar caso de uso consultar turmas? (criado o método)
+
+- Necessário criar caso de uso consultar professores? (criado o método)
+
+- Necessário criar caso de uso filtrar alunos/professor, ordenar aluno/professor? (criado o método)
+
+- 
 
 
 

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -192,11 +193,16 @@ public class SecretarioTest {
     @Test
     void cadastrarProfessorTeste() {
         
+        when(em.getReference(Turma.class, 1)).thenReturn(new Turma());
         //Transforma String em LocalDate
         String dataAdmissao = "2025-10-20";
         LocalDate dataAdmissaoReal = LocalDate.parse(dataAdmissao);
         String dataNascimento = "2003-06-10";
         LocalDate dataNascimentoReal = LocalDate.parse(dataNascimento);
+
+
+        ArrayList<Integer> turmas = new ArrayList<>();
+        turmas.add(1);
 
         secretario.CadastrarProfessor(em,
             "login01", 
@@ -208,7 +214,8 @@ public class SecretarioTest {
             "end01", 
             "formacao01", 
             "registro01", 
-            dataAdmissaoReal);
+            dataAdmissaoReal,
+            turmas);
 
         verify(tx).begin();
 
@@ -229,4 +236,44 @@ public class SecretarioTest {
         verify(tx).commit();
         
     }
+
+    //Cadastro de Professor junto de Turma inexistente
+    @Test
+    void cadastrarProfessorTurmaInexistente(){
+        
+        when(em.getReference(Turma.class, 999)).thenThrow(new jakarta.persistence.EntityNotFoundException("\nTurma não encontrada"));
+        ArrayList<Integer> turmas = new ArrayList<>();
+        turmas.add(999);
+
+        try {
+
+            LocalDate dataAdmissaoReal = LocalDate.parse("2022-02-10");
+            LocalDate dataNascimentoReal = LocalDate.parse("2001-02-10");
+            secretario.CadastrarProfessor(em,
+            "login01", 
+            "senha01",
+            "nome01",
+            "cpf01",
+            "rg01",
+            dataNascimentoReal, 
+            "end01", 
+            "formacao01", 
+            "registro01", 
+            dataAdmissaoReal,
+            turmas);
+            
+            verify(tx).begin();
+            
+
+            ArgumentCaptor<Professor> profCaptor = ArgumentCaptor.forClass(Professor.class);
+            verify(em, never()).persist(profCaptor.capture());
+
+
+            verify(tx, never()).commit();
+        }
+        catch(EntityNotFoundException e1){
+            verify(tx).rollback();
+        }
+    }
+
 }
