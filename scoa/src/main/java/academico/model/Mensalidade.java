@@ -39,4 +39,81 @@ public class Mensalidade {
     @ManyToOne
     @JoinColumn(name = "bolsa_id")
     private BolsaFinanciamento bolsa;
+
+
+    //#region getters e setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getValorbase() {
+        return valorbase;
+    }
+
+    public void setValorbase(int valorbase) {
+        this.valorbase = valorbase;
+    }
+
+    public int getCargahoraria() {
+        return cargahoraria;
+    }
+
+    public void setCargahoraria(int cargahoraria) {
+        this.cargahoraria = cargahoraria;
+    }
+
+    public int getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(int desconto) {
+        this.desconto = desconto;
+    }
+
+    public int getValorfinal() {
+        return valorfinal;
+    }
+
+    public void setValorfinal(int valorfinal) {
+        this.valorfinal = valorfinal;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    public BolsaFinanciamento getBolsa() {
+        return bolsa;
+    }
+
+    public void setBolsa(BolsaFinanciamento bolsa) {
+        this.bolsa = bolsa;
+    }
+
+    //#endregion
+    
 }

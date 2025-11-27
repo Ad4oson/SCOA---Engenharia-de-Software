@@ -24,4 +24,42 @@ public class DocumentosAluno {
     @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
+
+
+    //#region getters e setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTipo_documento() {
+        return tipo_documento;
+    }
+
+    public void setTipo_documento(String tipo_documento) {
+        this.tipo_documento = tipo_documento;
+    }
+
+    public String getCaminho_arquivo() {
+        return caminho_arquivo;
+    }
+
+    public void setCaminho_arquivo(String caminho_arquivo) {
+        this.caminho_arquivo = caminho_arquivo;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+    //#endregion
+
+    
+
 }

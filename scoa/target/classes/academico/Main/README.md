@@ -50,6 +50,8 @@
 
 -criar tabela testes 
 
+- adicionar classes de autenticação no Diagrama de Classes
+
 - CRUD SALA
 
 -CREATE TABLE Curso (
