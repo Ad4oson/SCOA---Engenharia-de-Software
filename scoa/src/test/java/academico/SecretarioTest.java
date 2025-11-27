@@ -14,6 +14,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import academico.controller.SecretarioController;
+import academico.model.Aluno;
+import academico.model.BolsaFinanciamento;
+import academico.model.Coordenador;
+import academico.model.Curso;
+import academico.model.Disciplina;
+import academico.model.Professor;
+import academico.model.StatusCurso;
+import academico.model.Turma;
+import academico.model.TurnoType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
@@ -49,7 +58,7 @@ public class SecretarioTest {
         String dataNascimento = "2008-12-01";
         LocalDate dataNascimentoReal = LocalDate.parse(dataNascimento);
 
-        secretario.CadastrarAluno(
+        secretario.cadastrarAluno(
             em,
             "loginUser",
             "123",
@@ -102,7 +111,7 @@ public class SecretarioTest {
 
     try {
         LocalDate dataNascimentoReal = LocalDate.parse("2001-02-10");
-        secretario.CadastrarAluno(
+        secretario.cadastrarAluno(
             em,
             "loginUser",
             "123",
@@ -148,7 +157,7 @@ public class SecretarioTest {
 
         try {
             LocalDate dataNascimentoReal = LocalDate.parse("2002-10-10");
-            secretario.CadastrarAluno(
+            secretario.cadastrarAluno(
                 em,
                 "loginUser",
                 "123",
@@ -207,7 +216,7 @@ public class SecretarioTest {
         turmas.add(2);
         turmas.add(3);
 
-        secretario.CadastrarProfessor(em,
+        secretario.cadastrarProfessor(em,
             "login01", 
             "senha01",
             "nome01",
@@ -252,7 +261,7 @@ public class SecretarioTest {
 
             LocalDate dataAdmissaoReal = LocalDate.parse("2022-02-10");
             LocalDate dataNascimentoReal = LocalDate.parse("2001-02-10");
-            secretario.CadastrarProfessor(em,
+            secretario.cadastrarProfessor(em,
             "login01", 
             "senha01",
             "nome01",

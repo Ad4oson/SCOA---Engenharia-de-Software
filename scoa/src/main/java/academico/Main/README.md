@@ -38,7 +38,19 @@
 
 -apenas 1 teste para funções principais, apenas do academico
 
+- criar sugestoes/reclamações no BD e JAVA
+
+- criar requisições no BD e JAVA
+
+- criar função de criação de requisições para Aluno
+
+- criar função de manipulação de requisições para Secretário
+
+- ^alterar no diagrama de classes, alterar no diagrama de BD, alterar no diagrama de UC
+
 -criar tabela testes 
+
+- CRUD SALA
 
 -CREATE TABLE Curso (
 id serial,

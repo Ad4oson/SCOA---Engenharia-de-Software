@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import academico.controller.CoordenadorController;
+import academico.model.Disciplina;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

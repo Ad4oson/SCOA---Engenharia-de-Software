@@ -21,6 +21,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import academico.controller.ProfessorController;
+import academico.model.Aluno;
+import academico.model.Avaliacao;
+import academico.model.FrequenciaAluno;
+import academico.model.NotaAluno;
+import academico.model.NotaConsultaDTO;
+import academico.model.PautaDeAula;
+import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;

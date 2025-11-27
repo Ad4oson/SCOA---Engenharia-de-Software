@@ -8,13 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-
-import academico.Aluno;
-import academico.Curso;
-import academico.JPAUtil;
-import academico.Professor;
-import academico.Secretario;
 import academico.controller.SecretarioController;
+import academico.model.Aluno;
+import academico.model.Curso;
+import academico.model.JPAUtil;
+import academico.model.Professor;
+import academico.model.Secretario;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
@@ -91,7 +90,7 @@ public class Main { //Ler
                         }
 
 
-                        secretario.CadastrarAluno(JPAUtil.getEntityManager(),login,senha, nome, cpf, rg, 
+                        secretario.cadastrarAluno(JPAUtil.getEntityManager(),login,senha, nome, cpf, rg, 
                         nascimento, endereco, matricula, curso, 1);
 
                         cadastro = false;
@@ -169,7 +168,7 @@ public class Main { //Ler
                         ArrayList<Integer> turmas = new ArrayList<>();
                         turmas.add(1);
 
-                        secretario.CadastrarProfessor(JPAUtil.getEntityManager(), login, senha, nome, cpf, rg, 
+                        secretario.cadastrarProfessor(JPAUtil.getEntityManager(), login, senha, nome, cpf, rg, 
                         nascimentoReal, endereco, formacao, registros, dataAdmissaoReal, turmas);
 
                         cadastro = false;

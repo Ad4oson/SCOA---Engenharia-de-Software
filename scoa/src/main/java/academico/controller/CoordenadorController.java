@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import academico.Curso;
-import academico.Disciplina;
-import academico.Turma;
+import academico.model.Curso;
+import academico.model.Disciplina;
+import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
@@ -102,5 +102,7 @@ public class CoordenadorController {
 
 
     }
+    
+
     
 }
