@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-
+import academico.controller.SecretarioController;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
@@ -24,13 +24,13 @@ import jakarta.persistence.NoResultException;
 
 public class SecretarioTest {
 
-    private Secretario secretario;
+    private SecretarioController secretario;
     private EntityManager em;
     private EntityTransaction tx;
 
     @BeforeEach
     void setup() {
-        secretario = new Secretario();
+        secretario = new SecretarioController();
         em = mock(EntityManager.class);
         tx = mock(EntityTransaction.class);
 
@@ -190,7 +190,7 @@ public class SecretarioTest {
 
     //Cadastro de Professor com dados corretos e data congruente
     @Test
-    void cadastrarProfessorTeste() {
+    void testProfessor() {
         
         when(em.getReference(Turma.class, 1)).thenReturn(new Turma());
         when(em.getReference(Turma.class, 2)).thenReturn(new Turma());
@@ -242,7 +242,7 @@ public class SecretarioTest {
 
     //Cadastro de Professor junto de Turma inexistente
     @Test
-    void cadastrarProfessorTurmaInexistente(){
+    void testCadastrarProfessorTurmaInexistente(){
         
         when(em.getReference(Turma.class, 999)).thenThrow(new jakarta.persistence.EntityNotFoundException("\nTurma não encontrada"));
         ArrayList<Integer> turmas = new ArrayList<>();
@@ -355,7 +355,7 @@ public class SecretarioTest {
 
     //Cadastro turma (SALA null | ALUNOS null)
     @Test
-    void cadastrarTurmaTest(){
+    void testCadastrarTurma(){
 
 
             when(em.getReference(Disciplina.class, 1)).thenReturn(new Disciplina());

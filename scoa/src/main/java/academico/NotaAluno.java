@@ -23,7 +23,7 @@ public class NotaAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int valor;
+    private float valor;
     private float mediaparcial;
     private float mediafinal;
     private String observacao;
@@ -38,6 +38,83 @@ public class NotaAluno {
     @ManyToOne
     @JoinColumn(name = "avaliacao_id")
     private Avaliacao avaliacao;
+
+
+    //#region
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
+    public float getMediaparcial() {
+        return mediaparcial;
+    }
+
+    public void setMediaparcial(float mediaparcial) {
+        this.mediaparcial = mediaparcial;
+    }
+
+    public float getMediafinal() {
+        return mediafinal;
+    }
+
+    public void setMediafinal(float mediafinal) {
+        this.mediafinal = mediafinal;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    public Avaliacao getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Avaliacao avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+    //#endregion
+
+    
 
 
 }

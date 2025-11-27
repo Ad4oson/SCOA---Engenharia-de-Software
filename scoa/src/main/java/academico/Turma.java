@@ -64,7 +64,12 @@ public class Turma {
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
     private List<PautaDeAula> pautas;
 
+    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+    private FrequenciaAluno frequencia;
+
     //#region
+
+    
     public int getId() {
         return id;
     }
@@ -160,7 +165,17 @@ public class Turma {
     public void setPautas(List<PautaDeAula> pautas) {
         this.pautas = pautas;
     }
+
+    public FrequenciaAluno getFrequencia() {
+        return frequencia;
+    }
+
+    public void setFrequencia(FrequenciaAluno frequencia) {
+        this.frequencia = frequencia;
+    }
     //#endregion
+
+
     
 
 }

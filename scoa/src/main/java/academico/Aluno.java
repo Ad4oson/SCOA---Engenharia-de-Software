@@ -46,9 +46,19 @@ public class Aluno extends Usuario {
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
     private List<DocumentosAluno> documentos;
 
+    @OneToMany(mappedBy = "aluno")
+    private List<FrequenciaAluno>  frequencia;
+
+
     // #region Getters e Setters
     
-
+    public List<FrequenciaAluno> getFrequencia() {
+        return frequencia;
+    }
+    public void setFrequencia(List<FrequenciaAluno> frequencia) {
+        this.frequencia = frequencia;
+    }
+    
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
@@ -161,4 +171,7 @@ public class Aluno extends Usuario {
         setNome(nome);
         setMatricula(matricula);
     }
+
+
+
 }

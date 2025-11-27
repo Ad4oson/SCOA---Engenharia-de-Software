@@ -12,19 +12,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import academico.controller.CoordenadorController;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 
 public class CoordenadorTest {
 
-    private Coordenador coordenador;
+    private CoordenadorController coordenador;
     private EntityManager em;
     private EntityTransaction tx;
 
     @BeforeEach
     void setup() {
-        coordenador = new Coordenador();
+        coordenador = new CoordenadorController();
         em = mock(EntityManager.class);
         tx = mock(EntityTransaction.class);
 

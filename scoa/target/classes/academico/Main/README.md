@@ -32,6 +32,14 @@
 
 - PADRONIZAR LocalDateTime PARA TODAS TABELAS EM CREATED_AT
 
+-não precisa separar em pacotes muito se estiver muito ruim
+
+-Generalizar funcoes de cadastro com CRUD
+
+-apenas 1 teste para funções principais, apenas do academico
+
+-criar tabela testes 
+
 -CREATE TABLE Curso (
 id serial,
 nome varchar(50) not null,
@@ -44,6 +52,41 @@ coordenador_id int,
 descricao text,
 portaria varchar(30),
 status statusCurso not null
+
+
+----------ESTRUTURA MVC------------
+✔ MODEL
+Contém as entidades JPA (Professor, Turma, PautaDeAula etc.).
+É "onde os dados moram".
+
+✔ CONTROLLER
+Contém as regras de negócio.
+É quem recebe as ações da View e usa o EntityManager para alterar o banco.
+
+Aqui ficam métodos como:
+
+cadastrarTurma
+
+atualizarDisciplina
+
+lançarPauta
+
+excluirProfessor
+
+etc.
+
+✔ VIEW
+É a interface com o usuário final — pode ser:
+
+terminal
+
+Swing
+
+HTML/JSF
+
+ou seus testes (JUnit atuando como View)
+
+A View apenas chama os métodos do Controller.
 
 
 ### Dúvidas perguntar professor
@@ -76,6 +119,10 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 - Alterar coluna nascimento de varchar() para DATE
 
 
+### Frequencia Aluno:
+
+- Lembrar de alterar nomes no BD
+
 ### Boleto Pagamento:
 
 - CRIADO ENUM PARA STATUS PAGAMENTO, ALTERAR NO BD
@@ -98,6 +145,10 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 ### Curso:
 
 -  EDITAR NO BD medalidade -> mensalidade 
+
+### Nota ALUNO:
+
+-  Remover media final/parcial, deixar apenas media
 
 
 ### Documentos Aluno:

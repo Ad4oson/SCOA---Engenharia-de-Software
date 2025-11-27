@@ -14,7 +14,7 @@ import academico.Curso;
 import academico.JPAUtil;
 import academico.Professor;
 import academico.Secretario;
-
+import academico.controller.SecretarioController;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
@@ -37,7 +37,7 @@ public class Main { //Ler
             System.out.println("\nO que deseja fazer?\n1- Cadastrar Aluno | 2- Cadastrar Professor \n3- Consultar Aluno | 4- Consultar Professor \n0- Encerrar");
             String choiceNew = sc.nextLine();
             
-            Secretario secretario = new Secretario();
+            SecretarioController secretario = new SecretarioController();
             boolean cadastro = true;
             int choice = 0;
 
