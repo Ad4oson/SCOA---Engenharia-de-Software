@@ -11,7 +11,6 @@ import academico.model.BolsaFinanciamento;
 import academico.model.Coordenador;
 import academico.model.Curso;
 import academico.model.Disciplina;
-import academico.model.FrequenciaAluno;
 import academico.model.Professor;
 import academico.model.Sala;
 import academico.model.StatusCurso;
@@ -63,31 +62,33 @@ public class SecretarioController {
     }
 
     
-    public List<Aluno> consultarListaAlunos(EntityManager em){
+    public List<Aluno> consultarAlunos(EntityManager em, Integer alunoId){
         
-        String jpql = """
-            SELECT a
-            FROM Aluno a 
-            WHERE a.deleted = false
-            ORDER BY a.nome
-        """;
+        if (alunoId != null){
 
-        return em.createQuery(jpql, Aluno.class)
+            String jpql = """
+                SELECT a
+                FROM Aluno a 
+                WHERE a.deleted = false AND a.id = :alunoId
+                ORDER BY a.nome
+            """;
+            return em.createQuery(jpql, Aluno.class)
+            .setParameter("alunoId", alunoId)
             .getResultList();
-    }
+        }
+        else {
 
+            String jpql = """
+                SELECT a
+                FROM Aluno a 
+                WHERE a.deleted = false
+                ORDER BY a.nome
+            """;
+            return em.createQuery(jpql, Aluno.class)
+            .getResultList();
 
-     public Aluno consultarAluno(EntityManager em, Integer alunoId){
-        
-        String jpql = """
-            SELECT a
-            FROM Aluno a 
-            WHERE a.deleted = false AND a.id = :alunoId
-            ORDER BY a.nome
-        """;
+        }
 
-        return em.createQuery(jpql, Aluno.class).setParameter("alunoId", alunoId)
-            .getSingleResult();
     }
 
 
@@ -209,34 +210,39 @@ public class SecretarioController {
     }
 
 
-    
-    public List<Professor> consultarListaProfessores(EntityManager em){
+    //consulta lista ou por CPF
+    public List<Professor> consultarProfessores(EntityManager em, String professorCpf){
         
-        String jpql = """
-            SELECT p
-            FROM Professor p
-            WHERE p.deleted = false
-            ORDER BY p.nome
-        """;
+        if (professorCpf != null){
 
-        return em.createQuery(jpql, Professor.class)
-            .getResultList();
+            String jpql = """
+                SELECT p
+                FROM Professor p
+                WHERE p.deleted = false AND p.cpf = :cpf
+                ORDER BY p.nome
+            """;
+
+            return em.createQuery(jpql, Professor.class)
+                .setParameter("cpf", professorCpf)
+                .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                SELECT p
+                FROM Professor p
+                WHERE p.deleted = false
+                ORDER BY p.nome
+            """;
+
+            return em.createQuery(jpql, Professor.class)
+                .getResultList();
+
+        }
+
     }
 
-
-     public Professor consultarProfessor(EntityManager em, Integer professorId){
-        
-        String jpql = """
-            SELECT p
-            FROM Professor p
-            WHERE p.deleted = false AND p.id = :professorId
-            ORDER BY p.nome
-        """;
-
-        return em.createQuery(jpql, Professor.class)
-        .setParameter("professorId", professorId)
-        .getSingleResult();
-    }
 
 
     public void atualizarProfessor(EntityManager em, String login, String senha, String cpf, String rg, LocalDate nascimento,
@@ -386,31 +392,35 @@ public class SecretarioController {
     }
 
             
-    public List<Curso> consultarListaCursos(EntityManager em){
+    public List<Curso> consultarCursos(EntityManager em, Integer cursoId){
         
-        String jpql = """
-            SELECT c
-            FROM Curso c
-            WHERE c.deleted = false
-            ORDER BY c.nome
-        """;
+        if (cursoId != null){
 
-        return em.createQuery(jpql, Curso.class)
-            .getResultList();
-    }
+            String jpql = """
+                SELECT c
+                FROM Curso c
+                WHERE c.deleted = false AND c.id = :cursoId
+                ORDER BY c.nome
+            """;
 
-    public Curso consultarCurso(EntityManager em, Integer cursoId){
-        
-        String jpql = """
-            SELECT c
-            FROM Curso c
-            WHERE c.deleted = false AND c.id = :cursoId
-            ORDER BY c.nome
-        """;
+            return em.createQuery(jpql, Curso.class)
+                .setParameter("cursoId", cursoId)
+                .getResultList();
 
-        return em.createQuery(jpql, Curso.class)
-        .setParameter("cursoId", cursoId)
-        .getSingleResult();
+        }
+        else {
+
+            String jpql = """
+                SELECT c
+                FROM Curso c
+                WHERE c.deleted = false
+                ORDER BY c.nome
+            """;
+
+            return em.createQuery(jpql, Curso.class)
+                .getResultList();
+        }
+
     }
 
 

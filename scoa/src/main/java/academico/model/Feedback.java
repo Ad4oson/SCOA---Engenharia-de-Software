@@ -8,7 +8,7 @@ public class Feedback {
     private int id;
     private String texto;
 
-    private String tipoFeedback;
+    private TipoFeedback tipoFeedback;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
@@ -40,11 +40,11 @@ public class Feedback {
         this.aluno = aluno;
     }
 
-    public String getTipoFeedback() {
+    public TipoFeedback getTipoFeedback() {
         return tipoFeedback;
     }
 
-    public void setTipoFeedback(String tipoFeedback) {
+    public void setTipoFeedback(TipoFeedback tipoFeedback) {
         this.tipoFeedback = tipoFeedback;
     }
 
