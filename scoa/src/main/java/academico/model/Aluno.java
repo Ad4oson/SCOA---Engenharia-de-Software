@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToOne;
@@ -15,9 +18,17 @@ import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name = "Aluno")
-public class Aluno extends Usuario {
+public class Aluno extends Pessoa {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String statusfinanceiro;
     private String matricula;
+
+    @OneToOne
+    @JoinColumn(name = "login", referencedColumnName = "login")
+    private Usuario usuario;
 
 
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
@@ -52,14 +63,43 @@ public class Aluno extends Usuario {
     @OneToMany(mappedBy = "aluno")
     private List<RequisicaoDocumento> requisicoes;
 
-    @OneToMany(mappedBy = "feedback")
+    @OneToMany(mappedBy = "aluno")
     private List<Feedback> feedback;
 
 
     // #region Getters e Setters
     
+
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+
+    
     public List<FrequenciaAluno> getFrequencia() {
         return frequencia;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public List<RequisicaoDocumento> getRequisicoes() {
+        return requisicoes;
+    }
+    public void setRequisicoes(List<RequisicaoDocumento> requisicoes) {
+        this.requisicoes = requisicoes;
+    }
+    public List<Feedback> getFeedback() {
+        return feedback;
+    }
+    public void setFeedback(List<Feedback> feedback) {
+        this.feedback = feedback;
     }
     public void setFrequencia(List<FrequenciaAluno> frequencia) {
         this.frequencia = frequencia;
@@ -152,9 +192,6 @@ public class Aluno extends Usuario {
     public Aluno(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String matricula, String statusfinanceiro,
     String cpf, String rg, LocalDate nascimento, String polo, String endereco, LocalDateTime created_at, boolean deleted) {
         setId(id);
-        super.setLogin(login);
-        super.setSenha(senha);
-        super.setTipoUsuario(tipoUsuario);
         setNome(nome);
         setMatricula(matricula);
         setStatusfinanceiro(statusfinanceiro);
@@ -171,13 +208,9 @@ public class Aluno extends Usuario {
     //Construtor parcial
     public Aluno(int id, String login, String senha, TipoUsuario tipoUsuario, String nome, String matricula) {
         setId(id);
-        setLogin(login);
-        setSenha(senha);
-        setTipoUsuario(tipoUsuario);
         setNome(nome);
         setMatricula(matricula);
     }
-
 
 
 }

@@ -19,16 +19,16 @@ public class AlunoController {
 
         try {
             Permissoes.exigirAluno();
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             String jpql = """
                 SELECT a
                 FROM Aluno a 
-                WHERE a.deleted = false AND a.id = :alunoId
+                WHERE a.deleted = false AND a.login = :alunoLogin
             """;
 
             return em.createQuery(jpql, Aluno.class)
-                .setParameter("alunoId", alunoId)
+                .setParameter("alunoLogin", alunoLogin)
                 .getSingleResult();
         }
         catch (Exception e){
@@ -40,7 +40,7 @@ public class AlunoController {
 
         try {
             Permissoes.exigirAluno();
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             String jpql = """
 
@@ -48,13 +48,13 @@ public class AlunoController {
                 FROM FrequenciaAluno f 
                 INNER JOIN f.turma t
                 INNER JOIN t.disciplina
-                WHERE f.aluno.id = :alunoId AND f.deleted = false
+                WHERE f.aluno.login = :alunoLogin AND f.deleted = false
                 ORDER BY f.data
             
                     """;
 
             return em.createQuery(jpql, FrequenciaAluno.class)
-            .setParameter("alunoId", alunoId)
+            .setParameter("alunoLogin", alunoLogin)
             .getResultList();
         }
         catch (Exception e){
@@ -68,7 +68,7 @@ public class AlunoController {
             // Garante que apenas alunos acessem
             Permissoes.exigirAluno();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             String jpql = """
                 SELECT n
@@ -76,12 +76,12 @@ public class AlunoController {
                 INNER JOIN n.avaliacao a
                 INNER JOIN a.disciplina d
                 WHERE n.deleted = false
-                AND n.aluno.id = :alunoId
+                AND n.aluno.login = :alunoLogin
                 ORDER BY d.nome, a.data
             """;
 
             return em.createQuery(jpql, NotaAluno.class)
-                .setParameter("alunoId", alunoId)
+                .setParameter("alunoLogin", alunoLogin)
                 .getResultList();
 
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class AlunoController {
         }
     }
 
-
+    //NÃO FEITO
     public void inscreverEmTurma (EntityManager em, String disciplinaNome){
 
         EntityTransaction tx = em.getTransaction();
@@ -99,7 +99,7 @@ public class AlunoController {
             tx.begin();
             
 
-            
+
 
 
             tx.commit();
@@ -121,8 +121,8 @@ public class AlunoController {
             Permissoes.exigirAluno();
             tx.begin();
             
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
-            Aluno aluno = em.find(Aluno.class, alunoId);
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
+            Aluno aluno = em.find(Aluno.class, alunoLogin);
 
             Feedback feedback = new Feedback();
 
@@ -143,18 +143,18 @@ public class AlunoController {
     public List<Feedback> consultarFeedbacks(EntityManager em, Integer feedbackId) {
 
         Permissoes.exigirAluno(); // deve estar logado como aluno
-        Integer alunoId = Sessao.getUsuarioLogado().getId();
+        String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
         if (feedbackId != null) {
             String jpql = """
                 SELECT f 
                 FROM Feedback f
-                WHERE f.id = :id AND f.aluno.id = :alunoId
+                WHERE f.id = :id AND f.aluno.login = :alunoLogin
             """;
 
             return em.createQuery(jpql, Feedback.class)
                 .setParameter("id", feedbackId)
-                .setParameter("alunoId", alunoId)
+                .setParameter("alunoLogin", alunoLogin)
                 .getResultList();
         }
         else {
@@ -162,11 +162,11 @@ public class AlunoController {
             String jpql = """
                 SELECT f 
                 FROM Feedback f
-                WHERE f.aluno.id = :alunoId
+                WHERE f.aluno.login = :alunoLogin
             """;
 
             return em.createQuery(jpql, Feedback.class)
-                .setParameter("alunoId", alunoId)
+                .setParameter("alunoLogin", alunoLogin)
                 .getResultList();
         }
 
@@ -181,14 +181,14 @@ public class AlunoController {
         try {
             tx.begin();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             Feedback feedback = em.find(Feedback.class, feedbackId);
 
             if (feedback == null)
                 throw new IllegalArgumentException("Feedback não encontrado.");
 
-            if (feedback.getAluno().getId() != alunoId)
+            if (feedback.getAluno().getUsuario().getLogin() != alunoLogin)
                 throw new SecurityException("Você não pode alterar um feedback que não é seu.");
 
             feedback.setTexto(novoTexto);
@@ -214,13 +214,13 @@ public class AlunoController {
         try {
             tx.begin();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
             Feedback feedback = em.find(Feedback.class, feedbackId);
 
             if (feedback == null)
                 throw new IllegalArgumentException("Feedback não encontrado.");
 
-            if (feedback.getAluno().getId() != alunoId)
+            if (feedback.getAluno().getUsuario().getLogin() != alunoLogin)
                 throw new SecurityException("Você não pode excluir este feedback.");
 
             em.remove(feedback);
@@ -247,8 +247,8 @@ public class AlunoController {
         try {
             tx.begin();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
-            Aluno aluno = em.find(Aluno.class, alunoId);
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
+            Aluno aluno = em.find(Aluno.class, alunoLogin);
 
             RequisicaoDocumento req = new RequisicaoDocumento();
             req.setTexto(texto);
@@ -268,18 +268,18 @@ public class AlunoController {
     public List<RequisicaoDocumento> consultarRequisicoes(EntityManager em, Integer id) {
 
         Permissoes.exigirAluno();
-        Integer alunoId = Sessao.getUsuarioLogado().getId();
+        String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
         if (id != null){
 
             String jpql = """
             SELECT r
             FROM RequisicaoDocumento r
-            WHERE r.aluno.id = :alunoId AND r.id = :id
+            WHERE r.aluno.login = :alunoLogin AND r.id = :id
             """;
 
         return em.createQuery(jpql, RequisicaoDocumento.class)
-                .setParameter("alunoId", alunoId)
+                .setParameter("alunoLogin", alunoLogin)
                 .setParameter("id", id)
                 .getResultList();
 
@@ -288,12 +288,12 @@ public class AlunoController {
             String jpql = """
                 SELECT r
                 FROM RequisicaoDocumento r
-                WHERE r.aluno.id = :alunoId
+                WHERE r.aluno.login = :alunoLogin
                 ORDER BY r.id DESC
             """;
 
             return em.createQuery(jpql, RequisicaoDocumento.class)
-                    .setParameter("alunoId", alunoId)
+                    .setParameter("alunoLogin", alunoLogin)
                     .getResultList();
 
         }
@@ -308,12 +308,12 @@ public class AlunoController {
         try {
             tx.begin();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             // Verifica se a requisição é do aluno
             RequisicaoDocumento req = em.find(RequisicaoDocumento.class, id);
 
-            if (req == null || req.getAluno().getId() != alunoId) {
+            if (req == null || req.getAluno().getUsuario().getLogin() != alunoLogin) {
                 throw new RuntimeException("Requisição não encontrada ou não pertence ao aluno logado.");
             }
 
@@ -337,10 +337,10 @@ public class AlunoController {
         try {
             tx.begin();
 
-            Integer alunoId = Sessao.getUsuarioLogado().getId();
+            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
             RequisicaoDocumento req = em.find(RequisicaoDocumento.class, id);
 
-            if (req == null || req.getAluno().getId() != alunoId) {
+            if (req == null || req.getAluno().getUsuario().getLogin() != alunoLogin) {
                 throw new RuntimeException("Requisição não encontrada ou não pertence ao aluno logado.");
             }
 

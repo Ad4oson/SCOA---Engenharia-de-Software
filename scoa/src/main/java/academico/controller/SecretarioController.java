@@ -17,6 +17,7 @@ import academico.model.StatusCurso;
 import academico.model.TipoUsuario;
 import academico.model.Turma;
 import academico.model.TurnoType;
+import academico.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
@@ -30,7 +31,7 @@ public class SecretarioController {
 
         try {
             tx.begin();
-            Aluno novoAluno = new Aluno(0, login, senha, TipoUsuario.ALUNO, nome, matricula);
+            Aluno novoAluno = new Aluno();
 
             // preencher campos obrigatórios que vêm do formulário
             
@@ -40,8 +41,15 @@ public class SecretarioController {
            
             BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
             if (bolsaId != null) novoAluno.setBolsa(bolsa);
-          
             
+            Usuario usuario = new Usuario();
+            usuario.setLogin(login);
+            usuario.setSenha(senha);
+            usuario.setTipoUsuario(TipoUsuario.ALUNO);  
+
+            novoAluno.setUsuario(usuario);
+            novoAluno.setNome(nome);
+            novoAluno.setMatricula(matricula);
             novoAluno.setCpf(cpf);
             novoAluno.setRg(rg);
             novoAluno.setEndereco(endereco);
@@ -50,6 +58,7 @@ public class SecretarioController {
             novoAluno.setCreated_at(LocalDateTime.now());
             novoAluno.setDeleted(false);
             em.persist(novoAluno);
+            em.persist(usuario);
             
             tx.commit();
             System.out.println("\n\nAluno cadastrado com sucesso!\n\n");
@@ -68,7 +77,8 @@ public class SecretarioController {
 
             String jpql = """
                 SELECT a
-                FROM Aluno a 
+                FROM Aluno a
+                JOIN a.usuario u
                 WHERE a.deleted = false AND a.id = :alunoId
                 ORDER BY a.nome
             """;
@@ -81,6 +91,7 @@ public class SecretarioController {
             String jpql = """
                 SELECT a
                 FROM Aluno a 
+                JOIN usuario u
                 WHERE a.deleted = false
                 ORDER BY a.nome
             """;
@@ -90,7 +101,6 @@ public class SecretarioController {
         }
 
     }
-
 
 
     public void atualizarAluno(EntityManager em, String login, String senha, String cpf, String rg, LocalDate nascimento,
@@ -105,8 +115,12 @@ public class SecretarioController {
             if (aluno == null)
                 throw new EntityNotFoundException("Aluno não encontrada");
 
-            if(login != null) aluno.setLogin(login);
-            if(senha != null) aluno.setSenha(senha);
+            Usuario usuario = em.find(Usuario.class, aluno.getUsuario().getLogin());
+            if (usuario == null)
+                throw new EntityNotFoundException("Usuario não encontrado");
+
+            if(login != null) usuario.setLogin(login);
+            if(senha != null) usuario.setSenha(senha);
             if(cpf != null) aluno.setCpf(cpf);
             if (rg != null) aluno.setRg(rg);
             if (nascimento != null) aluno.setNascimento(nascimento);
@@ -138,6 +152,10 @@ public class SecretarioController {
             Aluno aluno = em.find(Aluno.class, alunoId);
             if (aluno == null) throw new EntityNotFoundException("Aluno não encontrado");
 
+            Usuario usuario = em.find(Usuario.class, aluno.getUsuario().getLogin());
+            if (usuario == null) throw new EntityNotFoundException("Usuário não encontrado");
+
+            usuario.setDeleted(true);
             aluno.setDeleted(true);
 
             tx.commit();
@@ -182,9 +200,14 @@ public class SecretarioController {
             }
    
             // preencher campos obrigatórios que vêm do formulário
-        
-            novoProfessor.setLogin(login);
-            novoProfessor.setSenha(senha);
+            
+
+            Usuario usuario = new Usuario();
+            usuario.setLogin(login);
+            usuario.setSenha(senha);
+            usuario.setTipoUsuario(TipoUsuario.PROFESSOR);
+
+            novoProfessor.setUsuario(usuario);
             novoProfessor.setNome(nome);
             novoProfessor.setCpf(cpf);
             novoProfessor.setRg(rg);
@@ -193,10 +216,11 @@ public class SecretarioController {
             novoProfessor.setFormacao(formacao);
             novoProfessor.setRegistros(registros);
             novoProfessor.setDataAdmissao(dataAdmissao);
-            novoProfessor.setTipoUsuario(TipoUsuario.PROFESSOR);
+
             
             novoProfessor.setCreated_at(LocalDateTime.now());
             novoProfessor.setDeleted(false);
+            em.persist(usuario);
             em.persist(novoProfessor);
             
             tx.commit();
@@ -218,6 +242,7 @@ public class SecretarioController {
             String jpql = """
                 SELECT p
                 FROM Professor p
+                JOIN usuario u
                 WHERE p.deleted = false AND p.cpf = :cpf
                 ORDER BY p.nome
             """;
@@ -232,6 +257,7 @@ public class SecretarioController {
             String jpql = """
                 SELECT p
                 FROM Professor p
+                JOIN usuario u
                 WHERE p.deleted = false
                 ORDER BY p.nome
             """;
@@ -255,10 +281,15 @@ public class SecretarioController {
 
             Professor professor = em.find(Professor.class, professorId);
             if (professor == null)
-                throw new EntityNotFoundException("Professor não encontrada");
+                throw new EntityNotFoundException("Professor não encontrado");
 
-            if (login != null) professor.setLogin(login);
-            if (senha != null) professor.setSenha(senha);
+            Usuario usuario = em.find(Usuario.class, professor.getUsuario().getLogin());
+            if (usuario == null)
+                throw new EntityNotFoundException("Usuario não encontrado");
+
+
+            if (login != null) usuario.setLogin(login);
+            if (senha != null) usuario.setSenha(senha);
             if (cpf != null) professor.setCpf(cpf);
             if (rg != null) professor.setRg(rg);
             if (nascimento != null) professor.setNascimento(nascimento);
@@ -294,6 +325,10 @@ public class SecretarioController {
             Professor professor = em.find(Professor.class, professorId);
             if (professor == null) throw new EntityNotFoundException("Professor não encontrado");
 
+            Usuario usuario = em.find(Usuario.class, professor.getUsuario().getLogin());
+            if (usuario == null) throw new EntityNotFoundException("Usuario não encontrado");
+
+            usuario.setDeleted(true);
             professor.setDeleted(true);
 
             tx.commit();

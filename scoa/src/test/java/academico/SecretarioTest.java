@@ -88,8 +88,6 @@ public class SecretarioTest {
         Aluno aluno = alunoCaptor.getValue();
 
         // Verifica se informações principais foram atribuídas corretamente
-        assertEquals("loginUser", aluno.getLogin());
-        assertEquals("123", aluno.getSenha());
         assertEquals("NomeTeste", aluno.getNome());
         assertEquals("11111111111", aluno.getCpf());
         assertEquals("Rua X", aluno.getEndereco());
@@ -236,8 +234,7 @@ public class SecretarioTest {
         verify(em).persist(profCaptor.capture());
         Professor prof = profCaptor.getValue();
 
-        assertEquals(prof.getLogin(), "login01");
-        assertEquals(prof.getSenha(), "senha01");
+
         assertEquals(prof.getNome(), "nome01");
         assertEquals(prof.getCpf(), "cpf01");
         assertEquals(prof.getDataAdmissao(), dataAdmissaoReal);

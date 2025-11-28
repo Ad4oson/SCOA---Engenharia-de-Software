@@ -14,6 +14,8 @@ import academico.model.Curso;
 import academico.model.JPAUtil;
 import academico.model.Professor;
 import academico.model.Secretario;
+import academico.view.LoginView;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
@@ -26,6 +28,11 @@ public class Main { //Ler
         Scanner sc = new Scanner(System.in, "UTF-8");
         boolean rodando = true;
 
+        EntityManager em = JPAUtil.getEntityManager();
+
+        new LoginView(em);
+
+        /* Terminal Inicial
         while (rodando) {
 
             System.out.println("Abreo LoL!");
@@ -328,7 +335,7 @@ public class Main { //Ler
             //#endregion
            }
         }
-
+        */
         sc.close();
     }
 }

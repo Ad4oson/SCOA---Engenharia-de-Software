@@ -54,6 +54,10 @@
 
 - CRUD SALA
 
+- LOGIN NÃO VAI SER REPETÍVEL, SENHA VAI
+
+- COLOCAR LOGIN NAS COLUNAS DE ENTIDADES
+
 -CREATE TABLE Curso (
 id serial,
 nome varchar(50) not null,

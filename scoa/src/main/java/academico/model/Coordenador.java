@@ -33,9 +33,6 @@ public class Coordenador extends Professor{
 
         // campos do usuario
         setId(professor.getId());
-        setLogin(professor.getLogin());
-        setSenha(professor.getSenha());
-        setTipoUsuario(professor.getTipoUsuario());
         setNome(professor.getNome());
         setCpf(professor.getCpf());
         setRg(professor.getRg());

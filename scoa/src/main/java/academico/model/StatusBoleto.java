@@ -1,9 +1,6 @@
 package academico.model;
 
-import java.lang.annotation.Inherited;
 import java.util.List;
-
-import javax.annotation.processing.Generated;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -11,10 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 
 @Entity
@@ -28,4 +21,32 @@ public class StatusBoleto {
     
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     private List<Boleto> boletos;
+
+    
+    //#region Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Boleto> getBoletos() {
+        return boletos;
+    }
+
+    public void setBoletos(List<Boleto> boletos) {
+        this.boletos = boletos;
+    }
+    //#endregion
+    
 }

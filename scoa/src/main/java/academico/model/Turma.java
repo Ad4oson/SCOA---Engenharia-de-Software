@@ -65,7 +65,7 @@ public class Turma {
     private List<PautaDeAula> pautas;
 
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
-    private FrequenciaAluno frequencia;
+    private List<FrequenciaAluno> frequencia;
 
     //#region
 
@@ -166,11 +166,11 @@ public class Turma {
         this.pautas = pautas;
     }
 
-    public FrequenciaAluno getFrequencia() {
+    public List<FrequenciaAluno> getFrequencia() {
         return frequencia;
     }
 
-    public void setFrequencia(FrequenciaAluno frequencia) {
+    public void setFrequencia(List<FrequenciaAluno> frequencia) {
         this.frequencia = frequencia;
     }
     //#endregion

@@ -5,6 +5,10 @@ import java.time.LocalDate;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -12,12 +16,19 @@ import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name = "Professor")
-public class Professor extends Usuario {
+public class Professor extends Pessoa {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int salario;
     private String formacao;
     private String registros;
     private LocalDate dataAdmissao;
+    
+    @OneToOne
+    @JoinColumn(name = "login", referencedColumnName = "login")
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
     private List<ContatosProfessor> contatos;
@@ -34,7 +45,27 @@ public class Professor extends Usuario {
  
     //#region Getters e Setters
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+
+
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    
     public String getFormacao() {
         return formacao;
     }
@@ -112,9 +143,6 @@ public class Professor extends Usuario {
             LocalDate nascimento, String polo, String endereco, String formacao, String registros, LocalDate dataAdmissao,
             LocalDateTime created_at, boolean deleted) {
         setId(id);
-        setLogin(login);    
-        setSenha(senha);
-        setTipoUsuario(TipoUsuario.PROFESSOR);
         setNome(nome);
         setCpf(cpf);
         setRg(rg);
@@ -127,6 +155,8 @@ public class Professor extends Usuario {
         setCreated_at(created_at);
         setDeleted(deleted);
             }
+
+
 
 
 
