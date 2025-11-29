@@ -136,6 +136,10 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - Alterar coluna nascimento de varchar() para DATE
 
+### Avaliacao:
+
+- Remover peso
+
 
 ### Frequencia Aluno:
 
@@ -169,6 +173,8 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 - Remover media final/parcial, deixar apenas media
 
 - Remoção total de "observacao"
+
+- Tornar aluno_id e avaliacao_id em unique juntos
 
 
 ### Documentos Aluno:

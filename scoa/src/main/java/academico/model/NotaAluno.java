@@ -19,10 +19,7 @@ public class NotaAluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Double valor;
-    private Double mediaparcial;
-    private Double mediafinal;
-    private String observacao;
-    
+
     private LocalDateTime created_at;
     private boolean deleted;
 
@@ -54,29 +51,6 @@ public class NotaAluno {
         this.valor = valor;
     }
 
-    public Double getMediaparcial() {
-        return mediaparcial;
-    }
-
-    public void setMediaparcial(Double mediaparcial) {
-        this.mediaparcial = mediaparcial;
-    }
-
-    public Double getMediafinal() {
-        return mediafinal;
-    }
-
-    public void setMediafinal(Double mediafinal) {
-        this.mediafinal = mediafinal;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
 
     public LocalDateTime getCreated_at() {
         return created_at;

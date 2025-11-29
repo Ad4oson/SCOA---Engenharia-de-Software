@@ -5,6 +5,7 @@
 package academico.view;
 
 import academico.controller.ProfessorController;
+import academico.model.FrequenciaAluno;
 import academico.model.JPAUtil;
 import jakarta.persistence.EntityManager;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,7 @@ public class NotaProfessor extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         menu = new javax.swing.JPanel();
         frequenciaButton = new javax.swing.JButton();
@@ -51,8 +52,6 @@ public class NotaProfessor extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
-
-        jScrollPane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -65,12 +64,19 @@ public class NotaProfessor extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable1);
+
         EntityManager em = JPAUtil.getEntityManager();
 
         ProfessorController professor = new ProfessorController();
 
         List<NotaConsultaDTO> dados = professor.consultarNota(em, null);
+
+        for (NotaConsultaDTO nota : dados){
+            System.out.println("\nNOTA: " + nota.getP1() + " | TURMA: " + nota.getTurma());
+
+        }
+
         NotaTableModel modelo = new NotaTableModel(dados);
         jTable1.setModel(modelo);
 
@@ -78,7 +84,7 @@ public class NotaProfessor extends javax.swing.JFrame {
         menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(102, 102, 255)));
         menu.setForeground(new java.awt.Color(102, 102, 255));
 
-        frequenciaButton.setText("Nota");
+        frequenciaButton.setText("Frequência");
         frequenciaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
         frequenciaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -89,6 +95,11 @@ public class NotaProfessor extends javax.swing.JFrame {
 
         notaButton.setText("Nota");
         notaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        notaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                notaButtonAction(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
@@ -99,7 +110,7 @@ public class NotaProfessor extends javax.swing.JFrame {
                 .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(669, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,61 +129,46 @@ public class NotaProfessor extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(72, 72, 72)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3))
-                    .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-        new FrequenciaProfessor().setVisible(true);
-    }//GEN-LAST:event_frequenciaButtonMouseClicked
-
-    private void frequenciaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequenciaButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_frequenciaButtonActionPerformed
+    
     
     private void botaoPesquisarActionPerformed(ActionEvent evt) {
         
@@ -184,13 +180,14 @@ public class NotaProfessor extends javax.swing.JFrame {
             try {
                 
                 String turma = dataField.getText();
+
                 
                 List<NotaConsultaDTO> dados = professor.consultarNota(em, turma);
 
                 jTable1.setModel(new NotaTableModel(dados));
             }
             catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Nota inválida!");
+                JOptionPane.showMessageDialog(this, "Turma inválida!");
             }
         }
         else {
@@ -205,10 +202,26 @@ public class NotaProfessor extends javax.swing.JFrame {
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-                    // TODO add your handling code here:
-                    
+        // TODO add your handling code here:
+
         botaoPesquisarActionPerformed(evt);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new FrequenciaProfessor().setVisible(true);
+    }//GEN-LAST:event_frequenciaButtonMouseClicked
+
+    private void frequenciaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequenciaButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_frequenciaButtonActionPerformed
+
+    private void notaButtonAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notaButtonAction
+        // TODO add your handling code here:
+        this.dispose();
+        new NotaProfessor().setVisible(true);
+    }//GEN-LAST:event_notaButtonAction
 
     
     /**
@@ -241,7 +254,7 @@ public class NotaProfessor extends javax.swing.JFrame {
     private javax.swing.JButton frequenciaButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;

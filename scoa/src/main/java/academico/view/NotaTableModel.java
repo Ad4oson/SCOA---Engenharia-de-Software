@@ -25,12 +25,18 @@ import javax.swing.table.AbstractTableModel;
     };
 
     public NotaTableModel(List<NotaConsultaDTO> lista) {
+
         this.lista = lista;
+
     }
+
 
     public Class<?> getColumnClass(int col) {
     return switch (col) {
-        case 3 -> Boolean.class;
+        case 3 -> Double.class;
+        case 4 -> Double.class;
+        case 5 -> Double.class;
+        case 6 -> Double.class;
         default -> String.class;
     };
     }
@@ -52,13 +58,20 @@ import javax.swing.table.AbstractTableModel;
 
     @Override
     public Object getValueAt(int row, int col) {
-        NotaConsultaDTO n = lista.get(row);
 
+        NotaConsultaDTO n = lista.get(row);
+    
         Double media;
-        if (n.getPf() == null){
+        if (n.getP1() == null || n.getP2() == null){
+
+            media = null;
+
+        }
+        else if (n.getPf() == null){
             media = (n.getP1()+n.getP2())/2;} 
         else {
             media = (n.getP1()+n.getP2()+n.getPf())/3;}
+
 
         return switch (col) {
             case 0 -> n.getAluno();
@@ -74,7 +87,7 @@ import javax.swing.table.AbstractTableModel;
 
     @Override
     public boolean isCellEditable(int row, int col) {
-        return col == 3; 
+        return col == 3 || col == 4 || col == 5; 
     }
 
     @Override

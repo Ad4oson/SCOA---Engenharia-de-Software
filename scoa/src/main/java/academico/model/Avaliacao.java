@@ -30,7 +30,6 @@ public class Avaliacao {
     private TipoAvaliacao tipo;
     
     private LocalDate data;
-    private int peso;
     private String descricao;
     private String conteudo;
     private LocalDateTime created_at;
@@ -72,13 +71,6 @@ public class Avaliacao {
         this.data = data;
     }
 
-    public int getPeso() {
-        return peso;
-    }
-
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
 
     public String getDescricao() {
         return descricao;

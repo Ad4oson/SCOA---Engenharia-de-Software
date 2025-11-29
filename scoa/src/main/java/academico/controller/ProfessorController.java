@@ -11,6 +11,7 @@ import academico.model.FrequenciaAluno;
 import academico.model.NotaAluno;
 import academico.model.NotaConsultaDTO;
 import academico.model.PautaDeAula;
+import academico.model.TipoAvaliacao;
 import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -240,7 +241,6 @@ public class ProfessorController {
 
     public void lancarNota(EntityManager em,
                             Double valor,
-                            String observacao,
                             int alunoId,
                             int avalicaoId){
 
@@ -254,8 +254,6 @@ public class ProfessorController {
             Aluno aluno = em.getReference(Aluno.class, alunoId);
             Avaliacao avaliacao = em.getReference(Avaliacao.class, avalicaoId);
 
-            nota.setValor(valor);
-            nota.setObservacao(observacao);
             
             nota.setAluno(aluno);
             nota.setAvaliacao(avaliacao);
@@ -283,33 +281,41 @@ public class ProfessorController {
 
         if (turma != null){
             String jpql = """
-                    SELECT new pacote.NotaResumoDTO(
-                        a.nome,
-                        t.nome,
-                        d.nome,
+                SELECT DISTINCT new academico.model.NotaConsultaDTO(
+                    a.nome,
+                    t.nome,
+                    d.nome,
+                    p1.valor,
+                    p2.valor,
+                    pf.valor
+                )
+                FROM Turma t
+                JOIN t.disciplina d
+                JOIN t.avaliacoes av
+                JOIN av.notas n
+                JOIN n.aluno a
 
-                        -- P1
-                        (SELECT n1.valor FROM NotaAluno n1
-                        WHERE n1.aluno = a AND n1.avaliacao.tipo = 'P1' AND n1.deleted = false),
+                LEFT JOIN NotaAluno p1
+                    ON p1.aluno = a
+                    AND p1.deleted = false
+                    AND p1.avaliacao.tipo = 'P1'
+                    AND p1.avaliacao.turma = t
 
-                        -- P2
-                        (SELECT n2.valor FROM NotaAluno n2
-                        WHERE n2.aluno = a AND n2.avaliacao.tipo = 'P2' AND n2.deleted = false),
+                LEFT JOIN NotaAluno p2
+                    ON p2.aluno = a
+                    AND p2.deleted = false
+                    AND p2.avaliacao.tipo = 'P2'
+                    AND p2.avaliacao.turma = t
 
-                        -- PF
-                        (SELECT n3.valor FROM NotaAluno n3
-                        WHERE n3.aluno = a AND n3.avaliacao.tipo = 'PF' AND n3.deleted = false)
-                    )
-                    FROM NotaAluno n
-                    JOIN n.aluno a
-                    JOIN n.avaliacao av
-                    JOIN av.turma t
-                    JOIN t.disciplina d
-                    WHERE n.deleted = false AND t.nome = :turma
-                    GROUP BY a.nome, t.nome, d.nome
-                    ORDER BY t.nome, a.nome
-                    """;
+                LEFT JOIN NotaAluno pf
+                    ON pf.aluno = a
+                    AND pf.deleted = false
+                    AND pf.avaliacao.tipo = 'PF'
+                    AND pf.avaliacao.turma = t
 
+                WHERE n.deleted = false AND t.nome = :turma
+                ORDER BY t.nome, a.nome
+            """;
 
             return em.createQuery(jpql, NotaConsultaDTO.class)
                 .setParameter("turma", turma)
@@ -318,34 +324,42 @@ public class ProfessorController {
         }
         else {
 
-
             String jpql = """
-                    SELECT new pacote.NotaResumoDTO(
-                        a.nome,
-                        t.nome,
-                        d.nome,
+                SELECT DISTINCT new academico.model.NotaConsultaDTO(
+                    a.nome,
+                    t.nome,
+                    d.nome,
+                    p1.valor,
+                    p2.valor,
+                    pf.valor
+                )
+                FROM Turma t
+                JOIN t.disciplina d
+                JOIN t.avaliacoes av
+                JOIN av.notas n
+                JOIN n.aluno a
 
-                        -- P1
-                        (SELECT n1.valor FROM NotaAluno n1
-                        WHERE n1.aluno = a AND n1.avaliacao.tipo = 'P1' AND n1.deleted = false),
+                LEFT JOIN NotaAluno p1
+                    ON p1.aluno = a
+                    AND p1.deleted = false
+                    AND p1.avaliacao.tipo = 'P1'
+                    AND p1.avaliacao.turma = t
 
-                        -- P2
-                        (SELECT n2.valor FROM NotaAluno n2
-                        WHERE n2.aluno = a AND n2.avaliacao.tipo = 'P2' AND n2.deleted = false),
+                LEFT JOIN NotaAluno p2
+                    ON p2.aluno = a
+                    AND p2.deleted = false
+                    AND p2.avaliacao.tipo = 'P2'
+                    AND p2.avaliacao.turma = t
 
-                        -- PF
-                        (SELECT n3.valor FROM NotaAluno n3
-                        WHERE n3.aluno = a AND n3.avaliacao.tipo = 'PF' AND n3.deleted = false)
-                    )
-                    FROM NotaAluno n
-                    JOIN n.aluno a
-                    JOIN n.avaliacao av
-                    JOIN av.turma t
-                    JOIN t.disciplina d
-                    WHERE n.deleted = false
-                    GROUP BY a.nome, t.nome, d.nome
-                    ORDER BY t.nome, a.nome
-                    """;
+                LEFT JOIN NotaAluno pf
+                    ON pf.aluno = a
+                    AND pf.deleted = false
+                    AND pf.avaliacao.tipo = 'PF'
+                    AND pf.avaliacao.turma = t
+
+                WHERE n.deleted = false
+                ORDER BY t.nome, a.nome
+            """;
 
 
             return em.createQuery(jpql,NotaConsultaDTO.class)
@@ -359,7 +373,16 @@ public class ProfessorController {
     public void atualizarNota(EntityManager em, String aluno, String turma, String tipo, Double novaNota) {
 
         EntityTransaction tx = em.getTransaction();
+        TipoAvaliacao tipoReal = null;
+        tx.begin();
 
+        System.out.println("\nNOTA: " + novaNota + " | ALUNO: " + aluno + " | TURma: " + turma + " | TIPO: " + tipo);
+
+        if (tipo == "P1") tipoReal = TipoAvaliacao.P1;
+        else if (tipo == "P2") tipoReal = TipoAvaliacao.P2;
+        else if (tipo == "PF") tipoReal = TipoAvaliacao.PF;
+     
+ 
         String jpql = """
             SELECT n
             FROM NotaAluno n
@@ -378,7 +401,7 @@ public class ProfessorController {
             nota = em.createQuery(jpql, NotaAluno.class)
                 .setParameter("aluno", aluno)
                 .setParameter("turma", turma)
-                .setParameter("tipo", tipo)
+                .setParameter("tipo", tipoReal)
                 .getSingleResult();
         }
         catch (Exception e) {
