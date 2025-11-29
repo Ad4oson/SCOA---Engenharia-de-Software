@@ -2,22 +2,28 @@ package academico.model;
 
 public class NotaConsultaDTO {
 
-
     private String aluno;
-    private String avaliacao;
-    private Double nota;
-    private Double media;
+    private String turma;
+    private String disciplina;
+    private Double p1;
+    private Double p2;
+    private Double pf;
 
-    public NotaConsultaDTO(String aluno, String avaliacao, Double nota, Double media) {
+    public NotaConsultaDTO(String aluno, String turma, String disciplina,
+                         Double p1, Double p2, Double pf) {
         this.aluno = aluno;
-        this.avaliacao = avaliacao;
-        this.nota = nota;
-        this.media = media;
+        this.turma = turma;
+        this.disciplina = disciplina;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.pf = pf;
     }
 
+   
 
-    //#region
-    public String getAluno() {
+    //#region getters e setters
+    
+     public String getAluno() {
         return aluno;
     }
 
@@ -25,32 +31,45 @@ public class NotaConsultaDTO {
         this.aluno = aluno;
     }
 
-    public String getAvaliacao() {
-        return avaliacao;
+    public String getTurma() {
+        return turma;
     }
 
-    public void setAvaliacao(String avaliacao) {
-        this.avaliacao = avaliacao;
+    public void setTurma(String turma) {
+        this.turma = turma;
     }
 
-    public Double getNota() {
-        return nota;
+    public String getDisciplina() {
+        return disciplina;
     }
 
-    public void setNota(Double nota) {
-        this.nota = nota;
+    public void setDisciplina(String disciplina) {
+        this.disciplina = disciplina;
     }
 
-    public Double getMedia() {
-        return media;
+    public Double getP1() {
+        return p1;
     }
 
-    public void setMedia(Double media) {
-        this.media = media;
+    public void setP1(Double p1) {
+        this.p1 = p1;
     }
-//#endregion
 
-    
+    public Double getP2() {
+        return p2;
+    }
 
-    
+    public void setP2(Double p2) {
+        this.p2 = p2;
+    }
+
+    public Double getPf() {
+        return pf;
+    }
+
+    public void setPf(Double pf) {
+        this.pf = pf;
+    }
+
+    //#endregion-
 }

@@ -73,35 +73,26 @@ public class LoginView extends JFrame {
             } else {
                 abrirTelaUsuario();
             }
+            
         });
 
         setVisible(true);
     }
 
-
+    
     // Abre nova tela com fundo cinza e tipo do usuário ao centro
     private void abrirTelaUsuario() {
 
         TipoUsuario tipo = Sessao.getUsuarioLogado().getTipoUsuario();
-        String texto = "Usuário logado: " + tipo.name();
+        System.out.println("Usuário logado: " + tipo.name());
 
-        JFrame tela = new JFrame("Bem-vindo");
-        tela.setSize(400, 300);
-        tela.setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel painel = new JPanel();
-        painel.setBackground(Color.GRAY);
-
-        JLabel label = new JLabel(texto);
-        label.setForeground(Color.WHITE);
-        label.setFont(new Font("Arial", Font.BOLD, 24));
-
-        painel.add(label);
-        tela.add(painel);
-
-        tela.setVisible(true);
-        dispose(); // fecha tela de login
+        if (tipo == TipoUsuario.PROFESSOR){
+            this.dispose();
+            new InicialProfessor().setVisible(true);
+            
+        }
     }
+
+
 
 }

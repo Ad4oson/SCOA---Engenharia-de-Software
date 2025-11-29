@@ -18,9 +18,9 @@ public class NotaAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private float valor;
-    private float mediaparcial;
-    private float mediafinal;
+    private Double valor;
+    private Double mediaparcial;
+    private Double mediafinal;
     private String observacao;
     
     private LocalDateTime created_at;
@@ -44,27 +44,29 @@ public class NotaAluno {
         this.id = id;
     }
 
-    public float getValor() {
+
+
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public float getMediaparcial() {
+    public Double getMediaparcial() {
         return mediaparcial;
     }
 
-    public void setMediaparcial(float mediaparcial) {
+    public void setMediaparcial(Double mediaparcial) {
         this.mediaparcial = mediaparcial;
     }
 
-    public float getMediafinal() {
+    public Double getMediafinal() {
         return mediafinal;
     }
 
-    public void setMediafinal(float mediafinal) {
+    public void setMediafinal(Double mediafinal) {
         this.mediafinal = mediafinal;
     }
 

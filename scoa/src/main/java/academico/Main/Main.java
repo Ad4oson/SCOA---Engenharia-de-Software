@@ -1,24 +1,11 @@
 package academico.Main;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
 import java.util.Scanner;
 
-import academico.controller.SecretarioController;
-import academico.model.Aluno;
-import academico.model.Curso;
 import academico.model.JPAUtil;
-import academico.model.Professor;
-import academico.model.Secretario;
-import academico.view.LoginView;
+import academico.view.LoginView2;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
-
 
 
 public class Main { //Ler 
@@ -30,7 +17,8 @@ public class Main { //Ler
 
         EntityManager em = JPAUtil.getEntityManager();
 
-        new LoginView(em);
+        LoginView2 tela = new LoginView2();
+        tela.setVisible(true);
 
         /* Terminal Inicial
         while (rodando) {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import academico.auth.Sessao;
 import academico.model.Aluno;
 import academico.model.Avaliacao;
 import academico.model.FrequenciaAluno;
@@ -142,27 +143,53 @@ public class ProfessorController {
             
         }
 
-
-
     }
 
 
-    public List<FrequenciaAluno> consultarFrequencia(EntityManager em, Integer turmaId){
-        
-        String jpql = """
-            SELECT f.aluno.id,
-                   f.aluno.nome,
-                   f.presente,
-                   f.data 
-            FROM FrequenciaAluno f 
-            WHERE f.turma.id = :turmaId AND f.deleted = false
-            GROUP BY f.aluno.id, f.aluno.nome
-            ORDER BY f.aluno.nome
-        """;
+    public List<FrequenciaAluno> consultarFrequencia(EntityManager em, LocalDate data){
 
-        return em.createQuery(jpql, FrequenciaAluno.class)
-            .setParameter("turmaId", turmaId)
-            .getResultList();
+          
+        String login = Sessao.getUsuarioLogado().getLogin();
+        
+        if (data != null ){
+
+            String jpql = """
+                SELECT f
+                FROM FrequenciaAluno f
+                JOIN f.aluno a
+                JOIN f.turma t
+                JOIN t.disciplina d
+                JOIN t.professor p
+                WHERE f.data = :data AND p.usuario.login = :login  AND f.deleted = false
+                ORDER BY t.nome, a.nome
+            """;
+
+            return em.createQuery(jpql, FrequenciaAluno.class)
+                .setParameter("data", data)
+                .setParameter("login", login)
+                .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                SELECT f
+                FROM FrequenciaAluno f
+                JOIN f.aluno a
+                JOIN f.turma t
+                JOIN t.disciplina d
+                JOIN t.professor p 
+                WHERE p.usuario.login = :login AND f.deleted = false
+                ORDER BY t.nome, a.nome
+            """;
+
+            return em.createQuery(jpql, FrequenciaAluno.class)
+                .setParameter("login", login)
+                .getResultList();
+
+
+        }
+
     }
     
 
@@ -212,7 +239,7 @@ public class ProfessorController {
 
 
     public void lancarNota(EntityManager em,
-                            float valor,
+                            Double valor,
                             String observacao,
                             int alunoId,
                             int avalicaoId){
@@ -252,49 +279,120 @@ public class ProfessorController {
     }
 
 
-    public List<NotaConsultaDTO> consultarNota(EntityManager em, Integer turmaId){
+    public List<NotaConsultaDTO> consultarNota(EntityManager em, String turma){
 
-        String jpql = """
-                SELECT n.aluno.nome,
-                       n.avaliacao.tipo,
-                       n.valor as nota,
+        if (turma != null){
+            String jpql = """
+                    SELECT new pacote.NotaResumoDTO(
+                        a.nome,
+                        t.nome,
+                        d.nome,
 
-                       (SELECT AVG(n2.valor)
-                        FROM NotaAluno n2
-                        WHERE n0.aluno.id = n2.aluno.id AND n.turma.id = n2.turma.id AND n2.deleted = false) as media
-                FROM NotaAluno n
-                WHERE n.turma.id = :turmaId AND n.deleted = false
-                ORDER BY n.aluno.nome
+                        -- P1
+                        (SELECT n1.valor FROM NotaAluno n1
+                        WHERE n1.aluno = a AND n1.avaliacao.tipo = 'P1' AND n1.deleted = false),
 
-                """;
+                        -- P2
+                        (SELECT n2.valor FROM NotaAluno n2
+                        WHERE n2.aluno = a AND n2.avaliacao.tipo = 'P2' AND n2.deleted = false),
+
+                        -- PF
+                        (SELECT n3.valor FROM NotaAluno n3
+                        WHERE n3.aluno = a AND n3.avaliacao.tipo = 'PF' AND n3.deleted = false)
+                    )
+                    FROM NotaAluno n
+                    JOIN n.aluno a
+                    JOIN n.avaliacao av
+                    JOIN av.turma t
+                    JOIN t.disciplina d
+                    WHERE n.deleted = false AND t.nome = :turma
+                    GROUP BY a.nome, t.nome, d.nome
+                    ORDER BY t.nome, a.nome
+                    """;
 
 
-        return em.createQuery(jpql, NotaConsultaDTO.class)
-            .setParameter("turmaId", turmaId)
-            .getResultList();
+            return em.createQuery(jpql, NotaConsultaDTO.class)
+                .setParameter("turma", turma)
+                .getResultList();
+
+        }
+        else {
+
+
+            String jpql = """
+                    SELECT new pacote.NotaResumoDTO(
+                        a.nome,
+                        t.nome,
+                        d.nome,
+
+                        -- P1
+                        (SELECT n1.valor FROM NotaAluno n1
+                        WHERE n1.aluno = a AND n1.avaliacao.tipo = 'P1' AND n1.deleted = false),
+
+                        -- P2
+                        (SELECT n2.valor FROM NotaAluno n2
+                        WHERE n2.aluno = a AND n2.avaliacao.tipo = 'P2' AND n2.deleted = false),
+
+                        -- PF
+                        (SELECT n3.valor FROM NotaAluno n3
+                        WHERE n3.aluno = a AND n3.avaliacao.tipo = 'PF' AND n3.deleted = false)
+                    )
+                    FROM NotaAluno n
+                    JOIN n.aluno a
+                    JOIN n.avaliacao av
+                    JOIN av.turma t
+                    JOIN t.disciplina d
+                    WHERE n.deleted = false
+                    GROUP BY a.nome, t.nome, d.nome
+                    ORDER BY t.nome, a.nome
+                    """;
+
+
+            return em.createQuery(jpql,NotaConsultaDTO.class)
+                    .getResultList();
+
+
+        }
     }
 
     
-    public void atualizarNota(EntityManager em, Integer valor, String observacao, int notaId) {
+    public void atualizarNota(EntityManager em, String aluno, String turma, String tipo, Double novaNota) {
 
         EntityTransaction tx = em.getTransaction();
 
+        String jpql = """
+            SELECT n
+            FROM NotaAluno n
+            JOIN n.aluno a
+            JOIN n.avaliacao av
+            JOIN av.turma t
+            WHERE a.nome = :aluno
+            AND t.nome = :turma
+            AND av.tipo = :tipo
+            AND n.deleted = false
+        """;
+
+        NotaAluno nota = null;
+
         try {
-            tx.begin();
-
-            NotaAluno nota = em.find(NotaAluno.class, notaId);
-            if (nota == null)
-                throw new EntityNotFoundException("Nota não encontrada");
-
-            if (valor != null) nota.setValor(valor);
-            if (observacao != null) nota.setObservacao(observacao);
-
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
+            nota = em.createQuery(jpql, NotaAluno.class)
+                .setParameter("aluno", aluno)
+                .setParameter("turma", turma)
+                .setParameter("tipo", tipo)
+                .getSingleResult();
         }
+        catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Nota não encontrada para atualização.");
+        }
+
+        nota.setValor(novaNota);
+
+        em.merge(nota);
+        tx.commit();
+
     }
+        
 
 
     public void deletarNota(EntityManager em, int notaId){

@@ -28,6 +28,9 @@ public class Turma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    private String nome;
+
     private LocalTime horario;
     private Integer numerovagas;
 
@@ -68,6 +71,16 @@ public class Turma {
     private List<FrequenciaAluno> frequencia;
 
     //#region
+
+    
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
 
     
     public int getId() {

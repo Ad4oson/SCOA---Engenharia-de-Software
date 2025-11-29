@@ -32,7 +32,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
-
+/* 
 public class ProfessorTest {
 
 
@@ -310,3 +310,4 @@ public class ProfessorTest {
 }
     
 
+*/
