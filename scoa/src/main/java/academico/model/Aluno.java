@@ -61,7 +61,7 @@ public class Aluno extends Pessoa {
     private List<FrequenciaAluno>  frequencia;
 
     @OneToMany(mappedBy = "aluno")
-    private List<RequisicaoDocumento> requisicoes;
+    private List<Requisicao> requisicoes;
 
     @OneToMany(mappedBy = "aluno")
     private List<Feedback> feedback;
@@ -89,10 +89,10 @@ public class Aluno extends Pessoa {
     public void setId(int id) {
         this.id = id;
     }
-    public List<RequisicaoDocumento> getRequisicoes() {
+    public List<Requisicao> getRequisicoes() {
         return requisicoes;
     }
-    public void setRequisicoes(List<RequisicaoDocumento> requisicoes) {
+    public void setRequisicoes(List<Requisicao> requisicoes) {
         this.requisicoes = requisicoes;
     }
     public List<Feedback> getFeedback() {

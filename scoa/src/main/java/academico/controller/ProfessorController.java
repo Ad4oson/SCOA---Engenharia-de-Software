@@ -82,7 +82,7 @@ public class ProfessorController {
 
 
     public void atualizarPauta(EntityManager em, int pautaId, String novoConteudo, String novasAtividades,
-                               String novasObservacoes) {
+                               String novasObservacoes, Boolean deleted) {
 
         EntityTransaction tx = em.getTransaction();
 
@@ -96,6 +96,7 @@ public class ProfessorController {
             if (novoConteudo != null) pauta.setConteudo(novoConteudo);
             if (novasAtividades != null) pauta.setAtividades(novasAtividades);
             if (novasObservacoes != null) pauta.setObservacoes(novasObservacoes);
+            if (deleted != null) pauta.setDeleted(deleted);
 
             tx.commit();
         } catch (Exception e) {

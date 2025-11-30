@@ -204,3 +204,10 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 ### Turma
 
 - Adicionar nome para turma
+
+### Requisicaodocumento
+
+- Alterado para Requisicao
+
+- Colocar tipo requisicao: BD =  varchar(20) , JAVA = enum
+

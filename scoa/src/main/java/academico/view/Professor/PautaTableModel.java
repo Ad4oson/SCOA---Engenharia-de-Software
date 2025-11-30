@@ -23,7 +23,7 @@ public class PautaTableModel extends AbstractTableModel{
     
     private List<PautaDeAula> lista;
     private String[] colunas = {
-        "Conteúdo", "Atividades", "Observações", "Turma"
+        "Conteúdo", "Atividades", "Observações", "Turma", "Deletado"
     };
 
     public PautaTableModel(List<PautaDeAula> lista) {
@@ -33,6 +33,7 @@ public class PautaTableModel extends AbstractTableModel{
     public Class<?> getColumnClass(int col) {
     return switch (col) {
         
+        case 4 -> Boolean.class;
         default -> String.class;
     };
     }
@@ -61,13 +62,14 @@ public class PautaTableModel extends AbstractTableModel{
             case 1 -> p.getAtividades();
             case 2 -> p.getObservacoes();
             case 3 -> p.getTurma().getNome(); 
+            case 4 -> p.isDeleted();
             default -> null;
         };
     }
 
     @Override
     public boolean isCellEditable(int row, int col) {
-        return col >= 0; 
+        return col != 3; 
     }
 
   
@@ -87,7 +89,8 @@ public class PautaTableModel extends AbstractTableModel{
             p.getId(),
             p.getConteudo(),
             p.getAtividades(),
-            p.getObservacoes()
+            p.getObservacoes(),
+            p.isDeleted()
             );
             
             fireTableCellUpdated(row, col);
@@ -107,7 +110,8 @@ public class PautaTableModel extends AbstractTableModel{
             p.getId(),
             p.getConteudo(),
             p.getAtividades(),
-            p.getObservacoes()
+            p.getObservacoes(),
+            p.isDeleted()
             );
             
             fireTableCellUpdated(row, col);
@@ -129,11 +133,36 @@ public class PautaTableModel extends AbstractTableModel{
             p.getId(),
             p.getConteudo(),
             p.getAtividades(),
-            p.getObservacoes()
+            p.getObservacoes(),
+            p.isDeleted()
             );
             
             fireTableCellUpdated(row, col);
-        }    
+        }
+        else if (col == 4)  {
+
+            lista.get(row).setDeleted((Boolean) value);
+            Boolean deleted = (Boolean) value;
+            PautaDeAula p = lista.get(row);
+            p.setDeleted(deleted);
+            
+            EntityManager em = JPAUtil.getEntityManager();
+            
+            ProfessorController professor = new ProfessorController();
+            professor.atualizarPauta(
+            em,
+            p.getId(),
+            p.getConteudo(),
+            p.getAtividades(),
+            p.getObservacoes(),
+            p.isDeleted()
+             );
+            
+            fireTableCellUpdated(row, col);
+
+
+
+        }  
     }
 
     public List<PautaDeAula> getLista() {

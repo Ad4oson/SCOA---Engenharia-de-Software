@@ -68,8 +68,8 @@ public class AtualizarPautaProfessor extends javax.swing.JFrame {
 
         ProfessorController professor = new ProfessorController();
 
-        List<FrequenciaAluno> dados = professor.consultarFrequencia(em, null);
-        FrequenciaTableModel modelo = new FrequenciaTableModel(dados);
+        List<PautaDeAula> dados = professor.consultarPautas(em, null);
+        PautaTableModel modelo = new PautaTableModel(dados);
         pautaTable.setModel(modelo);
 
         menu.setBackground(new java.awt.Color(153, 153, 153));

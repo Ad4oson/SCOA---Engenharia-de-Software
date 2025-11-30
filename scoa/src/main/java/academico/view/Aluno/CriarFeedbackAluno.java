@@ -2,26 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package academico.view.Professor;
+package academico.view.Aluno;
 
-import academico.controller.ProfessorController;
+import academico.controller.AlunoController;
 import academico.model.JPAUtil;
+import academico.model.TipoFeedback;
+import academico.view.Professor.AtualizarPautaProfessor;
+import academico.view.Professor.CriarPautaProfessor;
+import academico.view.Professor.FrequenciaProfessor;
+import academico.view.Professor.NotaProfessor;
 import jakarta.persistence.EntityManager;
-import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Windows 11
  */
-public class CriarPautaProfessor extends javax.swing.JFrame {
+public class CriarFeedbackAluno extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CriarPautaProfessor.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CriarFeedbackAluno.class.getName());
 
     /**
-     * Creates new form PautaProfessor
+     * Creates new form CriarFeedbackAluno
      */
-    public CriarPautaProfessor() {
+    public CriarFeedbackAluno() {
         initComponents();
     }
 
@@ -35,65 +39,37 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        dataField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        conteudoText = new javax.swing.JTextPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        atividadeText = new javax.swing.JTextPane();
-        atividadeLabel = new javax.swing.JLabel();
+        feedbackText = new javax.swing.JTextPane();
         conteudoLabel = new javax.swing.JLabel();
-        observacaoLabel = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        observacaoText = new javax.swing.JTextPane();
         dataLabel = new javax.swing.JLabel();
-        turmaField = new javax.swing.JTextField();
-        turmaLabel = new javax.swing.JLabel();
         salvarButton = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
         pautaCombo = new javax.swing.JComboBox<>();
+        feedbackCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        dataField.addActionListener(this::dataFieldActionPerformed);
-
-        jScrollPane1.setViewportView(conteudoText);
-
-        jScrollPane2.setViewportView(atividadeText);
-
-        atividadeLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        atividadeLabel.setForeground(new java.awt.Color(255, 255, 255));
-        atividadeLabel.setText("Atividades");
+        jScrollPane1.setViewportView(feedbackText);
 
         conteudoLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         conteudoLabel.setForeground(new java.awt.Color(255, 255, 255));
-        conteudoLabel.setText("Conteúdo");
-
-        observacaoLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        observacaoLabel.setForeground(new java.awt.Color(255, 255, 255));
-        observacaoLabel.setText("Observações");
-
-        jScrollPane3.setViewportView(observacaoText);
+        conteudoLabel.setText("Feedback");
 
         dataLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         dataLabel.setForeground(new java.awt.Color(255, 255, 255));
-        dataLabel.setText("Data:");
-
-        turmaField.addActionListener(this::turmaFieldActionPerformed);
-
-        turmaLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        turmaLabel.setForeground(new java.awt.Color(255, 255, 255));
-        turmaLabel.setText("Turma:");
+        dataLabel.setText("Tipo: ");
 
         salvarButton.setBackground(new java.awt.Color(102, 102, 255));
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         salvarButton.setText("SALVAR");
         salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                salvarActionEvent(evt);
+                salvarButtonsalvarActionEvent(evt);
             }
         });
 
@@ -145,43 +121,28 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        feedbackCombo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        feedbackCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sugestão", "Reclamação" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(68, 68, 68)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(atividadeLabel)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(168, 168, 168)
-                                .addComponent(salvarButton))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(dataLabel)
-                                    .addComponent(turmaLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(turmaField)
-                                    .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(1, 1, 1)
+                        .addComponent(conteudoLabel))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(conteudoLabel))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(observacaoLabel)))))
-                .addGap(31, 31, 31))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(dataLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(feedbackCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(salvarButton)))
+                .addContainerGap(94, Short.MAX_VALUE))
             .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -189,34 +150,16 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(observacaoLabel)
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(conteudoLabel)
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(conteudoLabel)
+                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(turmaField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(turmaLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dataLabel)
-                            .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
-                        .addComponent(salvarButton)
-                        .addGap(115, 115, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addComponent(atividadeLabel)
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(dataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(feedbackCombo)
+                            .addComponent(salvarButton))))
+                .addContainerGap(355, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,38 +170,36 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dataFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataFieldActionPerformed
+    private void salvarButtonsalvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButtonsalvarActionEvent
         // TODO add your handling code here:
-    }//GEN-LAST:event_dataFieldActionPerformed
 
-    private void turmaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turmaFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_turmaFieldActionPerformed
-
-    private void salvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarActionEvent
-        // TODO add your handling code here:
-        
-        ProfessorController professor = new ProfessorController();
+        AlunoController aluno = new AlunoController();
         EntityManager em = JPAUtil.getEntityManager();
-        LocalDate data;
+        TipoFeedback tipo = null;
         try {
-           data = LocalDate.parse(dataField.getText());
-           
-           professor.lancarPauta(em, turmaField.getText(), data, conteudoText.getText(), atividadeText.getText(), observacaoText.getText());
-        
+ 
+            switch (feedbackCombo.getSelectedItem().toString()) {
+                
+                case "Sugestão" -> tipo = TipoFeedback.SUGESTÃO;
+                
+                case "Reclamação" -> tipo = TipoFeedback.RECLAMAÇÃO;
+                
+            }
+            
+            aluno.registrarFeedback(em, feedbackText.getText(), tipo);
+
         }
         catch (Exception e ){
-            JOptionPane.showMessageDialog(this, "Data inválida! Use yyyy-MM-dd");
+            JOptionPane.showMessageDialog(this, "Dados inválidos!");
         }
 
-
-    }//GEN-LAST:event_salvarActionEvent
+    }//GEN-LAST:event_salvarButtonsalvarActionEvent
 
     private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
         // TODO add your handling code here:
@@ -278,7 +219,6 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
 
     private void pautaComboEvent(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pautaComboEvent
         // TODO add your handling code here:
-
     }//GEN-LAST:event_pautaComboEvent
 
     private void pautaComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pautaComboActionPerformed
@@ -296,7 +236,6 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
             new AtualizarPautaProfessor().setVisible(true);
 
         }
-
     }//GEN-LAST:event_pautaComboActionPerformed
 
     /**
@@ -321,28 +260,20 @@ public class CriarPautaProfessor extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new CriarPautaProfessor().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CriarFeedbackAluno().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel atividadeLabel;
-    private javax.swing.JTextPane atividadeText;
     private javax.swing.JLabel conteudoLabel;
-    private javax.swing.JTextPane conteudoText;
-    private javax.swing.JTextField dataField;
     private javax.swing.JLabel dataLabel;
+    private javax.swing.JComboBox<String> feedbackCombo;
+    private javax.swing.JTextPane feedbackText;
     private javax.swing.JButton frequenciaButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
-    private javax.swing.JLabel observacaoLabel;
-    private javax.swing.JTextPane observacaoText;
     private javax.swing.JComboBox<String> pautaCombo;
     private javax.swing.JButton salvarButton;
-    private javax.swing.JTextField turmaField;
-    private javax.swing.JLabel turmaLabel;
     // End of variables declaration//GEN-END:variables
 }
