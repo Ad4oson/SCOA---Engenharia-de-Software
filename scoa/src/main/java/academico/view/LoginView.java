@@ -1,9 +1,11 @@
 package academico.view;
 
+import academico.view.Professor.InicialProfessor;
 import academico.auth.Autenticacao;
 import academico.auth.Sessao;
 import academico.model.Usuario;
 import academico.model.TipoUsuario;
+import academico.view.Aluno.InicialAluno;
 
 import jakarta.persistence.EntityManager;
 
@@ -89,8 +91,12 @@ public class LoginView extends JFrame {
         if (tipo == TipoUsuario.PROFESSOR){
             this.dispose();
             new InicialProfessor().setVisible(true);
-            
         }
+        else if (tipo == TipoUsuario.ALUNO){
+            this.dispose();
+            new InicialAluno().setVisible(true);
+        }
+        
     }
 
 

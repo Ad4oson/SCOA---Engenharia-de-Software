@@ -189,6 +189,10 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - Transformar login e senha em PK compartilhada OU fazer o controle de login e senha através da tabela usuário
 
+### Pauta de Aula
+
+- turma_id -> nullable
+
 ### Transação Financeira:
 
 -   //data_transacao como  LocalDateTIME

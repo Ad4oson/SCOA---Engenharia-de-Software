@@ -24,7 +24,7 @@ public class ProfessorController {
 
      public void lancarPauta(
         EntityManager em,
-        Integer turmaId,
+        String turma,
         LocalDate data,
         String conteudo,
         String atividades,
@@ -34,14 +34,19 @@ public class ProfessorController {
         PautaDeAula pauta = new PautaDeAula();
         try {
             tx.begin();
+            System.out.println("\nEntrou na QUERY\n");
+            Turma turmaT = em.createQuery(
+                    "SELECT DISTINCT t FROM Turma t WHERE t.nome = :turma", Turma.class)
+                    .setParameter("turma", turma)
+                    .getSingleResult();
+            System.out.println("\nPASSOU DA QUERY\n");
 
-            Turma turma = em.getReference(Turma.class, turmaId);
 
             pauta.setData(data);
             pauta.setConteudo(conteudo);
             pauta.setAtividades(atividades);
             pauta.setObservacoes(observacoes);
-            pauta.setTurma(turma);
+            pauta.setTurma(turmaT);
 
             pauta.setCreated_at(LocalDateTime.now());
             pauta.setDeleted(false);
@@ -57,13 +62,22 @@ public class ProfessorController {
         
     }
 
-    public List<PautaDeAula> consultarPautas(EntityManager em, Integer turmaId) {
+    public List<PautaDeAula> consultarPautas(EntityManager em, String turma) {
 
-        String jpql = "SELECT p FROM PautaDeAula p WHERE p.turma.id = :turmaId AND p.deleted = false ORDER BY p.data";
+        if (turma != null){
+            String jpql = "SELECT p FROM PautaDeAula p WHERE p.turma.nome = :turma AND p.deleted = false ORDER BY p.turma.nome";
 
-    return em.createQuery(jpql, PautaDeAula.class)
-             .setParameter("turmaId", turmaId)
+            return em.createQuery(jpql, PautaDeAula.class)
+                .setParameter("turma", turma)
+                .getResultList();
+        }
+        else {
+            String jpql = "SELECT p FROM PautaDeAula p WHERE p.deleted = false ORDER BY p.turma.nome";
+
+            return em.createQuery(jpql, PautaDeAula.class)
              .getResultList();
+        }
+        
     }
 
 

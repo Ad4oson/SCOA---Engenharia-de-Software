@@ -1,4 +1,4 @@
-package academico.view;
+package academico.view.Professor;
 
 import academico.controller.ProfessorController;
 import java.util.List;

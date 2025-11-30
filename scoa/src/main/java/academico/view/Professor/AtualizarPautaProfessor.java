@@ -7,27 +7,23 @@ package academico.view.Professor;
 import academico.controller.ProfessorController;
 import academico.model.FrequenciaAluno;
 import academico.model.JPAUtil;
+import academico.model.PautaDeAula;
 import jakarta.persistence.EntityManager;
-import java.awt.event.ActionEvent;
-
 import java.util.List;
 import javax.swing.JOptionPane;
-import academico.model.NotaAluno;
-import academico.model.NotaConsultaDTO;
-
 
 /**
  *
  * @author Windows 11
  */
-public class NotaProfessor extends javax.swing.JFrame {
+public class AtualizarPautaProfessor extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NotaProfessor.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AtualizarPautaProfessor.class.getName());
 
     /**
-     * Creates new form FrequenciaProfessor
+     * Creates new form AtualizarPautaProfessor
      */
-    public NotaProfessor() {
+    public AtualizarPautaProfessor() {
         initComponents();
     }
 
@@ -41,19 +37,22 @@ public class NotaProfessor extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane = new javax.swing.JScrollPane();
+        pautaTable = new javax.swing.JTable();
         menu = new javax.swing.JPanel();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
-        dataField = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        pautaField = new javax.swing.JTextField();
+        pesquisaButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+
+        pautaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -64,7 +63,14 @@ public class NotaProfessor extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane.setViewportView(pautaTable);
+        EntityManager em = JPAUtil.getEntityManager();
+
+        ProfessorController professor = new ProfessorController();
+
+        List<FrequenciaAluno> dados = professor.consultarFrequencia(em, null);
+        FrequenciaTableModel modelo = new FrequenciaTableModel(dados);
+        pautaTable.setModel(modelo);
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
         menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(102, 102, 255)));
@@ -96,7 +102,7 @@ public class NotaProfessor extends javax.swing.JFrame {
                 .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addContainerGap(669, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,92 +112,66 @@ public class NotaProfessor extends javax.swing.JFrame {
             .addComponent(notaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        dataField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        pautaField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jButton3.setText("Pesquisar");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        pesquisaButton.setText("Pesquisar");
+        pesquisaButton.addActionListener(this::pesquisaButtonActionPerformed);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Turma");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pautaField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pesquisaButton))
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pautaField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pesquisaButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    
-    private void botaoPesquisarActionPerformed(ActionEvent evt) {
-        
-        ProfessorController professor = new ProfessorController();
-        EntityManager em = JPAUtil.getEntityManager();
-        System.out.println("\nTURMA: " + dataField.getText() + "\n");
-        
-        if (!dataField.getText().contentEquals("")) {
-            try {
-                
-                String turma = dataField.getText();
-
-                
-                List<NotaConsultaDTO> dados = professor.consultarNota(em, turma);
-
-                jTable1.setModel(new NotaTableModel(dados));
-            }
-            catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Turma inválida!");
-            }
-        }
-        else {
-            
-            System.out.println("\n\nENTROU ELSE\n\n");
-            List<NotaConsultaDTO> dados = professor.consultarNota(em, null);
-            
-            jTable1.setModel(new NotaTableModel(dados));
-        
-        } 
-       
-    }
-    
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-
-        botaoPesquisarActionPerformed(evt);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
         // TODO add your handling code here:
@@ -209,7 +189,33 @@ public class NotaProfessor extends javax.swing.JFrame {
         new NotaProfessor().setVisible(true);
     }//GEN-LAST:event_notaButtonAction
 
-    
+    private void pesquisaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaButtonActionPerformed
+        // TODO add your handling code here:
+        ProfessorController professor = new ProfessorController();
+        EntityManager em = JPAUtil.getEntityManager();
+        System.out.println("\nTURMA: " + pautaField.getText() + "\n");
+
+        if (!pautaField.getText().contentEquals("")) {
+            try {
+
+                String turma = pautaField.getText();
+                
+                List<PautaDeAula> dados = professor.consultarPautas(em, turma);
+
+                pautaTable.setModel(new PautaTableModel(dados));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            }
+        } else {
+
+            System.out.println("\n\nENTROU ELSE\n\n");
+            List<PautaDeAula> dados = professor.consultarPautas(em, null);
+
+            pautaTable.setModel(new PautaTableModel(dados));
+
+        }
+    }//GEN-LAST:event_pesquisaButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -232,17 +238,18 @@ public class NotaProfessor extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrequenciaProfessor().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AtualizarPautaProfessor().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField dataField;
     private javax.swing.JButton frequenciaButton;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
+    private javax.swing.JTextField pautaField;
+    private javax.swing.JTable pautaTable;
+    private javax.swing.JButton pesquisaButton;
     // End of variables declaration//GEN-END:variables
 }
