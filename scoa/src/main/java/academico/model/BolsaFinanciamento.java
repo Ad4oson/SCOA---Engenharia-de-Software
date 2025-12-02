@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-import academico.enums.status_bolsa;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -39,5 +38,69 @@ public class BolsaFinanciamento {
 
     @OneToOne(mappedBy = "bolsa")
     private Aluno aluno;
+
+    //#region getters e setters
+    public int getId() {
+        return id;
+    }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public StatusBolsa getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(StatusBolsa status) {
+        this.status = status;
+    }
+
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+
+    public List<Mensalidade> getMensalidades() {
+        return mensalidades;
+    }
+
+
+    public void setMensalidades(List<Mensalidade> mensalidades) {
+        this.mensalidades = mensalidades;
+    }
+
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+    //#endregion
+
+
+    
 
 }

@@ -8,9 +8,11 @@ import java.util.List;
 
 import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
+import academico.model.ContatosAluno;
 import academico.model.Coordenador;
 import academico.model.Curso;
 import academico.model.Disciplina;
+import academico.model.DocumentosAluno;
 import academico.model.Professor;
 import academico.model.Sala;
 import academico.model.StatusCurso;
@@ -25,8 +27,9 @@ import jakarta.persistence.EntityTransaction;
 public class SecretarioController {
 
     //#region CRUD ALUNO
-    public void cadastrarAluno(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, LocalDate nascimento, String endereco, String matricula, Integer cursoId, Integer bolsaId){
+    public void cadastrarAluno(EntityManager em, String login, String senha, String nome, String cpf, String rg,
+         String polo, LocalDate nascimento, String endereco, String matricula, String curso, String bolsa, String statusFinanceiro,
+        List<DocumentosAluno> documentos, List<ContatosAluno> contatos){
         EntityTransaction tx = em.getTransaction();
 
         try {
@@ -34,13 +37,25 @@ public class SecretarioController {
             Aluno novoAluno = new Aluno();
 
             // preencher campos obrigatórios que vêm do formulário
+
+            String jpqlCurso = """
+                SELECT c
+                FROM Curso c
+                WHERE c.nome = :cursoNome AND c.deleted = false
+                    """;
             
-            Curso curso = em.getReference(Curso.class, cursoId);
-            if (cursoId != null) novoAluno.setCurso(curso);
+            Curso cursoT = em.createQuery(jpqlCurso, Curso.class).setParameter("cursoNome",curso).getSingleResult();
+            if (curso != null) novoAluno.setCurso(cursoT);
             
-           
-            BolsaFinanciamento bolsa = em.getReference(BolsaFinanciamento.class, bolsaId);
-            if (bolsaId != null) novoAluno.setBolsa(bolsa);
+            String jpqlBolsa = """
+                SELECT b
+                FROM BolsaFinanciamento b
+                WHERE b.nome = :bolsaNome AND b.deleted = false
+                    """;
+            
+
+            BolsaFinanciamento bolsaT = em.createQuery(jpqlBolsa, BolsaFinanciamento.class).setParameter("bolsaNome", bolsa).getSingleResult();
+            if (bolsa != null) novoAluno.setBolsa(bolsaT);
             
             Usuario usuario = new Usuario();
             usuario.setLogin(login);
@@ -54,7 +69,11 @@ public class SecretarioController {
             novoAluno.setRg(rg);
             novoAluno.setEndereco(endereco);
             novoAluno.setNascimento(nascimento);
-            
+            novoAluno.setPolo(polo);
+            novoAluno.setStatusfinanceiro(statusFinanceiro);
+            novoAluno.setDocumentos(documentos);
+            novoAluno.setContatos(contatos);
+
             novoAluno.setCreated_at(LocalDateTime.now());
             novoAluno.setDeleted(false);
             em.persist(novoAluno);
@@ -170,7 +189,7 @@ public class SecretarioController {
 
     //#region CRUD PROFESSOR
     public void cadastrarProfessor(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao, ArrayList<Integer> turmas){
+         String rg, LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao, List<Turma> turmas){
         
         EntityTransaction tx = em.getTransaction();
 
@@ -182,12 +201,7 @@ public class SecretarioController {
             if (turmas != null) {
                 try {
 
-                    ArrayList<Turma> turmasL = new ArrayList<>();
-                    for (Integer id : turmas){
-                        Turma turma = em.getReference(Turma.class, id);
-                        turmasL.add(turma);
-                    }
-                    for (Turma t : turmasL) {
+                    for (Turma t : turmas) {
                         t.setProfessor(novoProfessor);
                         em.merge(t);
                     }
@@ -216,6 +230,7 @@ public class SecretarioController {
             novoProfessor.setFormacao(formacao);
             novoProfessor.setRegistros(registros);
             novoProfessor.setDataAdmissao(dataAdmissao);
+            novoProfessor.setTurmas(turmas);
 
             
             novoProfessor.setCreated_at(LocalDateTime.now());
@@ -346,7 +361,7 @@ public class SecretarioController {
 
     public void cadastrarCurso(EntityManager em, String nome, String mensalidade, TurnoType turno, Integer cargahoraria, Integer periodos,
         LocalDate prazoconclusao, String descricao, String portaria, StatusCurso status, 
-        ArrayList<Integer> disciplinas, ArrayList<Integer> alunos, Integer coordenador) {
+        List<Disciplina> disciplinas, List<Aluno> alunos, String coordenadorCpf) {
 
         Curso cursoNovo = new Curso();
         EntityTransaction tx = em.getTransaction();
@@ -354,23 +369,21 @@ public class SecretarioController {
         try {
             tx.begin();
 
-            if (coordenador != null){
-                Coordenador coordenadorNovo = em.getReference(Coordenador.class, coordenador);
+            if (coordenadorCpf != null){
+                
+                String jpqlCoordenador = """
+                        SELECT p
+                        FROM Professor p
+                        WHERE p.cpf = :coordenadorCpf
+                        """;
+                Coordenador coordenadorNovo = em.createQuery(jpqlCoordenador, Coordenador.class).setParameter("cpf", coordenadorCpf).getSingleResult();
+
                 cursoNovo.setCoordenador(coordenadorNovo);
             }
 
             if (disciplinas != null) {
                 try {
-
-                    ArrayList<Disciplina> disciplinasL = new ArrayList<>();
-                    for (Integer id : disciplinas){
-                        Disciplina disciplina = em.getReference(Disciplina.class, id);
-                        disciplinasL.add(disciplina);
-                    }
-                    for (Disciplina d : disciplinasL) {
-                        cursoNovo.setDisciplinas(disciplinasL);;
-                        em.merge(d);
-                    }
+                        cursoNovo.setDisciplinas(disciplinas);
                 }
                 catch (EntityNotFoundException e1) {
                     System.out.println("\nDisciplina não encontrada!\n");
@@ -381,16 +394,7 @@ public class SecretarioController {
 
             if (alunos != null) {
                 try {
-
-                    ArrayList<Aluno> alunosL = new ArrayList<>();
-                    for (Integer id : alunos){
-                        Aluno aluno = em.getReference(Aluno.class, id);
-                        alunosL.add(aluno);
-                    }
-                    for (Aluno a : alunosL) {
-                        cursoNovo.setAlunos(alunosL);
-                        em.merge(a);
-                    }
+                        cursoNovo.setAlunos(alunos);
                 }
                 catch (EntityNotFoundException e1) {
                     System.out.println("\nAluno não encontrada!\n");
@@ -552,14 +556,14 @@ public class SecretarioController {
 
 
     public void cadastrarTurma(
-        EntityManager em, 
+        EntityManager em,
+        String nome, 
         LocalTime horario, 
         Integer numerovagas, 
         TurnoType turno,
-        Integer sala,
-        Integer disciplina,
-        Integer professor,
-        List<Integer> alunos
+        Sala sala,
+        Disciplina disciplina,
+        Professor professor
     ){
 
         Turma turmaNova = new Turma();
@@ -581,22 +585,7 @@ public class SecretarioController {
                 turmaNova.setProfessor(professorNovo);
             }
             
-            if(alunos!= null){
-
-                ArrayList<Aluno> alunosL = new ArrayList<>();
-                for (Integer id : alunos){
-
-                    Aluno aluno = em.getReference(Aluno.class, id);
-                    alunosL.add(aluno);
-                }
-
-                for (Aluno a : alunosL){
-
-                    a.getTurmas().add(turmaNova);
-                    em.merge(a);
-                }
-            }
-
+            
             turmaNova.setHorario(horario);
             turmaNova.setNumerovagas(numerovagas);
             turmaNova.setTurno(turno);
@@ -712,7 +701,7 @@ public class SecretarioController {
     //#region CRUD SALA
 
     
-    public void cadastrarSala(EntityManager em, String local, Integer capacidade, List<Integer> turmasId){
+    public void cadastrarSala(EntityManager em, String local, Integer capacidade, List<Turma> turmas){
 
         EntityTransaction tx = em.getTransaction();
 
@@ -723,15 +712,13 @@ public class SecretarioController {
             sala.setLocal(local);
             sala.setCapacidade(capacidade);
             
-            if (turmasId !=null){
-                ArrayList<Turma> turmas = new ArrayList<>();
-                for (Integer id : turmasId){
-                    Turma turma = em.find(Turma.class, id);
+            if (turmas !=null){
+              
+                for (Turma turma : turmas){
 
                     if (turma == null) throw new EntityNotFoundException("\nTurma não encontrada!\n");
 
                     //relacao bidirecional
-                    turmas.add(turma);
                     turma.setSala(sala);
                 }
                 sala.setTurmas(turmas);

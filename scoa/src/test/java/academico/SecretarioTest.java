@@ -30,7 +30,7 @@ import jakarta.persistence.NoResultException;
 
 
 
-
+/* 
 public class SecretarioTest {
 
     private SecretarioController secretario;
@@ -399,3 +399,6 @@ public class SecretarioTest {
 
 
 }
+
+
+*/

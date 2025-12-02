@@ -12,6 +12,8 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+import java.awt.Component;
+
 /**
  *
  * @author Windows 11
@@ -38,7 +40,22 @@ public class AtualizarPautaProfessor extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane = new javax.swing.JScrollPane();
-        pautaTable = new javax.swing.JTable();
+        pautaTable = new javax.swing.JTable() {
+            @Override
+            public java.awt.Component prepareRenderer(
+                    javax.swing.table.TableCellRenderer renderer, int row, int column) {
+
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                // Ajusta altura automaticamente
+                int rendererHeight = c.getPreferredSize().height;
+                if (getRowHeight(row) != rendererHeight) {
+                    setRowHeight(row, rendererHeight);
+                }
+
+                return c;
+            }
+        };
         menu = new javax.swing.JPanel();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
@@ -216,6 +233,11 @@ public class AtualizarPautaProfessor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pesquisaButtonActionPerformed
 
+
+
+    
+
+
     /**
      * @param args the command line arguments
      */
@@ -240,6 +262,10 @@ public class AtualizarPautaProfessor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new AtualizarPautaProfessor().setVisible(true));
     }
+
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton frequenciaButton;

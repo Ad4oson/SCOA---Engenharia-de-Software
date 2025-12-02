@@ -29,4 +29,23 @@ public class ContatosAluno {
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+
+    
+
 }

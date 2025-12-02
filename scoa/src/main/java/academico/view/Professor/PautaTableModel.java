@@ -30,6 +30,9 @@ public class PautaTableModel extends AbstractTableModel{
         this.lista = lista;
     }
 
+
+    
+
     public Class<?> getColumnClass(int col) {
     return switch (col) {
         

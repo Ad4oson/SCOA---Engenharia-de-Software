@@ -25,5 +25,27 @@ public class EspecialidadesProfessor {
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
+
+    
+    public String getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+
+
+
+    
     
 }

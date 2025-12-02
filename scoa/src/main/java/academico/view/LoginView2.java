@@ -11,6 +11,7 @@ import academico.model.JPAUtil;
 import academico.model.TipoUsuario;
 import academico.model.Usuario;
 import academico.view.Aluno.InicialAluno;
+import academico.view.Secretario.InicialSecretario;
 import jakarta.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -196,15 +197,21 @@ public class LoginView2 extends javax.swing.JFrame {
 
         TipoUsuario tipo = Sessao.getUsuarioLogado().getTipoUsuario();
         System.out.println("Usuário logado: " + tipo.name());
-
-        if (tipo == TipoUsuario.PROFESSOR){
-            this.dispose();
-            new InicialProfessor().setVisible(true);
+        
+        switch (tipo) {
+            case PROFESSOR -> {
+                this.dispose();
+                new InicialProfessor().setVisible(true);
+            }
             
-        }
-        else if (tipo == TipoUsuario.ALUNO){
-            this.dispose();
-            new InicialAluno().setVisible(true);
+            case ALUNO -> {
+                this.dispose();
+                new InicialAluno().setVisible(true);
+            }
+            case SECRETARIO -> {
+                this.dispose();
+                new InicialSecretario().setVisible(true);
+            }
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
