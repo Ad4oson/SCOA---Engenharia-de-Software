@@ -4,6 +4,15 @@
  */
 package academico.view.Secretario;
 
+import academico.controller.SecretarioController;
+import academico.model.JPAUtil;
+import academico.model.Turma;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Windows 11
@@ -28,21 +37,329 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        localField = new javax.swing.JTextField();
+        capacidadeField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        salvarButton1 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        turmaTable = new javax.swing.JTable();
+        menu = new javax.swing.JPanel();
+        alunoCombo = new javax.swing.JComboBox<>();
+        professorCombo = new javax.swing.JComboBox<>();
+        turmaCombo = new javax.swing.JComboBox<>();
+        cursoCombo = new javax.swing.JComboBox<>();
+        salaCombo = new javax.swing.JComboBox<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+
+        localField.addActionListener(this::localFieldActionPerformed);
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Capacidade:");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel15.setText("Local:");
+
+        salvarButton1.setBackground(new java.awt.Color(102, 102, 255));
+        salvarButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        salvarButton1.setText("SALVAR");
+        salvarButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salvarButton1salvarActionEvent(evt);
+            }
+        });
+        salvarButton1.addActionListener(this::salvarButton1ActionPerformed);
+
+        turmaTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        turmaTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Turma"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(turmaTable);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(salvarButton1))
+                            .addComponent(capacidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(localField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(localField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(capacidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salvarButton1))
+                .addContainerGap(399, Short.MAX_VALUE))
+        );
+
+        menu.setBackground(new java.awt.Color(153, 153, 153));
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(102, 102, 255)));
+        menu.setForeground(new java.awt.Color(102, 102, 255));
+
+        alunoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matricular Aluno", "Atualizar Aluno", "Consultar Aluno", " " }));
+        alunoCombo.addActionListener(this::alunoComborequisicaoComboEvent);
+
+        professorCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Professor", "Atualizar Professor", "Consultar Professor" }));
+        professorCombo.addActionListener(this::professorComboEvent);
+
+        turmaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Turma", "Atualizar Turma", "Consultar Turma" }));
+        turmaCombo.addActionListener(this::turmaComboEvent);
+
+        cursoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Curso", "Atualizar Curso", "Consultar Curso" }));
+        cursoCombo.addActionListener(this::cursoComboEvent);
+
+        salaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Sala", "Atualizar Sala", "Consultar Sala" }));
+        salaCombo.addActionListener(this::salaComboEvent);
+
+        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
+        menu.setLayout(menuLayout);
+        menuLayout.setHorizontalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(alunoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cursoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(professorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(292, Short.MAX_VALUE))
+        );
+        menuLayout.setVerticalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(alunoCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(professorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cursoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void localFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_localFieldActionPerformed
+
+    private void salvarButton1salvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButton1salvarActionEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarButton1salvarActionEvent
+
+    private void salvarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButton1ActionPerformed
+        // TODO add your handling code here:
+
+        SecretarioController secretario = new SecretarioController();
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try {
+
+            //Pegar lista turma
+            List<Turma> listaTurma = new ArrayList<>();
+            for (int r=0; r<=turmaTable.getRowCount(); r++){
+
+                if (turmaTable.getValueAt(r, 0) != null) {
+                    Turma turmaTemp = new Turma();
+
+                    String jpqlTurma = """
+                    SELECT t
+                    FROM turma t
+                    WHERE t.nome = :turmaNome AND deleted = false
+                    """;
+                    try {
+                        turmaTemp = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaTable.getValueAt(r, 0).toString()).getSingleResult();
+                    }
+                    catch (EntityNotFoundException e){
+                        JOptionPane.showMessageDialog(this, "Turma não encontrada!");
+                        e.printStackTrace();
+                    }
+
+                    listaTurma.add(turmaTemp);
+                }
+
+            }
+
+            Integer capacidadeT = Integer.parseInt(capacidadeField.getText().toString());
+
+            secretario.cadastrarSala(em, localField.getText(),capacidadeT, listaTurma);
+
+        }
+        catch (Exception e ){
+            JOptionPane.showMessageDialog(this, "Dados inválidos!");
+        }
+    }//GEN-LAST:event_salvarButton1ActionPerformed
+
+    private void alunoComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alunoComborequisicaoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(alunoCombo.getSelectedIndex() == 0){
+            new RegistrarAlunoSecretario().setVisible(true);
+
+        }
+        else if (alunoCombo.getSelectedIndex() == 1){
+            new AtualizarAlunoSecretario().setVisible(true);
+
+        }
+        else if (alunoCombo.getSelectedIndex() == 2){
+            new AtualizarAlunoSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_alunoComborequisicaoComboEvent
+
+    private void professorComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_professorComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(professorCombo.getSelectedIndex() == 0){
+            new RegistrarProfessorSecretario().setVisible(true);
+
+        }
+        else if (professorCombo.getSelectedIndex() == 1){
+            new AtualizarProfessorSecretario().setVisible(true);
+
+        }
+        else if (professorCombo.getSelectedIndex() == 2){
+            new AtualizarProfessorSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_professorComboEvent
+
+    private void turmaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turmaComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(turmaCombo.getSelectedIndex() == 0){
+            new RegistrarTurmaSecretario().setVisible(true);
+
+        }
+        else if (turmaCombo.getSelectedIndex() == 1){
+            new AtualizarTurmaSecretario().setVisible(true);
+
+        }
+        else if (turmaCombo.getSelectedIndex() == 2){
+            new AtualizarTurmaSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_turmaComboEvent
+
+    private void cursoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(cursoCombo.getSelectedIndex() == 0){
+            new RegistrarCursoSecretario().setVisible(true);
+
+        }
+        else if (cursoCombo.getSelectedIndex() == 1){
+            new AtualizarCursoSecretario().setVisible(true);
+
+        }
+        else if (cursoCombo.getSelectedIndex() == 2){
+            new AtualizarCursoSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_cursoComboEvent
+
+    private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
+        // TODO add your handling code here:
+
+        if(salaCombo.getSelectedIndex() == 0){
+            new RegistrarSalaSecretario().setVisible(true);
+
+        }
+        else if (salaCombo.getSelectedIndex() == 1){
+            new AtualizarSalaSecretario().setVisible(true);
+
+        }
+        else if (salaCombo.getSelectedIndex() == 2){
+            new AtualizarSalaSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_salaComboEvent
 
     /**
      * @param args the command line arguments
@@ -70,5 +387,20 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> alunoCombo;
+    private javax.swing.JTextField capacidadeField;
+    private javax.swing.JComboBox<String> cursoCombo;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField localField;
+    private javax.swing.JPanel menu;
+    private javax.swing.JComboBox<String> professorCombo;
+    private javax.swing.JComboBox<String> salaCombo;
+    private javax.swing.JButton salvarButton1;
+    private javax.swing.JComboBox<String> turmaCombo;
+    private javax.swing.JTable turmaTable;
     // End of variables declaration//GEN-END:variables
 }

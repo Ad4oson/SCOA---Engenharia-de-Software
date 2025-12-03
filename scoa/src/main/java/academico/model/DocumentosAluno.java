@@ -17,7 +17,8 @@ import jakarta.persistence.CascadeType;
 public class DocumentosAluno {
     
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String tipo_documento; 
     private String caminho_arquivo;
 
@@ -27,11 +28,11 @@ public class DocumentosAluno {
 
 
     //#region getters e setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

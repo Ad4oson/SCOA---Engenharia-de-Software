@@ -5,14 +5,19 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.swing.JOptionPane;
 
 import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
 import academico.model.ContatosAluno;
+import academico.model.ContatosProfessor;
 import academico.model.Coordenador;
 import academico.model.Curso;
 import academico.model.Disciplina;
 import academico.model.DocumentosAluno;
+import academico.model.EspecialidadesProfessor;
 import academico.model.Professor;
 import academico.model.Sala;
 import academico.model.StatusCurso;
@@ -23,12 +28,13 @@ import academico.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
 public class SecretarioController {
 
     //#region CRUD ALUNO
     public void cadastrarAluno(EntityManager em, String login, String senha, String nome, String cpf, String rg,
-         String polo, LocalDate nascimento, String endereco, String matricula, String curso, String bolsa, String statusFinanceiro,
+         String polo, LocalDate nascimento, String endereco, String matricula, String curso, Integer bolsaId, String statusFinanceiro,
         List<DocumentosAluno> documentos, List<ContatosAluno> contatos){
         EntityTransaction tx = em.getTransaction();
 
@@ -50,12 +56,12 @@ public class SecretarioController {
             String jpqlBolsa = """
                 SELECT b
                 FROM BolsaFinanciamento b
-                WHERE b.nome = :bolsaNome AND b.deleted = false
+                WHERE b.id = :bolsaId AND b.deleted = false
                     """;
             
 
-            BolsaFinanciamento bolsaT = em.createQuery(jpqlBolsa, BolsaFinanciamento.class).setParameter("bolsaNome", bolsa).getSingleResult();
-            if (bolsa != null) novoAluno.setBolsa(bolsaT);
+            BolsaFinanciamento bolsaT = em.createQuery(jpqlBolsa, BolsaFinanciamento.class).setParameter("bolsaNome", bolsaId).getSingleResult();
+            if (bolsaId != null) novoAluno.setBolsa(bolsaT);
             
             Usuario usuario = new Usuario();
             usuario.setLogin(login);
@@ -122,40 +128,163 @@ public class SecretarioController {
     }
 
 
-    public void atualizarAluno(EntityManager em, String login, String senha, String cpf, String rg, LocalDate nascimento,
-         String endereco, String matricula, Integer cursoId, Integer bolsaId, int alunoId) {
+    public void atualizarAluno(EntityManager em, String login, String senha, String nome, String cpf, String rg, LocalDate nascimento, String polo,
+         String endereco, String matricula, Curso curso, BolsaFinanciamento bolsa, Aluno aluno, 
+         List<DocumentosAluno> documentos, List<ContatosAluno> contatos) {
 
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
+            aluno = em.merge(aluno);
 
-            Aluno aluno = em.find(Aluno.class, alunoId);
+
             if (aluno == null)
                 throw new EntityNotFoundException("Aluno não encontrada");
 
-            Usuario usuario = em.find(Usuario.class, aluno.getUsuario().getLogin());
+            String jpqlUsuario = """
+                        SELECT u FROM Usuario u WHERE u.login = :login AND u.deleted = false
+                                """; 
+            Usuario usuario = em.createQuery(jpqlUsuario, Usuario.class).setParameter("login", login).getSingleResult();
             if (usuario == null)
                 throw new EntityNotFoundException("Usuario não encontrado");
 
+
             if(login != null) usuario.setLogin(login);
             if(senha != null) usuario.setSenha(senha);
+
+
+            if (nome != null) aluno.setNome(nome);
             if(cpf != null) aluno.setCpf(cpf);
             if (rg != null) aluno.setRg(rg);
             if (nascimento != null) aluno.setNascimento(nascimento);
+            if (polo != null) aluno.setPolo(polo);
             if (endereco != null) aluno.setEndereco(endereco);
             if (matricula != null) aluno.setMatricula(matricula);
+            
+            //DOCUMENTOS
+            
+            List<DocumentosAluno> documentosT = aluno.getDocumentos();
+            if (documentos != null) {
 
-            Curso curso = em.find(Curso.class, cursoId);
+
+                 //Garante que o for percorra todo vetor
+                        int tamanhoDocumento = documentosT.size();
+                        if (tamanhoDocumento < documentos.size()) tamanhoDocumento = documentos.size();
+                        System.out.println(" DocumentosTSize: " + documentosT.size() + " DocumentosSize: " + documentos.size());
+
+                        for (int count=0; count<=tamanhoDocumento; count++){
+
+                                DocumentosAluno bd = (count < documentosT.size()) ? documentosT.get(count) : null;
+                                DocumentosAluno view = (count < documentos.size()) ? documentos.get(count) : null;   
+                                System.out.println("ITERACAO: " + count); 
+
+
+                            if ((bd!= null) && (view!= null)){
+
+                                System.out.println( "Ambos possuem registro: " + documentos.get(count).getCaminho_arquivo());
+                                DocumentosAluno documentoBD = documentosT.get(count);
+                                DocumentosAluno documentoView = documentos.get(count);
+                                
+
+                                documentos.get(count).setId(documentoBD.getId());
+                                if(Objects.equals(documentoBD.getCaminho_arquivo(), documentoView.getCaminho_arquivo()) && 
+                                Objects.equals(documentoBD.getTipo_documento(), documentoView.getTipo_documento())){
+                                    System.out.println( "Documentos iguais, sem alteração ");
+
+                                }
+                                else {
+                                    System.out.println("Documentos diferentes, BD alterado");
+                                    documentoBD.setCaminho_arquivo(documentoView.getCaminho_arquivo());
+                                    documentoBD.setTipo_documento(documentoView.getTipo_documento());
+                                }
+
+                            }
+                            else if ((bd == null) && (view!= null)){
+
+                                System.out.println( "Registro Novo adicionado: " + documentos.get(count).getCaminho_arquivo());
+                                documentosT.add(documentos.get(count));
+
+                            }
+                            else if ((bd!= null) && (view == null)){
+                                System.out.println( "Registro Removido: " + documentosT.get(count).getCaminho_arquivo());
+                                documentosT.remove(count);
+
+                            }
+
+                        }
+
+                aluno.setDocumentos(documentosT);
+
+            } 
+
+
+            //CONTATOS
+            List<ContatosAluno> contatosT = aluno.getContatos();
+            if (contatos != null){
+
+                        //Garante que o for percorra todo vetor
+                        int tamanhoContato = contatosT.size();
+                        if (tamanhoContato < contatos.size()) tamanhoContato = contatos.size();
+                        System.out.println(" CONTATOSTSize: " + contatosT.size() + " ContatosSize: " + contatos.size());
+
+                        for (int count=0; count<=tamanhoContato; count++){
+
+                                ContatosAluno bd = (count < contatosT.size()) ? contatosT.get(count) : null;
+                                ContatosAluno view = (count < contatos.size()) ? contatos.get(count) : null;   
+                                System.out.println("ITERACAO: " + count); 
+
+
+                            if ((bd!= null) && (view!= null)){
+
+                                System.out.println( "Ambos possuem registro: " + contatos.get(count).getContato());
+                                ContatosAluno contatoBD = contatosT.get(count);
+                                ContatosAluno contatoView = contatos.get(count);
+                                
+
+                                contatos.get(count).setId(contatoBD.getId());
+                                if(Objects.equals(contatoBD.getContato(), contatoView.getContato())){
+                                    System.out.println( "Contatos iguais, sem alteração ");
+
+                                }
+                                else {
+                                    System.out.println("Contatos diferentes, BD alterado");
+                                    contatoBD.setContato(contatoView.getContato());
+                                }
+
+                            }
+                            else if ((bd == null) && (view!= null)){
+
+                                System.out.println( "Registro Novo adicionado: " + contatos.get(count).getContato());
+                                contatosT.add(contatos.get(count));
+
+                            }
+                            else if ((bd!= null) && (view == null)){
+                                System.out.println( "Registro Removido: " + contatosT.get(count).getContato());
+                                contatosT.remove(count);
+
+                            }
+
+                        }
+                    
+                        aluno.setContatos(contatosT);
+            }
+                
+
+            
+
             if (curso != null) aluno.setCurso(curso);
-
-            BolsaFinanciamento bolsa = em.find(BolsaFinanciamento.class, bolsaId);
             if (bolsa != null) aluno.setBolsa(bolsa);
 
+
+            for (ContatosAluno c : contatosT) c.setAluno(aluno); 
+            for (DocumentosAluno d : documentosT) d.setAluno(aluno); 
+
+      
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            throw e;
+             e.printStackTrace(); 
         }
     }
     
@@ -188,8 +317,8 @@ public class SecretarioController {
 
 
     //#region CRUD PROFESSOR
-    public void cadastrarProfessor(EntityManager em, String login, String senha, String nome, String cpf,
-         String rg, LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao, List<Turma> turmas){
+    public void cadastrarProfessor(EntityManager em, String login, String senha, String nome, String cpf, String rg, 
+        LocalDate nascimento, String endereco, String formacao, String registros, LocalDate dataAdmissao, Integer salario, List<Turma> turmas){
         
         EntityTransaction tx = em.getTransaction();
 
@@ -230,6 +359,7 @@ public class SecretarioController {
             novoProfessor.setFormacao(formacao);
             novoProfessor.setRegistros(registros);
             novoProfessor.setDataAdmissao(dataAdmissao);
+            novoProfessor.setSalario(salario);
             novoProfessor.setTurmas(turmas);
 
             
@@ -286,18 +416,29 @@ public class SecretarioController {
 
 
 
-    public void atualizarProfessor(EntityManager em, String login, String senha, String cpf, String rg, LocalDate nascimento,
-         String endereco, String formacao, String registros, LocalDate dataAdmissao, ArrayList<Integer> turmasId, int professorId) {
+    public void atualizarProfessor(EntityManager em, String login, String senha, String nome, String cpf, String rg, LocalDate nascimento,
+         String endereco, String formacao, String registros, LocalDate dataAdmissao, String polo, Integer salario,
+         List<Turma> turmas, List<EspecialidadesProfessor> especialidades, List<ContatosProfessor> contatos) {
 
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
 
-            Professor professor = em.find(Professor.class, professorId);
+            String jpqlProfessor = """
+                    SELECT p
+                    FROM Professor p
+                    WHERE p.usuario.login = :loginProf AND p.deleted = false        
+
+                    """;
+
+            Professor professor = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginProf", login).getSingleResult();
+
             if (professor == null)
                 throw new EntityNotFoundException("Professor não encontrado");
 
+
+            
             Usuario usuario = em.find(Usuario.class, professor.getUsuario().getLogin());
             if (usuario == null)
                 throw new EntityNotFoundException("Usuario não encontrado");
@@ -313,12 +454,120 @@ public class SecretarioController {
             if (registros != null) professor.setRegistros(registros);
             if (dataAdmissao != null) professor.setDataAdmissao(dataAdmissao);
             
-            if (turmasId != null) {
-                ArrayList<Turma> turmas = new ArrayList<>();
-                for (Integer id : turmasId) turmas.add(em.find(Turma.class, id));
+            if (turmas != null) {
+       
+                for (Turma t : turmas) t.setProfessor(professor);
                 
                 professor.setTurmas(turmas);
             }
+
+
+
+
+            //ESPECIALIDADES
+            List<EspecialidadesProfessor> especialidadesT = professor.getEspecialidades();
+            if (especialidades != null){
+
+                        //Garante que o for percorra todo vetor
+                        int tamanhoEsp = especialidadesT.size();
+                        if (tamanhoEsp < especialidades.size()) tamanhoEsp = especialidades.size();
+                        System.out.println(" especialidadeTSize: " + especialidadesT.size() + " especialidadeSize: " + especialidades.size());
+
+                        for (int count=0; count<=tamanhoEsp; count++){
+
+                                EspecialidadesProfessor bd = (count < especialidadesT.size()) ? especialidadesT.get(count) : null;
+                                EspecialidadesProfessor view = (count < especialidades.size()) ? especialidades.get(count) : null;   
+                                System.out.println("ITERACAO: " + count); 
+
+
+                            if ((bd!= null) && (view!= null)){
+
+                                System.out.println( "Ambos possuem registro: " + especialidades.get(count).getEspecialidade());
+                                EspecialidadesProfessor especialidadeBD = especialidadesT.get(count);
+                                EspecialidadesProfessor especialidadeView = especialidades.get(count);
+                                
+
+                                especialidades.get(count).setId(especialidadeBD.getId());
+                                if(Objects.equals(especialidadeBD.getEspecialidade(), especialidadeView.getEspecialidade())){
+                                    System.out.println( "Especialidades iguais, sem alteração ");
+
+                                }
+                                else {
+                                    System.out.println("Especialidades diferentes, BD alterado");
+                                    especialidadeBD.setEspecialidade(especialidadeView.getEspecialidade());
+                                }
+
+                            }
+                            else if ((bd == null) && (view!= null)){
+
+                                System.out.println( "Registro Novo adicionado: " + especialidades.get(count).getEspecialidade());
+                                especialidadesT.add(especialidades.get(count));
+
+                            }
+                            else if ((bd!= null) && (view == null)){
+                                System.out.println( "Registro Removido: " + especialidadesT.get(count).getEspecialidade());
+                                especialidadesT.remove(count);
+
+                            }
+
+                        }
+                    
+                        professor.setEspecialidades(especialidadesT);
+            }
+                
+
+            //CONTATOS
+            List<ContatosProfessor> contatosT = professor.getContatos();
+            if (contatos != null){
+
+                        //Garante que o for percorra todo vetor
+                        int tamanhoContato = contatosT.size();
+                        if (tamanhoContato < contatos.size()) tamanhoContato = contatos.size();
+                        System.out.println(" CONTATOSTSize: " + contatosT.size() + " ContatosSize: " + contatos.size());
+
+                        for (int count=0; count<=tamanhoContato; count++){
+
+                                ContatosProfessor bd = (count < contatosT.size()) ? contatosT.get(count) : null;
+                                ContatosProfessor view = (count < contatos.size()) ? contatos.get(count) : null;   
+                                System.out.println("ITERACAO: " + count); 
+
+
+                            if ((bd!= null) && (view!= null)){
+
+                                System.out.println( "Ambos possuem registro: " + contatos.get(count).getContato());
+                                ContatosProfessor contatoBD = contatosT.get(count);
+                                ContatosProfessor contatoView = contatos.get(count);
+                                
+
+                                contatos.get(count).setId(contatoBD.getId());
+                                if(Objects.equals(contatoBD.getContato(), contatoView.getContato())){
+                                    System.out.println( "Contatos iguais, sem alteração ");
+
+                                }
+                                else {
+                                    System.out.println("Contatos diferentes, BD alterado");
+                                    contatoBD.setContato(contatoView.getContato());
+                                }
+
+                            }
+                            else if ((bd == null) && (view!= null)){
+
+                                System.out.println( "Registro Novo adicionado: " + contatos.get(count).getContato());
+                                contatosT.add(contatos.get(count));
+
+                            }
+                            else if ((bd!= null) && (view == null)){
+                                System.out.println( "Registro Removido: " + contatosT.get(count).getContato());
+                                contatosT.remove(count);
+
+                            }
+
+                        }
+                    
+                        professor.setContatos(contatosT);
+            }
+                
+
 
 
             tx.commit();
@@ -463,20 +712,24 @@ public class SecretarioController {
     }
 
 
-
-    public void atualizarCurso (EntityManager em, int cursoId, String nome, String mensalidade, TurnoType turno, Integer cargahoraria,
-    Integer periodos, LocalDate prazoconclusao, String descricao, String portaria, StatusCurso status, ArrayList<Integer> disciplinasId,
-    ArrayList<Integer> alunosId, Integer coordenadorId){
+    public void atualizarCurso (EntityManager em, String cursoNome, String mensalidade, TurnoType turno, Integer cargahoraria,
+    Integer periodos, LocalDate prazoconclusao, String descricao, String portaria, StatusCurso status, List<String> disciplinas,
+    List<String> alunos, String coordenadorCpf){
 
         EntityTransaction tx = em.getTransaction();
         
         try {
             tx.begin();
-
-            Curso curso = em.find(Curso.class, cursoId);
+            String jpqlCurso = """
+                    SELECT c
+                    FROM Curso c
+                    WHERE c.nome = :cursoNome AND c.deleted = false    
+                    """;
+            Curso curso = em.createQuery(jpqlCurso, Curso.class).setParameter("cursoNome", cursoNome).getSingleResult();
             if (curso == null) throw new EntityNotFoundException("\nCurso não encontrado!\n");
 
-            if (nome != null) curso.setNome(nome);
+
+            if (cursoNome != null) curso.setNome(cursoNome);
             if (mensalidade != null) curso.setMensalidade(mensalidade);
             if (turno != null) curso.setTurno(turno);
             if (cargahoraria != null) curso.setCargahoraria(cargahoraria);
@@ -486,36 +739,74 @@ public class SecretarioController {
             if (portaria != null) curso.setPortaria(portaria);
             if (status != null) curso.setStatus(status);
             
-            if (disciplinasId != null) {
-                ArrayList<Disciplina> disciplinas = new ArrayList<>();
-                for (Integer id : disciplinasId){
+            if (disciplinas != null) {
+                ArrayList<Disciplina> disciplinasT = new ArrayList<>();
+                for (String dNovo : disciplinas){
 
-                    Disciplina disciplina = em.find(Disciplina.class, id);
+                    String jpqlDisciplina = """
+                            SELECT d
+                            FROM Disciplina d
+                            WHERE d.nome = :dNome AND d.deleted = false
+                            """;
+                    Disciplina disciplina = new Disciplina();
+                    try {
+                        disciplina = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("dNome", dNovo).getSingleResult();
+                    }
+                    catch (Exception e){
+                        System.out.println("Disciplina não encontrada!");
+                        e.printStackTrace();
+                    }
+                    
                     if (disciplina != null){
                         disciplina.getCursos().add(curso);
+                        disciplinasT.add(disciplina);
                     }
-                    
+ 
                 }
-                curso.setDisciplinas(disciplinas);
+                curso.setDisciplinas(disciplinasT);
             }
 
-            if (alunosId != null){
+            //LISTA ALUNOS
+            if (alunos != null){
+                ArrayList<Aluno> alunosT = new ArrayList<>();
             
-                ArrayList<Aluno> alunos = new ArrayList<>();
-                for (Integer id : alunosId){
+                for (String aNovo : alunos){
 
-                    Aluno aluno = em.find(Aluno.class, id);
-                    if (aluno != null){
-                        alunos.add(aluno);
-                        aluno.setCurso(curso);
+                    String jpqlAluno = """
+                            SELECT a
+                            FROM Aluno a
+                            WHERE a.matricula = :aMatricula AND a.deleted = false
+                            """;
+                    Aluno aluno = new Aluno();
+                    try {
+                        aluno = em.createQuery(jpqlAluno, Aluno.class).setParameter("aMatricula", aNovo).getSingleResult();
+                    }
+                    catch (Exception e){
+                        System.out.println("Aluno não encontrado!");
+                        e.printStackTrace();
                     }
                     
+                    if (aluno != null){
+                        aluno.setCurso(curso);
+                        alunosT.add(aluno);
+                    }
+ 
                 }
-                curso.setAlunos(alunos);
+
+                curso.setAlunos(alunosT);
             }
 
-            if (coordenadorId != null){
-                Coordenador coordenador = em.find(Coordenador.class, coordenadorId);
+
+
+            if (coordenadorCpf != null){
+
+                String jpqlCoordenador = """
+                        SELECT p
+                        FROM Professor p
+                        WHERE p.cpf = :coordenadorCpf AND p.deleted = false
+                        """;
+                Professor coordenador = em.createQuery(jpqlCoordenador, Professor.class).setParameter("coordenadorCpf", coordenadorCpf).getSingleResult();
+                
                 if (coordenador != null) curso.setCoordenador(coordenador);
             }
 

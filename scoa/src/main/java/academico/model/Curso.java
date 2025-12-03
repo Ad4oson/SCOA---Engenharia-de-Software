@@ -32,8 +32,8 @@ public class Curso {
     @Enumerated(EnumType.STRING)
     private TurnoType turno;
 
-    private int cargahoraria;
-    private int periodos;
+    private Integer cargahoraria;
+    private Integer periodos;
     private LocalDate prazoconclusao;
     private String descricao;
     private String portaria;
@@ -93,19 +93,19 @@ public class Curso {
         this.turno = turno;
     }
 
-    public int getCargahoraria() {
+    public Integer getCargahoraria() {
         return cargahoraria;
     }
 
-    public void setCargahoraria(int cargahoraria) {
+    public void setCargahoraria(Integer cargahoraria) {
         this.cargahoraria = cargahoraria;
     }
 
-    public int getPeriodos() {
+    public Integer getPeriodos() {
         return periodos;
     }
 
-    public void setPeriodos(int periodos) {
+    public void setPeriodos(Integer periodos) {
         this.periodos = periodos;
     }
 

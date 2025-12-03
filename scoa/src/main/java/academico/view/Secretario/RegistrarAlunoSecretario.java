@@ -465,7 +465,7 @@ public class RegistrarAlunoSecretario extends javax.swing.JFrame {
             }
 
             secretario.cadastrarAluno(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
-                poloField1.getText(),nascimento, enderecoField1.getText(), matriculaField1.getText(), cursoField1.getText(), bolsaField1.getText(),
+                poloField1.getText(),nascimento, enderecoField1.getText(), matriculaField1.getText(), cursoField1.getText(), Integer.valueOf(bolsaField1.getText()),
                 financeiroField1.getText(), listaDocumento, listaContato);
 
         }

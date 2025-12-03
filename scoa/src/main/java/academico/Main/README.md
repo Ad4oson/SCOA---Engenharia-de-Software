@@ -159,6 +159,8 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - Remover tabela bolsamensalidade, adicionar bolsa_id em mensalidade.
 
+- bolsa_id nullable
+
 ### Contatos Professor:
 
 - Alterar contato para PK ao invés de Id

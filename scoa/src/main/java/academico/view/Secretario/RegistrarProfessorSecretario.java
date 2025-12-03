@@ -14,6 +14,7 @@ import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -488,7 +489,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             Professor professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginProfessor", login).getSingleResult();
             
             //Pegar lista especialidade
-            List<EspecialidadesProfessor> listaEspecialidade = null;
+            List<EspecialidadesProfessor> listaEspecialidade = new ArrayList<>();
             for (int r=0; r<=especialidadeTable1.getRowCount(); r++){
 
                 if (especialidadeTable1.getValueAt(r,0)!= null) {
@@ -502,7 +503,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             }
 
             //Pegar lista contato
-            List<ContatosProfessor> listaContato = null;
+            List<ContatosProfessor> listaContato = new ArrayList<>();
             for (int r=0; r<=contatoTable1.getRowCount(); r++){
 
                 if (contatoTable1.getValueAt(r, 0) != null) {
@@ -517,7 +518,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             
             
             //Pegar lista turma
-            List<Turma> listaTurma = null;
+            List<Turma> listaTurma = new ArrayList<>();
             for (int r=0; r<=turmaTable1.getRowCount(); r++){
 
                 if (turmaTable1.getValueAt(r, 0) != null) {
@@ -546,7 +547,8 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             LocalDate admissaoT = LocalDate.parse(admissaoField1.getText().toString());
 
             secretario.cadastrarProfessor(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
-                nascimentoT, enderecoField1.getText(), formacaoField1.getText(), registrosField1.getText(), admissaoT, listaTurma);
+                nascimentoT, enderecoField1.getText(), formacaoField1.getText(), registrosField1.getText(), 
+                admissaoT, Integer.getInteger(salarioField1.getText()), listaTurma);
 
         }
         catch (Exception e ){

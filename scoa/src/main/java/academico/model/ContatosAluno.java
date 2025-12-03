@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 
 import java.lang.annotation.Inherited;
+import java.time.LocalDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -22,12 +23,36 @@ import javax.annotation.processing.Generated;
 public class ContatosAluno {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String contato;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
+
+    private LocalDateTime created_at;
+    private Boolean deleted = false;
+
+
+    
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getContato() {
         return contato;
@@ -43,6 +68,14 @@ public class ContatosAluno {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 

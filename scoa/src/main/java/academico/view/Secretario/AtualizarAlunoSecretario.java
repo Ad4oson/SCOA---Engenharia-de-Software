@@ -4,13 +4,17 @@
  */
 package academico.view.Secretario;
 
+import academico.controller.ProfessorController;
 import academico.controller.SecretarioController;
 import academico.model.Aluno;
 import academico.model.ContatosAluno;
 import academico.model.DocumentosAluno;
 import academico.model.JPAUtil;
+import academico.model.PautaDeAula;
+import academico.view.Professor.PautaTableModel;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class AtualizarAlunoSecretario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AtualizarAlunoSecretario.class.getName());
-
+    
+    
     /**
      * Creates new form AtualizarAlunoSecretario
      */
@@ -32,6 +37,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         
         
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,7 +123,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         jLabel19.setText("Login:");
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel20.setText("Bolsa:");
+        jLabel20.setText("Bolsa Id:");
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel21.setText("Digite Novamente:");
@@ -169,6 +175,8 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(contatoTable1);
+
+
 
         documentoTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         documentoTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -479,24 +487,27 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         nascimento = LocalDate.parse(nascimentoField1.getText());
         
         try {
-            
+            System.out.println("LISTA DOCUMENTO COUNT: " + documentoTable1.getRowCount());
             //Pegar lista documento
-            List<DocumentosAluno> listaDocumento = null;
-            for (int r=0; r<=documentoTable1.getRowCount(); r++){
+            List<DocumentosAluno> listaDocumento = new ArrayList<>();
+            for (int r=0; r<documentoTable1.getRowCount(); r++){
 
                 if (documentoTable1.getValueAt(r,0)!= null) {
+                
                     DocumentosAluno docTemp = new DocumentosAluno();
-
+  
                     docTemp.setCaminho_arquivo(documentoTable1.getValueAt(r, 0).toString());
                     docTemp.setTipo_documento(documentoTable1.getValueAt(r, 1).toString( ));
+
                     listaDocumento.add(docTemp);
                 }
 
             }
+            
 
-            //Pegar lista documento
-            List<ContatosAluno> listaContato = null;
-            for (int r=0; r<=contatoTable1.getRowCount(); r++){
+            //Pegar lista contato
+            List<ContatosAluno> listaContato = new ArrayList<>();
+            for (int r=0; r<contatoTable1.getRowCount(); r++){
 
                 if (contatoTable1.getValueAt(r, 0) != null) {
                     ContatosAluno contatoTemp = new ContatosAluno();
@@ -506,10 +517,20 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
                 }
 
             }
+   
+            String jpqlAluno = """
+                               SELECT a
+                               FROM Aluno a
+                               WHERE a.matricula = :matricula AND deleted = false
+                               """;
+            Aluno alunoT = em.createQuery(jpqlAluno, Aluno.class).setParameter("matricula",matriculaField1.getText()).getSingleResult();
+            
+   
 
-            secretario.cadastrarAluno(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
-                poloField1.getText(),nascimento, enderecoField1.getText(), matriculaField1.getText(), cursoField1.getText(), bolsaField1.getText(),
-                financeiroField1.getText(), listaDocumento, listaContato);
+            secretario.atualizarAluno(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
+                nascimento,poloField1.getText(), enderecoField1.getText(), matriculaField1.getText(), alunoT.getCurso(), alunoT.getBolsa(),
+                alunoT, listaDocumento, listaContato);
+
 
         }
         catch (Exception e ){
@@ -618,7 +639,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
             try {
                 String jpqlAluno = """
                                    SELECT a
-                                   FROM aluno a
+                                   FROM Aluno a
                                    WHERE a.curso.nome = :cursoNome AND a.deleted = false
                                    ORDER BY a.nome
                                    """;
@@ -636,7 +657,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todos alunos serão disponibilizados!");
             String jpqlAluno = """
                                    SELECT a
-                                   FROM aluno a
+                                   FROM Aluno a
                                    WHERE a.deleted = false
                                    ORDER BY a.nome
                                    """;
@@ -655,7 +676,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         
         String jpqlAluno = """
                            SELECT a
-                           FROM aluno a
+                           FROM Aluno a
                            WHERE a.nome = :nomeAluno AND a.deleted = false
                            """;
         String alunoSelecionado = alunoBox.getSelectedItem().toString();
@@ -670,28 +691,35 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         financeiroField1.setText(a.getStatusfinanceiro());
         matriculaField1.setText(a.getMatricula());
         loginField1.setText(a.getUsuario().getLogin());
-        senhaField1.setText(a.getUsuario().getLogin());
+        senhaField1.setText(a.getUsuario().getSenha());
         
         
         cursoField1.setText(a.getCurso().getNome());
-        bolsaField1.setText(String.valueOf(a.getBolsa().getId()));
+        bolsaField1.setText(String.valueOf(a.getBolsa().getId())); 
        
-        DefaultTableModel model = (DefaultTableModel) documentoTable1.getModel();
+        DefaultTableModel modelC = (DefaultTableModel) contatoTable1.getModel();
+        modelC.setRowCount(0);
         for (ContatosAluno c : a.getContatos()){
-                model.addRow(new Object[]{
+                modelC.addRow(new Object[]{
                 c.getContato()
             });
         }
+        //linha vazia para cadastros
+        modelC.addRow(new Object[]{""});
+        
+        DefaultTableModel modelD = (DefaultTableModel) documentoTable1.getModel();
+        modelD.setRowCount(0);
         for (DocumentosAluno d : a.getDocumentos()){
 
 
-            model.addRow(new Object[]{
+            modelD.addRow(new Object[]{
                 d.getCaminho_arquivo(),
                 d.getTipo_documento()
             });
             
         }
-        
+        //linha vazia para cadastros
+        modelD.addRow(new Object[]{""});
         
     }//GEN-LAST:event_alunoActionEvent
 

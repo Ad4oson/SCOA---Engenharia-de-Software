@@ -4,7 +4,7 @@ public enum StatusCurso {
 
      AGUARDO,
      ANDAMENTO,
-     CONCLUIDO;
+     CONCLUÍDO;
 
     
 }

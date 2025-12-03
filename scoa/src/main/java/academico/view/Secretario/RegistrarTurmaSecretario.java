@@ -12,6 +12,7 @@ import academico.model.Sala;
 import academico.model.TurnoType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -290,7 +291,7 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
 
         try {
             
-            List<Aluno> listaAluno = null;
+            List<Aluno> listaAluno = new ArrayList<>();
             
             //Pegar Sala
             String jpqlSala = """

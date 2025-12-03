@@ -19,12 +19,18 @@ import java.lang.annotation.Inherited;
 public class EspecialidadesProfessor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String especialidade;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
+
+
+
+    
 
     
     public String getEspecialidade() {
@@ -41,6 +47,14 @@ public class EspecialidadesProfessor {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 

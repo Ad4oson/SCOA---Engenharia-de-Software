@@ -10,6 +10,7 @@ import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -242,7 +243,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
         try {
 
             //Pegar lista turma
-            List<Turma> listaTurma = null;
+            List<Turma> listaTurma = new ArrayList<>();
             for (int r=0; r<=turmaTable.getRowCount(); r++){
 
                 if (turmaTable.getValueAt(r, 0) != null) {
