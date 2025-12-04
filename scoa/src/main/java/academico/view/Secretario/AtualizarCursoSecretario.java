@@ -614,7 +614,8 @@ public class AtualizarCursoSecretario extends javax.swing.JFrame {
 
     private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
         // TODO add your handling code here:
-
+        
+        this.dispose();
         if(salaCombo.getSelectedIndex() == 0){
             new RegistrarSalaSecretario().setVisible(true);
 

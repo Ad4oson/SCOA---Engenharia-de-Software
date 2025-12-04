@@ -28,6 +28,7 @@ import academico.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 public class SecretarioController {
@@ -897,19 +898,19 @@ public class SecretarioController {
     }
 
 
-    public List<Turma> consultarTurmas(EntityManager em, Integer turmaId){
+    public List<Turma> consultarTurmas(EntityManager em, String turmaNome){
         
-        if (turmaId != null) {
+        if (turmaNome != null) {
 
             String jpql = """
                 SELECT t
                 FROM Turma t
-                WHERE t.deleted = false AND t.id = :turmaId
+                WHERE t.deleted = false AND t.nome = :turmaNome
                 ORDER BY t.nome
             """;
 
             return  em.createQuery(jpql, Turma.class)
-            .setParameter("turmaId", turmaId)
+            .setParameter("turmaNome", turmaNome)
             .getResultList();
 
         }
@@ -930,39 +931,52 @@ public class SecretarioController {
 
     }
 
-    public void atualizarTurma(EntityManager em, LocalTime horario, Integer numerovagas, TurnoType turno, Integer salaId,
-        Integer disciplinaId, Integer professorId, List<Integer> alunosId, Turma turmaId) {
+    public void atualizarTurma(EntityManager em, String nome, LocalTime horario, Integer numerovagas, TurnoType turno, Sala sala,
+        Disciplina disciplina, Professor professor, List<String> alunos, Integer turmaId) {
 
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
+            System.out.println("ATUALIZAR TURMA");
 
             Turma turma = em.find(Turma.class, turmaId);
             if (turma == null)
                 throw new EntityNotFoundException("Turma não encontrada");
 
+            if (nome != null) turma.setNome(nome);
             if (horario != null) turma.setHorario(horario);
             if (numerovagas != null) turma.setNumerovagas(numerovagas);
             if (turno !=null) turma.setTurno(turno);
         
-            if (salaId != null) turma.setSala(em.find(Sala.class,salaId));
-            if (disciplinaId != null) turma.setDisciplina(em.find(Disciplina.class, disciplinaId));
-            if (professorId != null) turma.setProfessor(em.find(Professor.class, professorId));
+            if (sala != null) turma.setSala(sala);
+            if (disciplina != null) turma.setDisciplina(disciplina);
+            if (professor != null) turma.setProfessor(professor);
 
+            if (alunos != null){
+                List<Aluno> alunosT = new ArrayList<>();
+                System.out.println("ALUNO SIZE: " + alunos.size());
 
-            if (alunosId != null) {
-                ArrayList<Aluno> aluno = new ArrayList<>();
-                for (Integer id : alunosId) aluno.add(em.find(Aluno.class, id));
-                
-                turma.setAlunos(aluno);
+                for (int r=0; r<alunos.size(); r++){
+                    System.out.println("matricula : " + alunos.get(r));
+                    String jpqlAluno = """
+                            SELECT a
+                            FROM Aluno a
+                            WHERE a.matricula = :matricula AND a.deleted = false
+                            """;
+                    Aluno alunoTemp = em.createQuery(jpqlAluno, Aluno.class).setParameter("matricula", alunos.get(r)).getSingleResult();
+                    
+                    alunosT.add(alunoTemp);
+
+                }
+                System.out.println("PASSOU ALUNO \n");
+                turma.setAlunos(alunosT);
             }
-
     
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            throw e;
+            e.printStackTrace();
         }
     }
 
@@ -1028,19 +1042,20 @@ public class SecretarioController {
 
     }
 
-    public List<Sala> consultarSalas (EntityManager em, Integer salaId){
+    public List<Sala> consultarSalas (EntityManager em, String salaLocal){
         //Lembrar de atualizar as outras consultas duplas para serem uma só, utilizando um Id nullable
 
-        if (salaId != null) {
+        if (salaLocal != null) {
+            System.out.println("\nPESQUISANDO SALA LOCAL\n");
                 
             String jpql = """
                 SELECT s
                 FROM Sala s
-                WHERE s.deleted = false AND s.id = :salaId
+                WHERE s.deleted = false AND s.local = :salaLocal
             """;
 
             return em.createQuery(jpql, Sala.class)
-            .setParameter("salaId", salaId)
+            .setParameter("salaLocal", salaLocal)
             .getResultList();
 
         }
@@ -1059,36 +1074,55 @@ public class SecretarioController {
 
 
 
-    public void atualizarSala(EntityManager em, int salaId, String local, Integer capacidade, List<Integer> turmasId) {
+    public void atualizarSala(EntityManager em, Integer salaId, String local, Integer capacidade, List<Turma> turmas) {
 
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
+            System.out.println("\nSALAID: " + salaId);
 
             Sala sala = em.find(Sala.class, salaId);
+
+           
             if (sala == null)
                 throw new EntityNotFoundException("Sala não encontrada");
-
+            System.out.println("\nDEPOIS SALA\n");
             if (local !=null) sala.setLocal(local);
             if (capacidade != null) sala.setCapacidade(capacidade);
 
             
-            if (turmasId != null) { 
-                ArrayList<Turma> turmas = new ArrayList<>();
-                for (Integer id : turmasId){
+            if (turmas != null) { 
+                System.out.println("\nENTRANDO TURMAS\n");
+                ArrayList<Turma> turmasT = new ArrayList<>();
+                for (Turma t : turmas){
 
-                    if (id == null) continue;
+                    if (t == null) continue;
+                    else {
+                        System.out.println("\nTURMA: " + t.getNome());
 
-                    Turma turma = em.find(Turma.class, id);
-                    if (turma != null) {
-                        turma.setSala(sala);
-                        turmas.add(turma);
+                        try {
+                            String jpqlTurma = """
+                                    SELECT t
+                                    FROM Turma t
+                                    WHERE t.id = :turmaId AND t.deleted = false
+                                    """;
+                            Turma t2 = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaId", t.getId()).getSingleResult();
+
+                        }
+                        catch (EntityNotFoundException e) {
+                            System.out.println("\nTurma não encontrada!\n");
+                            e.printStackTrace();
+                        }
+
+
+                        t.setSala(sala);
+                        turmasT.add(t);
                     }
 
                 }
-
-                sala.setTurmas(turmas);
+                 System.out.println("\nSAIU FOR\n");
+                sala.setTurmas(turmasT);
             }
 
             tx.commit();

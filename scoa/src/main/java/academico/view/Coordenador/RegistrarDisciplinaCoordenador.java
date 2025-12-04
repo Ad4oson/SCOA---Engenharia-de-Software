@@ -2,38 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package academico.view.Secretario;
-
-import academico.auth.Sessao;
-import academico.controller.SecretarioController;
-import academico.model.Aluno;
-import academico.model.ContatosProfessor;
-import academico.model.Curso;
-import academico.model.Disciplina;
-import academico.model.EspecialidadesProfessor;
-import academico.model.JPAUtil;
-import academico.model.Professor;
-import academico.model.Turma;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+package academico.view.Coordenador;
 
 /**
  *
  * @author Windows 11
  */
-public class AtualizarProfessorSecretario extends javax.swing.JFrame {
+public class RegistrarDisciplinaCoordenador extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AtualizarProfessorSecretario.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarDisciplinaCoordenador.class.getName());
 
     /**
-     * Creates new form AtualizarProfessorSecretario
+     * Creates new form RegistrarDisciplina
      */
-    public AtualizarProfessorSecretario() {
+    public RegistrarDisciplinaCoordenador() {
         initComponents();
     }
 
@@ -81,12 +63,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
         especialidadeTable1 = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         turmaTable1 = new javax.swing.JTable();
-        filtrarButton = new javax.swing.JButton();
-        cursoBox = new javax.swing.JComboBox<>();
-        pesquisaField = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
-        senhaField3 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
         menu = new javax.swing.JPanel();
         alunoCombo = new javax.swing.JComboBox<>();
         professorCombo = new javax.swing.JComboBox<>();
@@ -236,21 +212,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(turmaTable1);
 
-        filtrarButton.setText("Filtrar");
-        filtrarButton.addActionListener(this::filtrarButtonActionPerformed);
-
-        cursoBox.setMaximumRowCount(10);
-        cursoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
-        cursoBox.addActionListener(this::cursoBoxalunoActionEvent);
-
-        pesquisaField.addActionListener(this::pesquisaFieldActionPerformed);
-
-        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel27.setText("Digite Curso:");
-
-        jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel28.setText("Curso coord:");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -258,88 +219,75 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel18)
+                                .addGap(52, 52, 52)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nascimentoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nomeField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cpfField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rgField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel17)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(formacaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel19)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(loginField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel22)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(senhaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel21)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(senhaField2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel25)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nascimentoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
+                                .addComponent(poloField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel26)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nomeField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
+                                .addComponent(enderecoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel24)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cpfField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
+                                .addComponent(registrosField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel23)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rgField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
+                                .addComponent(salarioField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(formacaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(loginField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel22)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(senhaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel21)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(senhaField2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(senhaField3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cursoBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(filtrarButton))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel25)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(poloField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel26)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(enderecoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel24)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(registrosField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel23)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(salarioField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel20)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(admissaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 20, 20))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(salvarButton1)
-                .addGap(38, 38, 38))
+                                .addComponent(admissaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(salvarButton1)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,26 +349,15 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(senhaField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(senhaField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel28))
-                        .addContainerGap(184, Short.MAX_VALUE))
+                        .addGap(115, 115, 115))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(filtrarButton)
-                            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(26, 26, 26)
-                        .addComponent(cursoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(69, 69, 69)
                         .addComponent(salvarButton1)
-                        .addGap(26, 26, 26))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
@@ -457,7 +394,7 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
                 .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -536,17 +473,15 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
             FROM Professor p
             WHERE p.usuario.login = :loginProfessor AND deleted = false
             """;
-            String login = loginField1.getText();
-            System.out.println("\nLOGIN: " + login);
+            String login = Sessao.getUsuarioLogado().getLogin();
 
             Professor professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginProfessor", login).getSingleResult();
-            
-            
+
             //Pegar lista especialidade
             List<EspecialidadesProfessor> listaEspecialidade = new ArrayList<>();
-            for (int r=0; r<especialidadeTable1.getRowCount(); r++){
+            for (int r=0; r<=especialidadeTable1.getRowCount(); r++){
 
-                if (especialidadeTable1.getValueAt(r,0)!= "") {
+                if (especialidadeTable1.getValueAt(r,0)!= null) {
                     EspecialidadesProfessor especialidadeTemp = new EspecialidadesProfessor();
 
                     especialidadeTemp.setProfessor(professorT);
@@ -555,13 +490,12 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println("\nPASSOU ESPECIALIDADES\n");
 
             //Pegar lista contato
             List<ContatosProfessor> listaContato = new ArrayList<>();
-            for (int r=0; r<contatoTable1.getRowCount(); r++){
+            for (int r=0; r<=contatoTable1.getRowCount(); r++){
 
-                if (contatoTable1.getValueAt(r, 0) != "") {
+                if (contatoTable1.getValueAt(r, 0) != null) {
                     ContatosProfessor contatoTemp = new ContatosProfessor();
 
                     contatoTemp.setProfessor(professorT);
@@ -570,27 +504,23 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println("\nPASSOU CONTATOS\n");
 
-            
             //Pegar lista turma
             List<Turma> listaTurma = new ArrayList<>();
-            for (int r=0; r<turmaTable1.getRowCount(); r++){
-                
+            for (int r=0; r<=turmaTable1.getRowCount(); r++){
 
-                if (turmaTable1.getValueAt(r, 0) != "") {
+                if (turmaTable1.getValueAt(r, 0) != null) {
                     Turma turmaTemp = new Turma();
-                    System.out.println("\nTURMA: " + turmaTable1.getValueAt(r, 0));
-                    
+
                     String jpqlTurma = """
                     SELECT t
                     FROM Turma t
                     WHERE t.nome = :turmaNome AND deleted = false
                     """;
                     try {
-                        turmaTemp = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaTable1.getValueAt(r, 0)).getSingleResult();
+                        turmaTemp = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaTable1.getValueAt(r, 0).toString()).getSingleResult();
                     }
-                    catch (Exception e){
+                    catch (EntityNotFoundException e){
                         JOptionPane.showMessageDialog(this, "Turma não encontrada!");
                         e.printStackTrace();
                     }
@@ -599,19 +529,14 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println("\nPASSOU TURMA\n");
-            
-            
 
-            LocalDate nascimentoT = LocalDate.parse(nascimentoField1.getText());
-            LocalDate admissaoT = LocalDate.parse(admissaoField1.getText());
+            LocalDate nascimentoT = LocalDate.parse(nascimentoField1.getText().toString());
+            LocalDate admissaoT = LocalDate.parse(admissaoField1.getText().toString());
 
-            System.out.println("n\n\n\nENTROU ATUALIZAR PROFESSOR\n\n\n\n");
-            secretario.atualizarProfessor(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
-                nascimentoT, enderecoField1.getText(), formacaoField1.getText(), registrosField1.getText(), admissaoT, poloField1.getText(), 
-                Integer.getInteger(salarioField1.getText()), listaTurma, listaEspecialidade, listaContato);
-            System.out.println("\n\n\nSAIU ATUALIZAR PROFESSOR\n\n\n");
-            
+            secretario.cadastrarProfessor(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
+                nascimentoT, enderecoField1.getText(), formacaoField1.getText(), registrosField1.getText(),
+                admissaoT, Integer.getInteger(salarioField1.getText()), listaTurma);
+
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
@@ -688,8 +613,7 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
 
     private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
         // TODO add your handling code here:
-        
-        this.dispose();
+
         if(salaCombo.getSelectedIndex() == 0){
             new RegistrarSalaSecretario().setVisible(true);
 
@@ -704,125 +628,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salaComboEvent
 
-    private void pesquisaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pesquisaFieldActionPerformed
-
-    private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
-        // TODO add your handling code here:
-        SecretarioController secretario = new SecretarioController();
-        EntityManager em = JPAUtil.getEntityManager();
-        System.out.println("\nPROFESSOR: " + pesquisaField.getText() + "\n");
-
-        if (!pesquisaField.getText().contentEquals("")) {
-            try {
-                String jpqlCurso = """
-                SELECT p
-                FROM Professor p
-                WHERE p.curso.nome = :cursoNome AND p.deleted = false
-                ORDER BY p.nome
-                """;
-                List<Professor> professores = em.createQuery(jpqlCurso,Professor.class).setParameter("cursoNome", pesquisaField.getText().toUpperCase()).getResultList();
-
-                for (Professor p : professores){
-                    cursoBox.addItem(p.getNome());
-                }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Dados inválidos!");
-            }
-        } else {
-            System.out.println("\n\nENTROU ELSE\n\n");
-            JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todos professores serão disponibilizados!");
-            String jpqlCurso = """
-            SELECT p
-            FROM Professor p
-            WHERE p.deleted = false
-            ORDER BY p.nome
-            """;
-            List<Professor> professores = em.createQuery(jpqlCurso, Professor.class).getResultList();
-            
-            System.out.println("\n\nPASSOU QUERY\n\n");
-
-            for (Professor p : professores){
-                cursoBox.addItem(p.getNome());
-            }
-
-        }
-    }//GEN-LAST:event_filtrarButtonActionPerformed
-
-    private void cursoBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursoBoxalunoActionEvent
-        // TODO add your handling code here:
-        EntityManager em = JPAUtil.getEntityManager();
-
-        String jpqlCurso = """
-        SELECT p
-        FROM Professor p
-        WHERE p.nome = :nomeProfessor AND p.deleted = false
-        """;
-        String cursoSelecionado = cursoBox.getSelectedItem().toString();
-        Professor p = em.createQuery(jpqlCurso, Professor.class).setParameter("nomeProfessor",cursoSelecionado).getSingleResult();
-
-        
-        nomeField1.setText(p.getNome());
-        cpfField1.setText(p.getCpf());
-        rgField1.setText(p.getRg());
-        
-        nascimentoField1.setText(p.getNascimento().toString());
-        formacaoField1.setText(p.getFormacao());
-        poloField1.setText(p.getPolo());
-        
-        enderecoField1.setText(p.getEndereco());
-        salarioField1.setText(String.valueOf(p.getSalario()));
-        registrosField1.setText(p.getRegistros());
-        
-        admissaoField1.setText(p.getDataAdmissao().toString());
-        loginField1.setText(p.getUsuario().getLogin());
-        senhaField1.setText(p.getUsuario().getSenha());
-        
-        //Tabela Contato
-        DefaultTableModel modelC = (DefaultTableModel) contatoTable1.getModel();
-        modelC.setRowCount(0);
-        for (ContatosProfessor c : p.getContatos()){
-            modelC.addRow(new Object[]{
-                c.getContato()
-            });
-        }
-        modelC.addRow(new Object[]{""});
-
-        
-        
-        //Tabela Especialidade
-        DefaultTableModel modelM = (DefaultTableModel) especialidadeTable1.getModel();
-        modelM.setRowCount(0);
-        for (EspecialidadesProfessor ep : p.getEspecialidades()){
-
-            modelM.addRow(new Object[]{
-                ep.getEspecialidade()
-            });
-
-        }
-        modelM.addRow(new Object[]{""});
-        
-        //Tabela Turma
-        DefaultTableModel modelT = (DefaultTableModel) turmaTable1.getModel();
-        modelT.setRowCount(0);
-        for (Turma t : p.getTurmas()){
-
-            modelT.addRow(new Object[]{
-                t.getNome()
-            });
-
-        }
-        modelT.addRow(new Object[]{""});
-        
-        
-        
-        
-    }//GEN-LAST:event_cursoBoxalunoActionEvent
-
-  
-    
     /**
      * @param args the command line arguments
      */
@@ -845,7 +650,7 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AtualizarProfessorSecretario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new RegistrarDisciplinaCoordenador().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -853,11 +658,9 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> alunoCombo;
     private javax.swing.JTable contatoTable1;
     private javax.swing.JTextField cpfField1;
-    private javax.swing.JComboBox<String> cursoBox;
     private javax.swing.JComboBox<String> cursoCombo;
     private javax.swing.JTextField enderecoField1;
     private javax.swing.JTable especialidadeTable1;
-    private javax.swing.JButton filtrarButton;
     private javax.swing.JTextField formacaoField1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -872,8 +675,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane3;
@@ -883,7 +684,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
     private javax.swing.JPanel menu;
     private javax.swing.JTextField nascimentoField1;
     private javax.swing.JTextField nomeField1;
-    private javax.swing.JTextField pesquisaField;
     private javax.swing.JTextField poloField1;
     private javax.swing.JComboBox<String> professorCombo;
     private javax.swing.JTextField registrosField1;
@@ -893,7 +693,6 @@ public class AtualizarProfessorSecretario extends javax.swing.JFrame {
     private javax.swing.JButton salvarButton1;
     private javax.swing.JTextField senhaField1;
     private javax.swing.JTextField senhaField2;
-    private javax.swing.JTextField senhaField3;
     private javax.swing.JComboBox<String> turmaCombo;
     private javax.swing.JTable turmaTable1;
     // End of variables declaration//GEN-END:variables

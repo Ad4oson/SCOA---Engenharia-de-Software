@@ -58,6 +58,8 @@
 
 - COLOCAR LOGIN NAS COLUNAS DE ENTIDADES
 
+----------- GRAVE GRAVE GRAVE: alterar sql em SALVAR BUTTON, na GUI colocar campo ID não-editavel para referencia permanente
+
 -CREATE TABLE Curso (
 id serial,
 nome varchar(50) not null,

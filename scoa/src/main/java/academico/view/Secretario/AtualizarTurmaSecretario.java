@@ -7,14 +7,18 @@ package academico.view.Secretario;
 import academico.controller.SecretarioController;
 import academico.model.Aluno;
 import academico.model.Disciplina;
+import academico.model.DocumentosAluno;
 import academico.model.JPAUtil;
+import academico.model.Professor;
 import academico.model.Sala;
+import academico.model.Turma;
 import academico.model.TurnoType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -57,6 +61,14 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
         turnoCombo = new javax.swing.JComboBox<>();
         nomeField = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
+        pesquisaField = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        filtrarButton = new javax.swing.JButton();
+        turmaBox = new javax.swing.JComboBox<>();
+        idField = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        matriculaTable = new javax.swing.JTable();
         menu = new javax.swing.JPanel();
         alunoCombo = new javax.swing.JComboBox<>();
         professorCombo = new javax.swing.JComboBox<>();
@@ -112,81 +124,256 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel17.setText("Nome:");
 
+        pesquisaField.addActionListener(this::pesquisaFieldActionPerformed);
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel27.setText("Digite Curso:");
+
+        filtrarButton.setText("Filtrar");
+        filtrarButton.addActionListener(this::filtrarButtonActionPerformed);
+
+        turmaBox.setMaximumRowCount(10);
+        turmaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
+        turmaBox.addActionListener(this::turmaBoxalunoActionEvent);
+
+        idField.setFocusable(false);
+        idField.setRequestFocusEnabled(false);
+        idField.addActionListener(this::idFieldActionPerformed);
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel18.setText("Id:");
+
+        matriculaTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        matriculaTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Matrícula"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        matriculaTable.setMaximumSize(new java.awt.Dimension(10000, 2000));
+        jScrollPane2.setViewportView(matriculaTable);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(salaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(professorField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(horarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(vagasField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(disciplinaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(turnoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(salvarButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(turmaBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(filtrarButton))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel16)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(salaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel23)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(professorField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel17)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel15)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(horarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel18)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(disciplinaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(salvarButton1)
+                                .addGap(38, 38, 38))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(turnoCombo, javax.swing.GroupLayout.Alignment.TRAILING, 0, 275, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(vagasField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(professorField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(salaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(turnoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14))
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(vagasField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel25)))
-                        .addGap(29, 29, 29)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(professorField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel23))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(salaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(157, 157, 157)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(horarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filtrarButton)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(turmaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(disciplinaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel26))
-                        .addGap(93, 93, 93)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(horarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(salvarButton1))
-                .addGap(510, 510, 510))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(turnoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14))
+                        .addGap(45, 45, 45)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 126, Short.MAX_VALUE)))
+                .addComponent(salvarButton1)
+                .addGap(41, 41, 41))
         );
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
@@ -292,29 +479,80 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
 
         try {
 
-            List<Aluno> listaAluno = new ArrayList<>();
+           
+            //Pegar lista aluno
+            List<String> listaAlunoT = new ArrayList<>();
+            for (int r=0; r<matriculaTable.getRowCount(); r++){
 
+                if (matriculaTable.getValueAt(r,0)!= null) {
+                
+                    String alunoT;
+                    alunoT = matriculaTable.getValueAt(r,0).toString();
+                    listaAlunoT.add(alunoT);
+                }
+
+            }
+            System.out.println("PASSOU ALUNO");
+            
+            
             //Pegar Sala
-            String jpqlSala = """
-            SELECT s
-            FROM sala s
-            WHERE s.local = :salaLocal AND deleted = false
-            """;
-            Sala salaT = em.createQuery(jpqlSala,Sala.class).setParameter("salaLocal",salaField.getText()).getSingleResult();
+            Sala salaT = new Sala();
+            try {
+                if (salaField.getText()!= null){
+                    String jpqlSala = """
+                    SELECT s
+                    FROM Sala s
+                    WHERE s.local = :salaLocal AND s.deleted = false
+                    """;
+                    salaT = em.createQuery(jpqlSala,Sala.class).setParameter("salaLocal",salaField.getText().toString()).getSingleResult();
+                }
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(this, "Turma sem sala!");
+                
+            }
+            System.out.println("PASSOU SALA");
 
             //Pegar Disciplina
-            String jpqlDisciplina = """
-            SELECT d
-            FROM disciplina d
-            WHERE d.nome = :disciplinaNome AND deleted = false
-            """;
-            Disciplina disciplinaT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaField.getText()).getSingleResult();
-
-            Integer vagasT = Integer.parseInt(vagasField.getText().toString());
-            LocalTime horarioT = LocalTime.parse(horarioField.getText().toString());
+            Disciplina disciplinaT = new Disciplina();
+            try {
+                if (disciplinaField.getText()!= null){
+                    String jpqlDisciplina = """
+                    SELECT d
+                    FROM Disciplina d
+                    WHERE d.nome = :disciplinaNome AND d.deleted = false
+                    """;
+                    disciplinaT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaField.getText()).getSingleResult();
+                }
+            }
+            catch (Exception e){
+                JOptionPane.showMessageDialog(this, "Turma sem disciplina!");
+            }
+            
+            
+            //Pegar Professor
+            Professor professorT = new Professor();
+            try {
+                if (professorField.getText()!= null){
+                    String jpqlProfessor = """
+                                           SELECT p
+                                           FROM Professor p
+                                           WHERE p.cpf = :professorCpf AND p.deleted = false
+                                           """;
+                    professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("professorCpf", professorField.getText()).getSingleResult();
+                }
+            }
+            catch (Exception e){
+                JOptionPane.showMessageDialog(this, "Turma sem professor!");
+            }
+            
+            
+            Integer vagasT = Integer.parseInt(vagasField.getText());
+            Integer turmaId = Integer.parseInt(idField.getText());
+            LocalTime horarioT = LocalTime.parse(horarioField.getText());
             TurnoType turnoT = TurnoType.valueOf(turnoCombo.getSelectedItem().toString().toUpperCase());
+            
 
-            secretario.cadastrarTurma(em, nomeField.getText(), horarioT, vagasT, turnoT, salaT, disciplinaT, null);
+            secretario.atualizarTurma(em, nomeField.getText(), horarioT, vagasT, turnoT, salaT, disciplinaT, professorT, listaAlunoT, turmaId);
 
         }
         catch (Exception e ){
@@ -400,7 +638,7 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
 
     private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
         // TODO add your handling code here:
-
+        this.dispose();
         if(salaCombo.getSelectedIndex() == 0){
             new RegistrarSalaSecretario().setVisible(true);
 
@@ -414,6 +652,91 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_salaComboEvent
+
+    private void pesquisaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisaFieldActionPerformed
+
+    private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
+        // TODO add your handling code here:
+        SecretarioController secretario = new SecretarioController();
+        EntityManager em = JPAUtil.getEntityManager();
+        System.out.println("\nCURSO: " + pesquisaField.getText() + "\n");
+
+        if (!pesquisaField.getText().contentEquals("")) {
+            try {
+                String jpqlTurma = """
+                SELECT t
+                FROM Turma
+                WHERE t.curso.nome = :cursoNome AND t.deleted = false
+                ORDER BY t.nome
+                """;
+                List<Turma> turmas = em.createQuery(jpqlTurma,Turma.class).setParameter("turmaNome", pesquisaField.getText().toUpperCase()).getResultList();
+
+                for (Turma t : turmas){
+                    turmaBox.addItem(t.getNome());
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            }
+        } else {
+            System.out.println("\n\nENTROU ELSE\n\n");
+            JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todas turmas serão disponibilizadas!");
+
+            List<Turma> turmas = secretario.consultarTurmas(em, null);
+
+            System.out.println("\n\nPASSOU QUERY\n\n");
+
+            for (Turma t : turmas){
+                turmaBox.addItem(t.getNome());
+            }
+
+        }
+    }//GEN-LAST:event_filtrarButtonActionPerformed
+
+    private void turmaBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turmaBoxalunoActionEvent
+        // TODO add your handling code here:
+        EntityManager em = JPAUtil.getEntityManager();
+        SecretarioController secretario = new SecretarioController();
+
+        Turma t = secretario.consultarTurmas(em, turmaBox.getSelectedItem().toString()).get(0);
+
+        System.out.println("\nINICIOU FIELD\n");
+        
+        idField.setText(String.valueOf(t.getId()));
+        if (t.getNome()!= null) nomeField.setText(t.getNome());
+        if (t.getNumerovagas( )!= null) vagasField.setText(String.valueOf(t.getNumerovagas()));
+        if (t.getSala( )!= null) salaField.setText(t.getSala().getLocal());
+        horarioField.setText(String.valueOf(t.getHorario()));
+        if (t.getProfessor( )!= null) professorField.setText(t.getProfessor().getCpf());
+        if (t.getDisciplina( )!= null) disciplinaField.setText(t.getDisciplina().getNome());
+        
+        
+        DefaultTableModel modelM = (DefaultTableModel) matriculaTable.getModel();
+        modelM.setRowCount(0);
+        for (Aluno a : t.getAlunos()){
+            modelM.addRow(new Object[]{
+                a.getMatricula()
+            });
+        }
+        modelM.addRow(new Object[]{""});
+        
+        
+        switch (t.getTurno().toString()){
+            case "MATUTINO" -> turnoCombo.setSelectedIndex(0);
+            case "VESPERTINO" -> turnoCombo.setSelectedIndex(1);
+            case "NOTURNO" -> turnoCombo.setSelectedIndex(2);
+            case "INTEGRAL" -> turnoCombo.setSelectedIndex(3);
+        }
+        
+        System.out.println("\nTERMINOU FIELD\n");
+
+    }//GEN-LAST:event_turmaBoxalunoActionEvent
+
+    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -444,23 +767,31 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> alunoCombo;
     private javax.swing.JComboBox<String> cursoCombo;
     private javax.swing.JTextField disciplinaField;
+    private javax.swing.JButton filtrarButton;
     private javax.swing.JTextField horarioField;
+    private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable matriculaTable;
     private javax.swing.JPanel menu;
     private javax.swing.JTextField nomeField;
+    private javax.swing.JTextField pesquisaField;
     private javax.swing.JComboBox<String> professorCombo;
     private javax.swing.JTextField professorField;
     private javax.swing.JComboBox<String> salaCombo;
     private javax.swing.JTextField salaField;
     private javax.swing.JButton salvarButton1;
+    private javax.swing.JComboBox<String> turmaBox;
     private javax.swing.JComboBox<String> turmaCombo;
     private javax.swing.JComboBox<String> turnoCombo;
     private javax.swing.JTextField vagasField;

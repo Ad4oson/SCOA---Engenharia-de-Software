@@ -170,12 +170,13 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addGap(30, 30, 30))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(vagasField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(vagasField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel25)))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(disciplinaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,7 +297,7 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
             //Pegar Sala
             String jpqlSala = """
                               SELECT s
-                              FROM sala s
+                              FROM Sala s
                               WHERE s.local = :salaLocal AND deleted = false
                               """;
             Sala salaT = em.createQuery(jpqlSala,Sala.class).setParameter("salaLocal",salaField.getText()).getSingleResult();
@@ -304,7 +305,7 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
             //Pegar Disciplina
             String jpqlDisciplina = """
                                     SELECT d
-                                    FROM disciplina d
+                                    FROM Disciplina d
                                     WHERE d.nome = :disciplinaNome AND deleted = false
                                     """;
             Disciplina disciplinaT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaField.getText()).getSingleResult();

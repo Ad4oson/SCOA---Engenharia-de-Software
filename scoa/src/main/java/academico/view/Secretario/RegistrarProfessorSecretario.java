@@ -526,7 +526,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
                     
                     String jpqlTurma = """
                                        SELECT t
-                                       FROM turma t
+                                       FROM Turma t
                                        WHERE t.nome = :turmaNome AND deleted = false
                                        """;
                     try {

@@ -19,7 +19,7 @@ public class Sala {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String local;
-    private int capacidade;
+    private Integer capacidade;
     private LocalDateTime created_at;
     private boolean deleted;
     
@@ -44,11 +44,11 @@ public class Sala {
         this.local = local;
     }
 
-    public int getCapacidade() {
+    public Integer getCapacidade() {
         return capacidade;
     }
 
-    public void setCapacidade(int capacidade) {
+    public void setCapacidade(Integer capacidade) {
         this.capacidade = capacidade;
     }
 

@@ -5,13 +5,18 @@
 package academico.view.Secretario;
 
 import academico.controller.SecretarioController;
+import academico.model.ContatosProfessor;
+import academico.model.EspecialidadesProfessor;
 import academico.model.JPAUtil;
+import academico.model.Professor;
+import academico.model.Sala;
 import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -49,7 +54,9 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
         pesquisaField = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         filtrarButton = new javax.swing.JButton();
-        cursoBox = new javax.swing.JComboBox<>();
+        salaBox = new javax.swing.JComboBox<>();
+        idField = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
         menu = new javax.swing.JPanel();
         alunoCombo = new javax.swing.JComboBox<>();
         professorCombo = new javax.swing.JComboBox<>();
@@ -112,14 +119,21 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
         pesquisaField.addActionListener(this::pesquisaFieldActionPerformed);
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel27.setText("Digite Curso:");
+        jLabel27.setText("Digite Turma:");
 
         filtrarButton.setText("Filtrar");
         filtrarButton.addActionListener(this::filtrarButtonActionPerformed);
 
-        cursoBox.setMaximumRowCount(10);
-        cursoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
-        cursoBox.addActionListener(this::cursoBoxalunoActionEvent);
+        salaBox.setMaximumRowCount(10);
+        salaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
+        salaBox.addActionListener(this::salaBoxalunoActionEvent);
+
+        idField.setFocusable(false);
+        idField.setRequestFocusEnabled(false);
+        idField.addActionListener(this::idFieldActionPerformed);
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel16.setText("Id:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -138,15 +152,21 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
                                 .addComponent(salvarButton1))
                             .addComponent(capacidadeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(localField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(localField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(64, 64, 64)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cursoBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(salaBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(filtrarButton)
@@ -155,7 +175,11 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(59, 59, 59)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -172,12 +196,12 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
                             .addComponent(filtrarButton)
                             .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
-                        .addComponent(cursoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(salaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(salvarButton1))
-                .addContainerGap(399, Short.MAX_VALUE))
+                .addGap(347, 347, 347))
         );
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
@@ -277,14 +301,15 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
 
             //Pegar lista turma
             List<Turma> listaTurma = new ArrayList<>();
-            for (int r=0; r<=turmaTable.getRowCount(); r++){
+            System.out.println("\nENTRANDO TURMA TABLE\n");
+            for (int r=0; r<turmaTable.getRowCount(); r++){
 
-                if (turmaTable.getValueAt(r, 0) != null) {
+                if (turmaTable.getValueAt(r, 0) != "") {
                     Turma turmaTemp = new Turma();
 
                     String jpqlTurma = """
                     SELECT t
-                    FROM turma t
+                    FROM Turma t
                     WHERE t.nome = :turmaNome AND deleted = false
                     """;
                     try {
@@ -300,9 +325,11 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
 
             }
 
-            Integer capacidadeT = Integer.parseInt(capacidadeField.getText().toString());
-
-            secretario.cadastrarSala(em, localField.getText(),capacidadeT, listaTurma);
+            Integer capacidadeT = Integer.parseInt(capacidadeField.getText());
+            
+            
+            System.out.println("\nENTRANDO ATUALIZAR SALA, ID: " + idField.getText());
+            secretario.atualizarSala(em, Integer.parseInt(idField.getText()), localField.getText(),capacidadeT, listaTurma);
 
         }
         catch (Exception e ){
@@ -380,7 +407,8 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
 
     private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
         // TODO add your handling code here:
-
+        
+        this.dispose();
         if(salaCombo.getSelectedIndex() == 0){
             new RegistrarSalaSecretario().setVisible(true);
 
@@ -407,16 +435,16 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
 
         if (!pesquisaField.getText().contentEquals("")) {
             try {
-                String jpqlCurso = """
-                SELECT p
-                FROM Professor p
-                WHERE p.curso.nome = :cursoNome AND p.deleted = false
-                ORDER BY p.nome
+                String jpqlSala = """
+                SELECT s
+                FROM Sala s
+                WHERE s.turma.nome = :turmaNome AND s.deleted = false
+                ORDER BY s.local
                 """;
-                List<Professor> professores = em.createQuery(jpqlCurso,Professor.class).setParameter("cursoNome", pesquisaField.getText().toUpperCase()).getResultList();
+                List<Sala> salas = em.createQuery(jpqlSala,Sala.class).setParameter("turmaNome", pesquisaField.getText().toUpperCase()).getResultList();
 
-                for (Professor p : professores){
-                    cursoBox.addItem(p.getNome());
+                for (Sala s : salas){
+                    salaBox.addItem(s.getLocal());
                 }
 
             } catch (Exception e) {
@@ -424,78 +452,36 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
             }
         } else {
             System.out.println("\n\nENTROU ELSE\n\n");
-            JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todos professores serão disponibilizados!");
-            String jpqlCurso = """
-            SELECT p
-            FROM Professor p
-            WHERE p.deleted = false
-            ORDER BY p.nome
-            """;
-            List<Professor> professores = em.createQuery(jpqlCurso, Professor.class).getResultList();
+            JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todas salas serão disponibilizadas!");
+
+            List<Sala> salas = secretario.consultarSalas(em, null);
 
             System.out.println("\n\nPASSOU QUERY\n\n");
 
-            for (Professor p : professores){
-                cursoBox.addItem(p.getNome());
+            for (Sala s : salas){
+                salaBox.addItem(s.getLocal());
             }
 
         }
     }//GEN-LAST:event_filtrarButtonActionPerformed
 
-    private void cursoBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cursoBoxalunoActionEvent
+    private void salaBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaBoxalunoActionEvent
         // TODO add your handling code here:
         EntityManager em = JPAUtil.getEntityManager();
+        SecretarioController secretario = new SecretarioController();
 
-        String jpqlCurso = """
-        SELECT p
-        FROM Professor p
-        WHERE p.nome = :nomeProfessor AND p.deleted = false
-        """;
-        String cursoSelecionado = cursoBox.getSelectedItem().toString();
-        Professor p = em.createQuery(jpqlCurso, Professor.class).setParameter("nomeProfessor",cursoSelecionado).getSingleResult();
-
-        nomeField1.setText(p.getNome());
-        cpfField1.setText(p.getCpf());
-        rgField1.setText(p.getRg());
-
-        nascimentoField1.setText(p.getNascimento().toString());
-        formacaoField1.setText(p.getFormacao());
-        poloField1.setText(p.getPolo());
-
-        enderecoField1.setText(p.getEndereco());
-        salarioField1.setText(String.valueOf(p.getSalario()));
-        registrosField1.setText(p.getRegistros());
-
-        admissaoField1.setText(p.getDataAdmissao().toString());
-        loginField1.setText(p.getUsuario().getLogin());
-        senhaField1.setText(p.getUsuario().getSenha());
-
-        //Tabela Contato
-        DefaultTableModel modelC = (DefaultTableModel) contatoTable1.getModel();
-        modelC.setRowCount(0);
-        for (ContatosProfessor c : p.getContatos()){
-            modelC.addRow(new Object[]{
-                c.getContato()
-            });
-        }
-        modelC.addRow(new Object[]{""});
-
-        //Tabela Especialidade
-        DefaultTableModel modelM = (DefaultTableModel) especialidadeTable1.getModel();
-        modelM.setRowCount(0);
-        for (EspecialidadesProfessor ep : p.getEspecialidades()){
-
-            modelM.addRow(new Object[]{
-                ep.getEspecialidade()
-            });
-
-        }
-        modelM.addRow(new Object[]{""});
+        Sala s = secretario.consultarSalas(em, salaBox.getSelectedItem().toString()).get(0);
+        
+        System.out.println("\nINICIOU FIELD\n");
+        localField.setText(s.getLocal());
+        capacidadeField.setText(String.valueOf(s.getCapacidade()));
+        idField.setText(String.valueOf(s.getId()));
+        System.out.println("\nTERMINOU FIELD\n");
 
         //Tabela Turma
-        DefaultTableModel modelT = (DefaultTableModel) turmaTable1.getModel();
+        DefaultTableModel modelT = (DefaultTableModel) turmaTable.getModel();
         modelT.setRowCount(0);
-        for (Turma t : p.getTurmas()){
+        for (Turma t : s.getTurmas()){
 
             modelT.addRow(new Object[]{
                 t.getNome()
@@ -504,7 +490,11 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
         }
         modelT.addRow(new Object[]{""});
 
-    }//GEN-LAST:event_cursoBoxalunoActionEvent
+    }//GEN-LAST:event_salaBoxalunoActionEvent
+
+    private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -534,11 +524,12 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> alunoCombo;
     private javax.swing.JTextField capacidadeField;
-    private javax.swing.JComboBox<String> cursoBox;
     private javax.swing.JComboBox<String> cursoCombo;
     private javax.swing.JButton filtrarButton;
+    private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -547,6 +538,7 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
     private javax.swing.JPanel menu;
     private javax.swing.JTextField pesquisaField;
     private javax.swing.JComboBox<String> professorCombo;
+    private javax.swing.JComboBox<String> salaBox;
     private javax.swing.JComboBox<String> salaCombo;
     private javax.swing.JButton salvarButton1;
     private javax.swing.JComboBox<String> turmaCombo;
