@@ -136,7 +136,7 @@ public class CoordenadorController {
 
 
     public void atualizarDisciplina(EntityManager em, int disciplinaId, String nome, String ementa, Integer carga_horaria, Integer creditos,
-            String bibliografia, String disciplinaPreNome, List<Integer> cursosId, List<Integer> turmasId) {
+            String bibliografia, Disciplina disciplinaPre, List<String> cursos, List<String> turmas) {
         
         EntityTransaction tx = em.getTransaction();
 
@@ -151,34 +151,49 @@ public class CoordenadorController {
             if (creditos != null) disciplina.setCreditos(creditos);
             if (bibliografia != null) disciplina.setBibliografia(bibliografia);
 
-            if (disciplinaPreNome != null){
+            //Disciplina pre
+            if (disciplinaPre != null) disciplina.setDisciplinapre(disciplinaPre);
+            
 
-                String jpql = "SELECT d FROM Disciplina d WHERE d.nome = :nome AND d.deleted = false";
-                
-                Disciplina disciplina_pre = em.createQuery(jpql, Disciplina.class)
-                    .setParameter("nome", disciplinaPreNome)
-                    .getSingleResult();
+            //Lista cursos
+            if (cursos != null){
+                ArrayList<Curso> cursosT = new ArrayList<>();
+                for (String cursoNome : cursos){
 
-                disciplina.setDisciplinapre(disciplina_pre);
-            }
-
-            if (cursosId != null){
-                ArrayList<Curso> cursos = new ArrayList<>();
-                for (Integer id : cursosId){
-                    Curso curso = em.find(Curso.class, id);
-                    cursos.add(curso);
+                    String jpqlCurso = """
+                            SELECT c
+                            FROM Curso c
+                            WHERE c.nome = :cursoNome AND c.deleted = false
+                            """;
+                    try {
+                        Curso curso = em.createQuery(jpqlCurso, Curso.class).setParameter("cursoNome", cursoNome).getSingleResult();
+                        cursosT.add(curso);
+                    }
+                    catch (Exception e){
+                        System.out.println("\nCURSO INVÁLIDO/INEXISTENTE\n");
+                        e.printStackTrace();
+                    }
+                    
                 }
-                disciplina.setCursos(cursos);
+                disciplina.setCursos(cursosT);
             }
 
-            if (turmasId != null){
-                ArrayList<Turma> turmas = new ArrayList<>();
-                for (Integer id : turmasId){
-                    Turma turma = em.find(Turma.class, id);
+            //Lista turmas
+            if (turmas != null){
+                ArrayList<Turma> turmasT = new ArrayList<>();
+                for (String turmaNome : turmas){
+
+                    String jpqlTurma = """
+                            SELECT t
+                            FROM Turma t
+                            WHERE t.nome = :turmaNome AND t.deleted = false
+                            """;
+
+                    Turma turma = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaNome).getSingleResult();
                     turma.setDisciplina(disciplina);
-                    turmas.add(turma);
+                    turmasT.add(turma);
                 }
-                disciplina.setTurmas(turmas);
+                disciplina.setTurmas(turmasT);
             }
 
 

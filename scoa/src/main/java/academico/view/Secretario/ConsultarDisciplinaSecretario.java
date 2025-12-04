@@ -5,11 +5,14 @@
 package academico.view.Secretario;
 
 import academico.controller.SecretarioController;
+import academico.model.Curso;
 import academico.model.Disciplina;
 import academico.model.JPAUtil;
+import academico.model.Turma;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -167,6 +170,7 @@ public class ConsultarDisciplinaSecretario extends javax.swing.JFrame {
 
         disciplinaBox.setMaximumRowCount(10);
         disciplinaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
+        disciplinaBox.addActionListener(this::disciplinaBoxActionPerformed);
 
         idField.addActionListener(this::idFieldActionPerformed);
 
@@ -508,6 +512,53 @@ public class ConsultarDisciplinaSecretario extends javax.swing.JFrame {
     private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idFieldActionPerformed
+
+    private void disciplinaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disciplinaBoxActionPerformed
+        // TODO add your handling code here:
+        
+        
+        EntityManager em = JPAUtil.getEntityManager();
+        SecretarioController secretario = new SecretarioController();
+
+        Disciplina d = secretario.consultarDisciplinas(em, disciplinaBox.getSelectedItem().toString()).get(0);
+
+        System.out.println("\nINICIOU FIELD\n");
+        
+        idField.setText(String.valueOf(d.getId()));
+        if (d.getNome()!= null) nomeField.setText(d.getNome());
+        if (d.getEmenta( )!= null) ementaText.setText(String.valueOf(d.getEmenta()));
+        if (d.getBibliografia( )!= null) bibliografiaText.setText(d.getBibliografia());
+        cargaField.setText(String.valueOf(d.getCargaHoraria()));
+        creditosField.setText(String.valueOf(d.getCreditos()));
+        if (d.getDisciplinapre( )!= null) disciplinaPreField.setText(d.getDisciplinapre().getNome());
+        
+        
+        if (d.getCursos()!= null){
+            DefaultTableModel modelC = (DefaultTableModel) cursoTable.getModel();
+            modelC.setRowCount(0);
+            for (Curso c : d.getCursos()){
+                modelC.addRow(new Object[]{
+                    c.getNome()
+                });
+            }
+            modelC.addRow(new Object[]{""});
+        
+        }
+        
+        if (d.getTurmas()!= null){
+            DefaultTableModel modelT = (DefaultTableModel) turmaTable.getModel();
+            modelT.setRowCount(0);
+            for (Turma t  : d.getTurmas()){
+                modelT.addRow(new Object[]{
+                    t.getNome()
+                });
+            }
+            modelT.addRow(new Object[]{""});
+            
+        }   
+        
+        
+    }//GEN-LAST:event_disciplinaBoxActionPerformed
 
     /**
      * @param args the command line arguments

@@ -11,6 +11,7 @@ import academico.model.JPAUtil;
 import academico.model.TipoUsuario;
 import academico.model.Usuario;
 import academico.view.Aluno.InicialAluno;
+import academico.view.Coordenador.InicialCoordenador;
 import academico.view.Secretario.InicialSecretario;
 import jakarta.persistence.EntityManager;
 import javax.swing.JOptionPane;
@@ -211,6 +212,10 @@ public class LoginView2 extends javax.swing.JFrame {
             case SECRETARIO -> {
                 this.dispose();
                 new InicialSecretario().setVisible(true);
+            }
+            case COORDENADOR -> {
+                this.dispose();
+                new InicialCoordenador().setVisible(true);
             }
         }
     }
