@@ -28,7 +28,7 @@ public class Disciplina {
     private int id;
     private String nome;
     private String ementa;
-    private Integer carga_horaria;
+    private Integer cargaHoraria;
     private Integer creditos;
     private String bibliografia;
 
@@ -80,12 +80,12 @@ public class Disciplina {
         this.ementa = ementa;
     }
 
-    public Integer getCarga_horaria() {
-        return carga_horaria;
+    public Integer getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public void setCarga_horaria(Integer carga_horaria) {
-        this.carga_horaria = carga_horaria;
+    public void setCargaHoraria(Integer cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
     public Integer getCreditos() {

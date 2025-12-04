@@ -4,6 +4,8 @@
  */
 package academico.view.Coordenador;
 
+import academico.view.Secretario.RegistrarDisciplinaSecretario;
+
 /**
  *
  * @author Windows 11
@@ -104,7 +106,7 @@ public class InicialCoordenador extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
         if(alunoCombo.getSelectedIndex() == 0){
-            new RegistrarDisciplinaCoordenador().setVisible(true);
+            new RegistrarDisciplinaSecretario().setVisible(true);
 
         }
         else if (alunoCombo.getSelectedIndex() == 1){

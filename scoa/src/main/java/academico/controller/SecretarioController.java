@@ -1156,4 +1156,127 @@ public class SecretarioController {
 
     //#endregion
 
+
+    //#region CR DISCIPLINA
+
+
+     public void cadastrarDisciplina(EntityManager em,
+        String nome,
+        String ementa,
+        Integer carga_horaria,
+        Integer creditos,
+        String bibliografia,
+        Disciplina disciplinaPre,
+        List<Curso> cursos,
+        List<Turma> turmas)
+    {
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Disciplina disciplinaNovo = new Disciplina();
+            System.out.println("entrou cadastro");
+
+            //seta lista curso
+            List<Curso> cursosT = new ArrayList<>();
+            if (cursos !=null){
+                try {
+                    for (Curso c: cursosT) {
+                        c.getDisciplinas().add(disciplinaNovo);
+                        em.merge(c);
+                    }
+
+                }
+                catch (EntityNotFoundException e1) {
+                    System.out.println("\nCurso não encontrado!\n");
+                    e1.printStackTrace();
+                    tx.rollback();
+                    return;
+                }
+            }
+
+            //seta lista turma
+            List<Turma> turmasT = new ArrayList<>();
+            if (turmas !=null){
+                try {
+                    for (Turma t : turmasT) {
+                        t.setDisciplina(disciplinaNovo);
+                        em.merge(t);
+                    }
+
+                }
+                catch (EntityNotFoundException e1) {
+                    System.out.println("\nTurma não encontrada!\n");
+                    e1.printStackTrace();
+                    tx.rollback();
+                    return;
+                }
+            }
+
+                        
+            //seta disciplina pre requisito
+            if (disciplinaPre != null) {
+                System.out.println("Entrou != null");
+                disciplinaNovo.setDisciplinapre(disciplinaPre);
+            }
+            else disciplinaNovo.setDisciplinapre(null);
+
+            disciplinaNovo.setNome(nome);
+            disciplinaNovo.setEmenta(ementa);
+            disciplinaNovo.setCargaHoraria(carga_horaria);
+            disciplinaNovo.setCreditos(creditos);
+            disciplinaNovo.setBibliografia(bibliografia);
+            disciplinaNovo.setCursos(cursosT);
+            disciplinaNovo.setTurmas(turmasT);
+
+            disciplinaNovo.setCreated_at(LocalDateTime.now());
+            disciplinaNovo.setDeleted(false);
+
+            em.persist(disciplinaNovo);
+
+            tx.commit();
+        }
+        catch(Exception e){
+            if(tx.isActive()) tx.rollback();
+            System.out.println("ERRO DENTRO DA CLASSE!");
+            
+            e.printStackTrace();
+        }
+
+
+    }
+    
+
+    public List<Disciplina> consultarDisciplinas(EntityManager em, String disciplina) {
+
+        if (disciplina != null){
+
+            String jpql = """
+                SELECT d
+                FROM Disciplina d
+                WHERE d.deleted = false AND d.nome = :disciplinaNome
+            """;
+
+            return em.createQuery(jpql, Disciplina.class).setParameter("disciplinaNome", disciplina).getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                SELECT d
+                FROM Disciplina d
+                WHERE d.deleted = false
+                ORDER BY d.nome
+            """;
+
+            return em.createQuery(jpql, Disciplina.class).getResultList();
+
+
+        }
+ 
+    }
+
+
+    //#endregion
+
 }

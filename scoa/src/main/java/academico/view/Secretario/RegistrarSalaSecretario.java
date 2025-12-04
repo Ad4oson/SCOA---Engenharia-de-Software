@@ -53,6 +53,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
         turmaCombo = new javax.swing.JComboBox<>();
         cursoCombo = new javax.swing.JComboBox<>();
         salaCombo = new javax.swing.JComboBox<>();
+        disciplinaCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,7 +128,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(localField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(613, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,6 +167,9 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
         salaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Sala", "Atualizar Sala", "Consultar Sala" }));
         salaCombo.addActionListener(this::salaComboEvent);
 
+        disciplinaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Disciplina", "Consultar Disciplinas" }));
+        disciplinaCombo.addActionListener(this::disciplinaComboEvent);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -181,16 +185,23 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
                 .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(disciplinaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(alunoCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(professorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(cursoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(alunoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(professorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(turmaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cursoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(disciplinaCombo)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -347,7 +358,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
 
     private void salaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaComboEvent
         // TODO add your handling code here:
-
+        this.dispose();
         if(salaCombo.getSelectedIndex() == 0){
             new RegistrarSalaSecretario().setVisible(true);
 
@@ -361,6 +372,21 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_salaComboEvent
+
+    private void disciplinaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disciplinaComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if (disciplinaCombo.getSelectedIndex() == 0){
+            this.dispose();
+            new RegistrarDisciplinaSecretario().setVisible(true);
+
+        }
+        else if (disciplinaCombo.getSelectedIndex() == 1){
+            this.dispose();
+            new ConsultarDisciplinaSecretario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_disciplinaComboEvent
 
     /**
      * @param args the command line arguments
@@ -391,6 +417,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> alunoCombo;
     private javax.swing.JTextField capacidadeField;
     private javax.swing.JComboBox<String> cursoCombo;
+    private javax.swing.JComboBox<String> disciplinaCombo;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JPanel jPanel1;

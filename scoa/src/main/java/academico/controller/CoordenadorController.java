@@ -81,7 +81,7 @@ public class CoordenadorController {
 
             disciplinaNovo.setNome(nome);
             disciplinaNovo.setEmenta(ementa);
-            disciplinaNovo.setCarga_horaria(carga_horaria);
+            disciplinaNovo.setCargaHoraria(carga_horaria);
             disciplinaNovo.setCreditos(creditos);
             disciplinaNovo.setBibliografia(bibliografia);
             disciplinaNovo.setCursos(cursosL);
@@ -147,7 +147,7 @@ public class CoordenadorController {
 
             if (nome != null) disciplina.setNome(nome);
             if (ementa != null) disciplina.setEmenta(ementa);
-            if (carga_horaria != null) disciplina.setCarga_horaria(carga_horaria);
+            if (carga_horaria != null) disciplina.setCargaHoraria(carga_horaria);
             if (creditos != null) disciplina.setCreditos(creditos);
             if (bibliografia != null) disciplina.setBibliografia(bibliografia);
 
