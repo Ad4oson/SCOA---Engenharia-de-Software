@@ -2,8 +2,6 @@ package academico.controller;
 
 import java.util.List;
 
-import academico.auth.Permissoes;
-import academico.auth.Sessao;
 import academico.model.Aluno;
 import academico.model.Feedback;
 import academico.model.FrequenciaAluno;
@@ -11,6 +9,8 @@ import academico.model.NotaAluno;
 import academico.model.Requisicao;
 import academico.model.TipoFeedback;
 import academico.model.TipoRequisicao;
+import auth.Permissoes;
+import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 

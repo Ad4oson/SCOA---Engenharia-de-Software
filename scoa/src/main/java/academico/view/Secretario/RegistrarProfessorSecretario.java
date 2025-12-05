@@ -4,13 +4,13 @@
  */
 package academico.view.Secretario;
 
-import academico.auth.Sessao;
 import academico.controller.SecretarioController;
 import academico.model.ContatosProfessor;
 import academico.model.EspecialidadesProfessor;
 import academico.model.JPAUtil;
 import academico.model.Professor;
 import academico.model.Turma;
+import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package academico.auth;
+package auth;
 
 public class Permissoes {
 

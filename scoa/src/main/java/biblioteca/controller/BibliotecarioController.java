@@ -20,22 +20,30 @@ public class BibliotecarioController {
 
     public void criarObra(String titulo, String autor, String tipomaterial, String editora, String anoPublicacao,
          String localizacao, statusObra status) {
-        em.getTransaction().begin();
-        Obra obra = new Obra();
         
-        if (titulo != null) obra.setTitulo(titulo);
-        if (autor != null) obra.setAutor(autor);
-        if (tipomaterial != null) obra.setTipomateria(tipomaterial);
-        if (editora != null) obra.setEditora(editora);
-        if (anoPublicacao != null) obra.setAnoPublicacao(anoPublicacao);
-        if (localizacao != null) obra.setLocalizacao(localizacao);
-        if (status != null) obra.setStatus(status);
-        
-        obra.setCreated_at(LocalDateTime.now());
-        obra.setDeleted(false);
+        try {
+            em.getTransaction().begin();
+            Obra obra = new Obra();
+            
+            if (titulo != null) obra.setTitulo(titulo);
+            if (autor != null) obra.setAutor(autor);
+            if (tipomaterial != null) obra.setTipomateria(tipomaterial);
+            if (editora != null) obra.setEditora(editora);
+            if (anoPublicacao != null) obra.setAnoPublicacao(anoPublicacao);
+            if (localizacao != null) obra.setLocalizacao(localizacao);
+            if (status != null) obra.setStatus(status);
+            
+            obra.setCreated_at(LocalDateTime.now());
+            obra.setDeleted(false);
 
-        em.persist(obra);
-        em.getTransaction().commit();
+            em.persist(obra);
+            em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        }
+
     }
 
 
@@ -76,6 +84,7 @@ public class BibliotecarioController {
          String localizacao, statusObra status, Boolean deleted) {
         em.getTransaction().begin();
 
+        try {
         Obra obraT = em.find(Obra.class, obraId);
 
         if (titulo != null) obraT.setTitulo(titulo);
@@ -87,9 +96,13 @@ public class BibliotecarioController {
         if (status != null) obraT.setStatus(status);
 
         if (deleted == true) obraT.setDeleted(true);
-    
         
         em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        }
     }
 
 
@@ -101,26 +114,34 @@ public class BibliotecarioController {
 
     public void criar(String nome, String cpf, String rg, LocalDate nascimento, String endereco, String email,
          String contato, String login, String senha) {
-        em.getTransaction().begin();
+        
+        try {
+            em.getTransaction().begin();
 
-        Bibliotecario bibliotecario = new Bibliotecario();
+            Bibliotecario bibliotecario = new Bibliotecario();
 
-        if (nome != null) bibliotecario.setNome(nome);
-        if (cpf != null) bibliotecario.setCpf(cpf);
-        if (rg != null) bibliotecario.setRg(rg);
-        if (nascimento != null) bibliotecario.setNascimento(nascimento);
-        if (endereco != null) bibliotecario.setEndereco(endereco);
-        if (email != null) bibliotecario.setEmail(email);
-        if (contato != null)bibliotecario.setContato(contato);
-        if (login != null) bibliotecario.setLogin(login);
-        if (senha != null) bibliotecario.setSenha(senha);
+            if (nome != null) bibliotecario.setNome(nome);
+            if (cpf != null) bibliotecario.setCpf(cpf);
+            if (rg != null) bibliotecario.setRg(rg);
+            if (nascimento != null) bibliotecario.setNascimento(nascimento);
+            if (endereco != null) bibliotecario.setEndereco(endereco);
+            if (email != null) bibliotecario.setEmail(email);
+            if (contato != null)bibliotecario.setContato(contato);
+            if (login != null) bibliotecario.setLogin(login);
+            if (senha != null) bibliotecario.setSenha(senha);
 
-        bibliotecario.setCreated_at(LocalDateTime.now());
-        bibliotecario.setDeleted(false);
+            bibliotecario.setCreated_at(LocalDateTime.now());
+            bibliotecario.setDeleted(false);
 
 
-        em.persist(bibliotecario);
-        em.getTransaction().commit();
+            em.persist(bibliotecario);
+            em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+
+        }
     }
 
     public List<Bibliotecario> buscarBibliotecario(String cpf) {
@@ -158,24 +179,30 @@ public class BibliotecarioController {
 
     public void atualizarBibliotecario(Integer bibliotecarioId, String nome, String cpf, String rg, LocalDate nascimento, 
         String endereco, String email, String contato, String login, String senha, Boolean deleted) {
-        em.getTransaction().begin();
         
-        Bibliotecario bibliotecario = em.find(Bibliotecario.class, bibliotecarioId);
-        
-        if (nome != null) bibliotecario.setNome(nome);
-        if (cpf != null) bibliotecario.setCpf(cpf);
-        if (rg != null) bibliotecario.setRg(rg);
-        if (nascimento != null) bibliotecario.setNascimento(nascimento);
-        if (endereco != null) bibliotecario.setEndereco(endereco);
-        if (email != null) bibliotecario.setEmail(email);
-        if (contato != null)bibliotecario.setContato(contato);
-        if (login != null) bibliotecario.setLogin(login);
-        if (senha != null) bibliotecario.setSenha(senha);
+        try {
+            em.getTransaction().begin();
+            
+            Bibliotecario bibliotecario = em.find(Bibliotecario.class, bibliotecarioId);
+            
+            if (nome != null) bibliotecario.setNome(nome);
+            if (cpf != null) bibliotecario.setCpf(cpf);
+            if (rg != null) bibliotecario.setRg(rg);
+            if (nascimento != null) bibliotecario.setNascimento(nascimento);
+            if (endereco != null) bibliotecario.setEndereco(endereco);
+            if (email != null) bibliotecario.setEmail(email);
+            if (contato != null)bibliotecario.setContato(contato);
+            if (login != null) bibliotecario.setLogin(login);
+            if (senha != null) bibliotecario.setSenha(senha);
 
-        if(deleted == true) bibliotecario.setDeleted(true);
-
-        
-        em.getTransaction().commit();
+            if(deleted == true) bibliotecario.setDeleted(true);
+            
+            em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        }
     }
 
 

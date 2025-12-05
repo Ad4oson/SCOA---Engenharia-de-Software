@@ -5,14 +5,14 @@
 package academico.view;
 
 import academico.view.Professor.InicialProfessor;
-import academico.auth.Autenticacao;
-import academico.auth.Sessao;
 import academico.model.JPAUtil;
 import academico.model.TipoUsuario;
 import academico.model.Usuario;
 import academico.view.Aluno.InicialAluno;
 import academico.view.Coordenador.InicialCoordenador;
 import academico.view.Secretario.InicialSecretario;
+import auth.Autenticacao;
+import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import javax.swing.JOptionPane;
 

@@ -1,8 +1,8 @@
 package academico.view;
 
 import academico.view.Professor.InicialProfessor;
-import academico.auth.Autenticacao;
-import academico.auth.Sessao;
+import auth.Autenticacao;
+import auth.Sessao;
 import academico.model.Usuario;
 import academico.model.TipoUsuario;
 import academico.view.Aluno.InicialAluno;

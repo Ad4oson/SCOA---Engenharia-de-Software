@@ -5,5 +5,7 @@ public enum TipoUsuario {
     PROFESSOR,
     COORDENADOR,
     SECRETARIO,
-    ADMINISTRADOR
+    ADMINISTRADOR,
+    BIBLIOTECA,
+    ALMOXARIFADO
 }

@@ -1,4 +1,4 @@
-package academico.auth;
+package auth;
 
 import academico.model.TipoUsuario;
 import academico.model.Usuario;

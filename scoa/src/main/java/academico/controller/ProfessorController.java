@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import academico.auth.Sessao;
 import academico.model.Aluno;
 import academico.model.Avaliacao;
 import academico.model.FrequenciaAluno;
@@ -13,6 +12,7 @@ import academico.model.NotaConsultaDTO;
 import academico.model.PautaDeAula;
 import academico.model.TipoAvaliacao;
 import academico.model.Turma;
+import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;

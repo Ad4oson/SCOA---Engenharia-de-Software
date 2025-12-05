@@ -4,12 +4,12 @@
  */
 package academico.view.Secretario;
 
-import academico.auth.Sessao;
 import academico.controller.SecretarioController;
 import academico.model.Aluno;
 import academico.model.ContatosAluno;
 import academico.model.DocumentosAluno;
 import academico.model.JPAUtil;
+import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
