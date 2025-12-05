@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "notificacao")
+@Table(name = "Notificacao")
 public class Notificacao {
 
     @Id
@@ -13,18 +13,26 @@ public class Notificacao {
 
     @ManyToOne
     @JoinColumn(name = "destinatario_id")
-    private UsuarioBiblioteca destinatario;
+    private Bibliotecario destinatario;
 
     private String mensagem;
     private LocalDateTime data_envio;
+
+    @Enumerated(EnumType.STRING)
     private tipoNotificacao tipo;
+
+    @Enumerated(EnumType.STRING)
+    private tipoUsuario tipoUsuario;
+
+    private LocalDateTime created_at;
+    private Boolean deleted;
 
     // GETTERS & SETTERS
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public UsuarioBiblioteca getDestinatario() { return destinatario; }
-    public void setDestinatario(UsuarioBiblioteca destinatario) { this.destinatario = destinatario; }
+    public Bibliotecario getDestinatario() { return destinatario; }
+    public void setDestinatario(Bibliotecario destinatario) { this.destinatario = destinatario; }
 
     public String getMensagem() { return mensagem; }
     public void setMensagem(String mensagem) { this.mensagem = mensagem; }
@@ -34,4 +42,28 @@ public class Notificacao {
 
     public tipoNotificacao getTipo() { return tipo; }
     public void setTipo(tipoNotificacao tipo) { this.tipo = tipo; }
+
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+    public Boolean getDeleted() {
+        return deleted;
+    }
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    public tipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+    public void setTipoUsuario(tipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+
+    
+
 }

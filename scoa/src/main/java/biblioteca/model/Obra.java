@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "obra")
+@Table(name = "Obra")
 public class Obra {
 
     @Id
@@ -18,6 +18,7 @@ public class Obra {
     private String anoPublicacao;
     private String localizacao;
 
+    @Enumerated(EnumType.STRING)
     private statusObra status;
     private LocalDateTime created_at;
     private boolean deleted;

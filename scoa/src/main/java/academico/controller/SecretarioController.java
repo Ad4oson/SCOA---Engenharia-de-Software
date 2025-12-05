@@ -28,8 +28,7 @@ import academico.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
+
 
 public class SecretarioController {
 
@@ -1036,9 +1035,10 @@ public class SecretarioController {
                         turmaT = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turma).getSingleResult();
                     }
                     catch (EntityNotFoundException e){
-                        //JOptionPane.showMessageDialog(this, "Turma não encontrada!");
-                        System.out.println("\nTurma não encontrada!\n");
+
                         e.printStackTrace();
+                        throw new RuntimeException("Turma não encontrada!", e);
+             
                     }
 
 

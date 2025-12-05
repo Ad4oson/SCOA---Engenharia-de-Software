@@ -2,6 +2,8 @@ package academico.model;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,10 @@ public class ContatosAluno {
     private Integer id;
 
     private String contato;
+
+    @Enumerated(EnumType.STRING)
+    private tipoContato tipo; 
+
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
@@ -76,6 +82,14 @@ public class ContatosAluno {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public tipoContato getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(tipoContato tipo) {
+        this.tipo = tipo;
     }
 
 

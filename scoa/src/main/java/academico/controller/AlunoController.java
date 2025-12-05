@@ -24,7 +24,7 @@ public class AlunoController {
 
             String jpql = """
                 SELECT a
-                FROM Aluno a 
+                FROM Aluno a
                 WHERE a.deleted = false AND a.login = :alunoLogin
             """;
 

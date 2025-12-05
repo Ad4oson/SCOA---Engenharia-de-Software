@@ -58,6 +58,8 @@
 
 - COLOCAR LOGIN NAS COLUNAS DE ENTIDADES
 
+- LOGIN NÃO PODERÁ SER EDITÁVEL, APENAS CRIADO
+
 ----------- GRAVE GRAVE GRAVE: alterar sql em SALVAR BUTTON, na GUI colocar campo ID não-editavel para referencia permanente
 
 -CREATE TABLE Curso (
@@ -163,10 +165,18 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - bolsa_id nullable
 
-### Contatos Professor:
+### Contatos Professor / Contatos Aluno:
 
-- Alterar contato para PK ao invés de Id
+- Adicionar coluna tipo (email/telefone). Alterar Diagramas. Alterar views / controller (secretario)
+
+- Adicionar unique em ambos contatos
+
+
+### Professor:
+
 - Adicionar coluna int salario
+
+
 
 ### Curso:
 
@@ -215,3 +225,20 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - Colocar tipo requisicao: BD =  varchar(20) , JAVA = enum
 
+
+
+### MÓDULO BIBLIOTECA
+
+- USUARIO -> adicionar login/senha, remover tipo de usuario. Único usuário será o bibliotecário.
+
+- Alterar RF cadastrar usuários, remover tipos de usuário.
+
+- REMOVER TODAS ALUSÕES A TIPO DE USUARIO. HAVERÁ APENAS 1 TIPO: BIBLIOTECARIO. O resto dos usuários serão entidades do módulo academico(prof, aluno)
+
+- TIPO USUARIO ADICIONADO EM >>NOTIFICACAO<<, destinatario_id -> usuario_login FK de usuario login
+
+### MÓDULO ALMOXARIFADO
+
+- Linkar produto à estoque através de estoque_id na tabela produto. Alterar documentação
+
+- Adicionar coluna local ao Bem Patrimonial. Alterar documentação

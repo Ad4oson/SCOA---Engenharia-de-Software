@@ -1,22 +1,31 @@
 package biblioteca.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import academico.model.Usuario;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "usuariobiblioteca")
-public class UsuarioBiblioteca {
+@Table(name = "Bibliotecario")
+public class Bibliotecario extends Usuario{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String nome;
-    private String matricula;
     private String cpf;
-    private tipoUsuarioBiblioteca tipo;
+    private String rg;
+    private LocalDate nascimento;
+    private String endereco;
+
     private String email;
     private String contato;
+
+    @OneToOne
+    @JoinColumn(name = "login", referencedColumnName = "login")
+    private Usuario usuario;
 
     private LocalDateTime created_at;
     private boolean deleted;
@@ -28,14 +37,9 @@ public class UsuarioBiblioteca {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public String getMatricula() { return matricula; }
-    public void setMatricula(String matricula) { this.matricula = matricula; }
 
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
-
-    public tipoUsuarioBiblioteca getTipo() { return tipo; }
-    public void setTipo(tipoUsuarioBiblioteca tipo) { this.tipo = tipo; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -48,4 +52,26 @@ public class UsuarioBiblioteca {
 
     public boolean isDeleted() { return deleted; }
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
+
+    public String getRg() {
+        return rg;
+    }
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+    public LocalDate getNascimento() {
+        return nascimento;
+    }
+    public void setNascimento(LocalDate nascimento) {
+        this.nascimento = nascimento;
+    }
+    public String getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+
+    
 }

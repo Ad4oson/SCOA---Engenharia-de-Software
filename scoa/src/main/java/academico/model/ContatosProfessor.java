@@ -2,6 +2,8 @@ package academico.model;
 
 import java.util.List;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +22,10 @@ public class ContatosProfessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Id
     private String contato; 
+
+    @Enumerated(EnumType.STRING)
+    private tipoContato tipo; 
 
     @ManyToOne
     @JoinColumn(name = "professor_id")
@@ -51,6 +55,14 @@ public class ContatosProfessor {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    public tipoContato getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(tipoContato tipo) {
+        this.tipo = tipo;
     }
 
 

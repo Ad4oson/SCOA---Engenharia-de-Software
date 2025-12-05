@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "multa")
+@Table(name = "Multa")
 public class Multa {
 
     @Id
@@ -13,6 +13,8 @@ public class Multa {
 
     private Double valor;
     private String motivo;
+
+    @Enumerated(EnumType.STRING)
     private statusMulta status;
     private LocalDateTime dataGerada;
 

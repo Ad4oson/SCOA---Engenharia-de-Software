@@ -250,6 +250,9 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
 
         SecretarioController secretario = new SecretarioController();
         EntityManager em = JPAUtil.getEntityManager();
+        
+        if (turmaTable.getValueAt(0,0) == null) System.out.println("\nÉ NULO TABELA\n"); // Campo tabela é nulo
+        if (localField == null) System.out.println("\nÉ NULO LOCAL\n"); //Campo field não é nulo, é ""
 
         try {
 
@@ -264,8 +267,17 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
             System.out.println("\nPASSOU FOR\n");
 
             Integer capacidadeT = Integer.parseInt(capacidadeField.getText().toString());
-
-            secretario.cadastrarSala(em, localField.getText(),capacidadeT, listaTurma);
+            
+            String local;
+            if(localField.getText().isEmpty()) local = null;
+            else local = localField.getText();
+            
+            try {
+                secretario.cadastrarSala(em, local,capacidadeT, listaTurma);
+            }
+            catch (RuntimeException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
 
         }
         catch (Exception e ){

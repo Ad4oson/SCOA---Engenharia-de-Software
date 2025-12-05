@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "emprestimo")
+@Table(name = "Emprestimo")
 public class Emprestimo {
 
     @Id
@@ -17,11 +17,13 @@ public class Emprestimo {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private UsuarioBiblioteca usuario;
+    private Bibliotecario usuario;
 
     private LocalDateTime data_emprestimo;
     private LocalDateTime previsao_devolucao;
     private LocalDateTime prazo_devolucao;
+    
+    @Enumerated(EnumType.STRING)
     private statusEmprestimo status;
 
     private LocalDateTime created_at;
@@ -34,8 +36,8 @@ public class Emprestimo {
     public Obra getObra() { return obra; }
     public void setObra(Obra obra) { this.obra = obra; }
 
-    public UsuarioBiblioteca getUsuario() { return usuario; }
-    public void setUsuario(UsuarioBiblioteca usuario) { this.usuario = usuario; }
+    public Bibliotecario getUsuario() { return usuario; }
+    public void setUsuario(Bibliotecario usuario) { this.usuario = usuario; }
 
     public LocalDateTime getData_emprestimo() { return data_emprestimo; }
     public void setData_emprestimo(LocalDateTime data_emprestimo) { this.data_emprestimo = data_emprestimo; }
