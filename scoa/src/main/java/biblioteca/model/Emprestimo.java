@@ -22,7 +22,7 @@ public class Emprestimo {
     private LocalDateTime data_emprestimo;
     private LocalDateTime previsao_devolucao;
     private LocalDateTime prazo_devolucao;
-    private int status;
+    private statusEmprestimo status;
 
     private LocalDateTime created_at;
     private boolean deleted;
@@ -46,8 +46,8 @@ public class Emprestimo {
     public LocalDateTime getPrazo_devolucao() { return prazo_devolucao; }
     public void setPrazo_devolucao(LocalDateTime prazo_devolucao) { this.prazo_devolucao = prazo_devolucao; }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public statusEmprestimo getStatus() { return status; }
+    public void setStatus(statusEmprestimo status) { this.status = status; }
 
     public LocalDateTime getCreated_at() { return created_at; }
     public void setCreated_at(LocalDateTime created_at) { this.created_at = created_at; }

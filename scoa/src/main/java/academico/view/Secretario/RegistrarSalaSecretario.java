@@ -254,29 +254,14 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
         try {
 
             //Pegar lista turma
-            List<Turma> listaTurma = new ArrayList<>();
-            for (int r=0; r<=turmaTable.getRowCount(); r++){
+            List<String> listaTurma = new ArrayList<>();
+            if (turmaTable.getValueAt(0,0) != null) {
+                for (int r=0; r<turmaTable.getRowCount(); r++){
 
-                if (turmaTable.getValueAt(r, 0) != null) {
-                    Turma turmaTemp = new Turma();
-
-                    String jpqlTurma = """
-                    SELECT t
-                    FROM Turma t
-                    WHERE t.nome = :turmaNome AND deleted = false
-                    """;
-                    try {
-                        turmaTemp = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaTable.getValueAt(r, 0).toString()).getSingleResult();
+                        if (!turmaTable.getValueAt(r, 0).equals("")) listaTurma.add(turmaTable.getValueAt(r, 0).toString());       
                     }
-                    catch (EntityNotFoundException e){
-                        JOptionPane.showMessageDialog(this, "Turma não encontrada!");
-                        e.printStackTrace();
-                    }
-
-                    listaTurma.add(turmaTemp);
-                }
-
             }
+            System.out.println("\nPASSOU FOR\n");
 
             Integer capacidadeT = Integer.parseInt(capacidadeField.getText().toString());
 
@@ -285,6 +270,7 @@ public class RegistrarSalaSecretario extends javax.swing.JFrame {
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_salvarButton1ActionPerformed
 

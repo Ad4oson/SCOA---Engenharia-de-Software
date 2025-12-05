@@ -13,7 +13,7 @@ public class Multa {
 
     private Double valor;
     private String motivo;
-    private int status;
+    private statusMulta status;
     private LocalDateTime dataGerada;
 
     private LocalDateTime created_at;
@@ -29,8 +29,8 @@ public class Multa {
     public String getMotivo() { return motivo; }
     public void setMotivo(String motivo) { this.motivo = motivo; }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public statusMulta getStatus() { return status; }
+    public void setStatus(statusMulta status) { this.status = status; }
 
     public LocalDateTime getDataGerada() { return dataGerada; }
     public void setDataGerada(LocalDateTime dataGerada) { this.dataGerada = dataGerada; }

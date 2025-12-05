@@ -14,7 +14,7 @@ public class UsuarioBiblioteca {
     private String nome;
     private String matricula;
     private String cpf;
-    private int tipo;
+    private tipoUsuarioBiblioteca tipo;
     private String email;
     private String contato;
 
@@ -34,8 +34,8 @@ public class UsuarioBiblioteca {
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
 
-    public int getTipo() { return tipo; }
-    public void setTipo(int tipo) { this.tipo = tipo; }
+    public tipoUsuarioBiblioteca getTipo() { return tipo; }
+    public void setTipo(tipoUsuarioBiblioteca tipo) { this.tipo = tipo; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

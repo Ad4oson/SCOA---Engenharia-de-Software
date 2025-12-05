@@ -17,7 +17,7 @@ public class Notificacao {
 
     private String mensagem;
     private LocalDateTime data_envio;
-    private int tipo;
+    private tipoNotificacao tipo;
 
     // GETTERS & SETTERS
     public int getId() { return id; }
@@ -32,6 +32,6 @@ public class Notificacao {
     public LocalDateTime getData_envio() { return data_envio; }
     public void setData_envio(LocalDateTime data_envio) { this.data_envio = data_envio; }
 
-    public int getTipo() { return tipo; }
-    public void setTipo(int tipo) { this.tipo = tipo; }
+    public tipoNotificacao getTipo() { return tipo; }
+    public void setTipo(tipoNotificacao tipo) { this.tipo = tipo; }
 }

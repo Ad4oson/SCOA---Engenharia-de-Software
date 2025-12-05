@@ -1006,7 +1006,7 @@ public class SecretarioController {
     //#region CRUD SALA
 
     
-    public void cadastrarSala(EntityManager em, String local, Integer capacidade, List<Turma> turmas){
+    public void cadastrarSala(EntityManager em, String local, Integer capacidade, List<String> turmas){
 
         EntityTransaction tx = em.getTransaction();
 
@@ -1016,18 +1016,40 @@ public class SecretarioController {
             Sala sala = new Sala();
             sala.setLocal(local);
             sala.setCapacidade(capacidade);
+
+            sala.setCreated_at(LocalDateTime.now());
+            sala.setDeleted(false);
             
             if (turmas !=null){
-              
-                for (Turma turma : turmas){
 
-                    if (turma == null) throw new EntityNotFoundException("\nTurma não encontrada!\n");
+                List <Turma> turmasT = new ArrayList<>();
+                for (String turma : turmas){
+
+                    Turma turmaT = new Turma();
+
+                    String jpqlTurma = """
+                    SELECT t
+                    FROM Turma t
+                    WHERE t.nome = :turmaNome AND t.deleted = false
+                    """;
+                    try {
+                        turmaT = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turma).getSingleResult();
+                    }
+                    catch (EntityNotFoundException e){
+                        //JOptionPane.showMessageDialog(this, "Turma não encontrada!");
+                        System.out.println("\nTurma não encontrada!\n");
+                        e.printStackTrace();
+                    }
+
 
                     //relacao bidirecional
-                    turma.setSala(sala);
+                    turmaT.setSala(sala);
+                    turmasT.add(turmaT);
                 }
-                sala.setTurmas(turmas);
+                sala.setTurmas(turmasT);
             }
+
+
 
             em.persist(sala);
             tx.commit();
