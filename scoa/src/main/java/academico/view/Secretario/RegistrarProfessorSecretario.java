@@ -501,7 +501,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             
             //Pegar lista especialidade
             List<EspecialidadesProfessor> listaEspecialidade = new ArrayList<>();
-            for (int r=0; r<=especialidadeTable1.getRowCount(); r++){
+            for (int r=0; r<especialidadeTable1.getRowCount(); r++){
 
                 if (especialidadeTable1.getValueAt(r,0)!= null) {
                     EspecialidadesProfessor especialidadeTemp = new EspecialidadesProfessor();
@@ -515,7 +515,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
 
             //Pegar lista contato
             List<ContatosProfessor> listaContato = new ArrayList<>();
-            for (int r=0; r<=contatoTable1.getRowCount(); r++){
+            for (int r=0; r<contatoTable1.getRowCount(); r++){
 
                 if (contatoTable1.getValueAt(r, 0) != null) {
                     ContatosProfessor contatoTemp = new ContatosProfessor();
@@ -530,7 +530,7 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             
             //Pegar lista turma
             List<Turma> listaTurma = new ArrayList<>();
-            for (int r=0; r<=turmaTable1.getRowCount(); r++){
+            for (int r=0; r<turmaTable1.getRowCount(); r++){
 
                 if (turmaTable1.getValueAt(r, 0) != null) {
                     Turma turmaTemp = new Turma();

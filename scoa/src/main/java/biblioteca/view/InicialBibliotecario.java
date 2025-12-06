@@ -32,8 +32,8 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         menu = new javax.swing.JPanel();
         obraCombo = new javax.swing.JComboBox<>();
-        bibliotecarioCombo = new javax.swing.JComboBox<>();
         notificacaoCombo = new javax.swing.JComboBox<>();
+        bibliotecarioCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,11 +51,11 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         obraCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Obra", "Atualizar Obra", "Consultar Obra", " " }));
         obraCombo.addActionListener(this::obraComborequisicaoComboEvent);
 
-        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário" }));
-        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
-
         notificacaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enviar Notificação", "Consultar Notificação" }));
         notificacaoCombo.addActionListener(this::notificacaoComboEvent);
+
+        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
+        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
@@ -67,18 +67,18 @@ public class InicialBibliotecario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -87,17 +87,17 @@ public class InicialBibliotecario extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(368, Short.MAX_VALUE)
+                .addContainerGap(354, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(330, 330, 330))
+                .addGap(344, 344, 344))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
+                .addGap(281, 281, 281)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(321, 321, 321))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

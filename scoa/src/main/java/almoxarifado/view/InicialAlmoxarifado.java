@@ -31,9 +31,10 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         menu = new javax.swing.JPanel();
-        obraCombo = new javax.swing.JComboBox<>();
-        bibliotecarioCombo = new javax.swing.JComboBox<>();
-        notificacaoCombo = new javax.swing.JComboBox<>();
+        produtoCombo = new javax.swing.JComboBox<>();
+        bemCombo = new javax.swing.JComboBox<>();
+        movimentacaoCombo = new javax.swing.JComboBox<>();
+        baixaCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,14 +49,17 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
         menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(0, 102, 51)));
         menu.setForeground(new java.awt.Color(255, 0, 204));
 
-        obraCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matricular Aluno", "Atualizar Aluno", "Consultar Aluno", " " }));
-        obraCombo.addActionListener(this::obraComborequisicaoComboEvent);
+        produtoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matricular Aluno", "Atualizar Aluno", "Consultar Aluno", " " }));
+        produtoCombo.addActionListener(this::produtoComborequisicaoComboEvent);
 
-        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Professor", "Atualizar Professor", "Consultar Professor" }));
-        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
+        bemCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Bem", "Atualizar Bem", "Consultar Bem" }));
+        bemCombo.addActionListener(this::bemComboEvent);
 
-        notificacaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Turma", "Atualizar Turma", "Consultar Turma" }));
-        notificacaoCombo.addActionListener(this::notificacaoComboEvent);
+        movimentacaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Movimentacao", "Atualizar Movimentacao", "Consultar Movimentacao", " " }));
+        movimentacaoCombo.addActionListener(this::movimentacaoComboEvent);
+
+        baixaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Baixa", "Atualizar Baixa", "Consultar Baixa" }));
+        baixaCombo.addActionListener(this::baixaComboEvent);
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
@@ -63,11 +67,13 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(produtoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(movimentacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(baixaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
@@ -75,9 +81,10 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(produtoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bemCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(movimentacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(baixaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -85,18 +92,18 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(368, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(296, 296, 296)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(330, 330, 330))
+                .addContainerGap(402, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
+                .addGap(318, 318, 318)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(321, 321, 321))
+                .addContainerGap(347, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,56 +122,75 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void obraComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraComborequisicaoComboEvent
+    private void produtoComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_produtoComborequisicaoComboEvent
         // TODO add your handling code here:
         this.dispose();
-        if(obraCombo.getSelectedIndex() == 0){
-            new RegistrarAlunoSecretario().setVisible(true);
+        if(produtoCombo.getSelectedIndex() == 0){
+            new CadastrarProduto().setVisible(true);
 
         }
-        else if (obraCombo.getSelectedIndex() == 1){
-            new AtualizarAlunoSecretario().setVisible(true);
+        else if (produtoCombo.getSelectedIndex() == 1){
+            new AtualizarProduto().setVisible(true);
 
         }
-        else if (obraCombo.getSelectedIndex() == 2){
-            new AtualizarAlunoSecretario().setVisible(true);
+        else if (produtoCombo.getSelectedIndex() == 2){
+            new AtualizarProduto().setVisible(true);
 
         }
-    }//GEN-LAST:event_obraComborequisicaoComboEvent
+    }//GEN-LAST:event_produtoComborequisicaoComboEvent
 
-    private void bibliotecarioComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibliotecarioComboEvent
+    private void bemComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bemComboEvent
         // TODO add your handling code here:
         this.dispose();
-        if(bibliotecarioCombo.getSelectedIndex() == 0){
-            new RegistrarProfessorSecretario().setVisible(true);
+        if(bemCombo.getSelectedIndex() == 0){
+            new CadastrarBem().setVisible(true);
 
         }
-        else if (bibliotecarioCombo.getSelectedIndex() == 1){
-            new AtualizarProfessorSecretario().setVisible(true);
+        else if (bemCombo.getSelectedIndex() == 1){
+            new AtualizarBem().setVisible(true);
 
         }
-        else if (bibliotecarioCombo.getSelectedIndex() == 2){
-            new AtualizarProfessorSecretario().setVisible(true);
+        else if (bemCombo.getSelectedIndex() == 2){
+            new AtualizarBem().setVisible(true);
 
         }
-    }//GEN-LAST:event_bibliotecarioComboEvent
+    }//GEN-LAST:event_bemComboEvent
 
-    private void notificacaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificacaoComboEvent
+    private void movimentacaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movimentacaoComboEvent
         // TODO add your handling code here:
         this.dispose();
-        if(notificacaoCombo.getSelectedIndex() == 0){
-            new RegistrarTurmaSecretario().setVisible(true);
+        if(movimentacaoCombo.getSelectedIndex() == 0){
+            new CadastrarMovimentacao().setVisible(true);
 
         }
-        else if (notificacaoCombo.getSelectedIndex() == 1){
-            new AtualizarTurmaSecretario().setVisible(true);
+        else if (movimentacaoCombo.getSelectedIndex() == 1){
+            new AtualizarMovimentacao().setVisible(true);
 
         }
-        else if (notificacaoCombo.getSelectedIndex() == 2){
-            new AtualizarTurmaSecretario().setVisible(true);
+        else if (movimentacaoCombo.getSelectedIndex() == 2){
+            new AtualizarMovimentacao().setVisible(true);
 
         }
-    }//GEN-LAST:event_notificacaoComboEvent
+    }//GEN-LAST:event_movimentacaoComboEvent
+
+    private void baixaComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_baixaComboEvent
+        // TODO add your handling code here:
+        
+        this.dispose();
+        if(baixaCombo.getSelectedIndex() == 0){
+            new CadastrarBaixa().setVisible(true);
+
+        }
+        else if (baixaCombo.getSelectedIndex() == 1){
+            new AtualizarBaixa().setVisible(true);
+
+        }
+        else if (baixaCombo.getSelectedIndex() == 2){
+            new AtualizarBaixa().setVisible(true);
+
+        }
+        
+    }//GEN-LAST:event_baixaComboEvent
 
     /**
      * @param args the command line arguments
@@ -192,11 +218,12 @@ public class InicialAlmoxarifado extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> bibliotecarioCombo;
+    private javax.swing.JComboBox<String> baixaCombo;
+    private javax.swing.JComboBox<String> bemCombo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menu;
-    private javax.swing.JComboBox<String> notificacaoCombo;
-    private javax.swing.JComboBox<String> obraCombo;
+    private javax.swing.JComboBox<String> movimentacaoCombo;
+    private javax.swing.JComboBox<String> produtoCombo;
     // End of variables declaration//GEN-END:variables
 }

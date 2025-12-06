@@ -47,10 +47,10 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="menu" alignment="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="368" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="296" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="404" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="330" max="-2" attributes="0"/>
+                  <EmptySpace pref="402" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -58,9 +58,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Component id="menu" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="344" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="318" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="159" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
+                  <EmptySpace pref="347" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -100,11 +100,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                      <Component id="obraCombo" min="-2" pref="140" max="-2" attributes="0"/>
+                      <Component id="produtoCombo" min="-2" pref="140" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bibliotecarioCombo" min="-2" pref="134" max="-2" attributes="0"/>
+                      <Component id="bemCombo" min="-2" pref="134" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="notificacaoCombo" min="-2" pref="134" max="-2" attributes="0"/>
+                      <Component id="movimentacaoCombo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="baixaCombo" min="-2" pref="134" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -114,16 +116,17 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="obraCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="bibliotecarioCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="notificacaoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="produtoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="bemCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="movimentacaoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="baixaCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="obraCombo">
+            <Component class="javax.swing.JComboBox" name="produtoCombo">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
@@ -135,41 +138,59 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="obraComborequisicaoComboEvent"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="produtoComborequisicaoComboEvent"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="bibliotecarioCombo">
+            <Component class="javax.swing.JComboBox" name="bemCombo">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
-                    <StringItem index="0" value="Registrar Professor"/>
-                    <StringItem index="1" value="Atualizar Professor"/>
-                    <StringItem index="2" value="Consultar Professor"/>
+                    <StringItem index="0" value="Registrar Bem"/>
+                    <StringItem index="1" value="Atualizar Bem"/>
+                    <StringItem index="2" value="Consultar Bem"/>
                   </StringArray>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bibliotecarioComboEvent"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bemComboEvent"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="notificacaoCombo">
+            <Component class="javax.swing.JComboBox" name="movimentacaoCombo">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="Registrar Turma"/>
-                    <StringItem index="1" value="Atualizar Turma"/>
-                    <StringItem index="2" value="Consultar Turma"/>
+                  <StringArray count="4">
+                    <StringItem index="0" value="Registrar Movimentacao"/>
+                    <StringItem index="1" value="Atualizar Movimentacao"/>
+                    <StringItem index="2" value="Consultar Movimentacao"/>
+                    <StringItem index="3" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notificacaoComboEvent"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="movimentacaoComboEvent"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="baixaCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="Registrar Baixa"/>
+                    <StringItem index="1" value="Atualizar Baixa"/>
+                    <StringItem index="2" value="Consultar Baixa"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="baixaComboEvent"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

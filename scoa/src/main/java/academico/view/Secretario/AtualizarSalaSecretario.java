@@ -345,6 +345,7 @@ public class AtualizarSalaSecretario extends javax.swing.JFrame {
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_salvarButton1ActionPerformed
 

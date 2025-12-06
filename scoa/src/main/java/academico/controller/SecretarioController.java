@@ -910,12 +910,10 @@ public class SecretarioController {
 
             return  em.createQuery(jpql, Turma.class)
             .setParameter("turmaNome", turmaNome)
-            .getResultList();
+            .getResultList(); 
 
         }
         else {
-   
-
 
             String jpql = """
                 SELECT t

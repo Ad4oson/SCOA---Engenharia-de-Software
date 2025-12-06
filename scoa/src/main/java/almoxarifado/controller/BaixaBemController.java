@@ -35,6 +35,7 @@ public class BaixaBemController {
         }
     }
 
+
     public List<BaixaBem> consultarBaixaBem(String bemLocal) {
         
         if (bemLocal != null){
@@ -61,6 +62,7 @@ public class BaixaBemController {
             return em.createQuery(jpqlBaixa, BaixaBem.class).getResultList();
         }
     }
+    
 
     public void excluirBaixa (Integer bemId){
 
