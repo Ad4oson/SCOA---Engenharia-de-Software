@@ -210,7 +210,10 @@ public class BibliotecarioController {
 
     //#region CRUD notificacao
 
-    
+    public void enviarNotificacao(){
+
+        
+    }
 
 
     //#endregion

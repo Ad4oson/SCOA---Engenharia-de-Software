@@ -8,14 +8,14 @@ package biblioteca.view;
  *
  * @author Windows 11
  */
-public class EnviarNotificacaoBibliotecario extends javax.swing.JFrame {
+public class AtualizarEmprestimo extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EnviarNotificacaoBibliotecario.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AtualizarEmprestimo.class.getName());
 
     /**
-     * Creates new form EnviarNotificacaoBibliotecario
+     * Creates new form AtualizarEmprestimo
      */
-    public EnviarNotificacaoBibliotecario() {
+    public AtualizarEmprestimo() {
         initComponents();
     }
 
@@ -34,11 +34,11 @@ public class EnviarNotificacaoBibliotecario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1063, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -66,7 +66,7 @@ public class EnviarNotificacaoBibliotecario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new EnviarNotificacaoBibliotecario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AtualizarEmprestimo().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
