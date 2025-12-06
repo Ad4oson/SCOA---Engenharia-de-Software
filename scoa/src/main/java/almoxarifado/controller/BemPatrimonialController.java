@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import academico.model.JPAUtil;
+import almoxarifado.model.BaixaBem;
 import almoxarifado.model.BemPatrimonial;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -36,7 +37,7 @@ public class BemPatrimonialController {
         }
     }
 
-    public List<BemPatrimonial> buscarBem(String setor) {
+    public List<BemPatrimonial> consultarBem(String setor) {
 
         if (setor != null){
 
@@ -81,6 +82,36 @@ public class BemPatrimonialController {
         }
     }
 
+
+
+    public void excluirBem (Integer bemId){
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            
+            tx.begin();
+            if (bemId != null){
+
+                BemPatrimonial bem = em.find(BemPatrimonial.class, bemId);
+                bem.setDeleted(true);
+ 
+            }
+            else {
+                System.out.println("Id nulo, exclusão não realizada!");
+                throw new RuntimeException("Id nulo, exclusão não realizada!");
+            }
+
+            tx.commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Falha na exclusão", e);
+    
+        }
+
+
+    }
 
 
     

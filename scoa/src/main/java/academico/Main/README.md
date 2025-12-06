@@ -241,4 +241,4 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - Linkar produto à estoque através de estoque_id na tabela produto. Alterar documentação
 
-- Adicionar coluna local ao Bem Patrimonial. Alterar documentação
+- Adicionar coluna local_fisico ao Bem Patrimonial. Alterar documentação

@@ -35,17 +35,18 @@ public class BaixaBemController {
         }
     }
 
-    public List<BaixaBem> listarBaixaBem(String bemLocal) {
+    public List<BaixaBem> consultarBaixaBem(String bemLocal) {
         
         if (bemLocal != null){
 
             String jpqlBaixa = """
                     SELECT bb
                     FROM BaixaBem bb
-                    JOIN bb.BemPatrimonial bp
+                    JOIN bb.bem bp 
+                    WHERE bp.local = :bemLocal AND bb.deleted = false
                     """;
 
-            return em.createQuery(jpqlBaixa, BaixaBem.class).setParameter().getResultList();
+            return em.createQuery(jpqlBaixa, BaixaBem.class).setParameter("bemLocal", bemLocal).getResultList();
 
         }
         else {
@@ -53,12 +54,45 @@ public class BaixaBemController {
             String jpqlBaixa = """
                     SELECT bb
                     FROM BaixaBem bb
-                    JOIN bb.BemPatrimonial bp
+                    JOIN bb.bem bp
+                    WHERE bb.deleted = false
                     """;
 
             return em.createQuery(jpqlBaixa, BaixaBem.class).getResultList();
         }
+    }
+
+    public void excluirBaixa (Integer bemId){
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            
+            tx.begin();
+            if (bemId != null){
+
+                BaixaBem baixaBem = em.find(BaixaBem.class, bemId);
+                baixaBem.setDeleted(true);
+ 
+            }
+            else {
+                System.out.println("Id nulo, exclusão não realizada!");
+                throw new RuntimeException("Id nulo, exclusão não realizada!");
+            }
+
+            tx.commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Falha na exclusão", e);
+    
+        }
 
 
     }
+
+
+
+
+
 }

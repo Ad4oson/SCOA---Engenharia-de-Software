@@ -7,5 +7,6 @@ public enum TipoUsuario {
     SECRETARIO,
     ADMINISTRADOR,
     BIBLIOTECA,
-    ALMOXARIFADO
+    ALMOXARIFADO,
+    FINANCEIRO
 }

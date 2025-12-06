@@ -24,7 +24,7 @@ public class MovimentacaoBem {
 
     private LocalDateTime created_at;
 
-    private boolean deleted;
+    private boolean deleted = false;
 
     // GETTERS E SETTERS
     public int getId() { return id; }

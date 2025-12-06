@@ -23,7 +23,7 @@ public class BemPatrimonial {
 
     private LocalDate created_at;
 
-    private boolean deleted;
+    private boolean deleted = false;
 
     // GETTERS E SETTERS
     public int getId() { return id; }

@@ -11,8 +11,10 @@ import academico.model.Usuario;
 import academico.view.Aluno.InicialAluno;
 import academico.view.Coordenador.InicialCoordenador;
 import academico.view.Secretario.InicialSecretario;
+import almoxarifado.view.InicialAlmoxarifado;
 import auth.Autenticacao;
 import auth.Sessao;
+import biblioteca.view.InicialBibliotecario;
 import jakarta.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -217,6 +219,16 @@ public class LoginView2 extends javax.swing.JFrame {
                 this.dispose();
                 new InicialCoordenador().setVisible(true);
             }
+            case BIBLIOTECA -> {
+                this.dispose();
+                new InicialBibliotecario().setVisible(true);
+                
+            }
+            case ALMOXARIFADO -> {
+                this.dispose();
+                new InicialAlmoxarifado().setVisible(true);
+            }
+            
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
