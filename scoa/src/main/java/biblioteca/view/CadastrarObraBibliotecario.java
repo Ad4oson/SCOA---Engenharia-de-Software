@@ -274,7 +274,7 @@ public class CadastrarObraBibliotecario extends javax.swing.JFrame {
             else if (statusBox.getSelectedItem().toString().toUpperCase().equals("INDISPONÍVEL")) status = statusObra.INDISPONÍVEL;
             else JOptionPane.showMessageDialog(this, "Status inválido! (DISPONÍVEL / INDISPONÍVEL)");
 
-            bibliotecario.cadastrarObra(tituloField.getText(), autorField.getText(), tipoMaterialField.getText(), editoraField.getText(),
+            bibliotecario.cadastrarObra(tituloField.getText(), autorField.getText(), tipoMaterialField.getText().toUpperCase(), editoraField.getText(),
                     anoField.getText(), localizacaoField.getText(), status);
 
         }

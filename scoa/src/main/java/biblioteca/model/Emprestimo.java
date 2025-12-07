@@ -1,6 +1,8 @@
 package biblioteca.model;
 
 import java.time.LocalDateTime;
+
+import academico.model.Usuario;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,8 +18,8 @@ public class Emprestimo {
     private Obra obra;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Bibliotecario usuario;
+    @JoinColumn(name = "usuario_login")
+    private Usuario usuario;
 
     private LocalDateTime data_emprestimo;
     private LocalDateTime previsao_devolucao;
@@ -36,8 +38,8 @@ public class Emprestimo {
     public Obra getObra() { return obra; }
     public void setObra(Obra obra) { this.obra = obra; }
 
-    public Bibliotecario getUsuario() { return usuario; }
-    public void setUsuario(Bibliotecario usuario) { this.usuario = usuario; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
     public LocalDateTime getData_emprestimo() { return data_emprestimo; }
     public void setData_emprestimo(LocalDateTime data_emprestimo) { this.data_emprestimo = data_emprestimo; }

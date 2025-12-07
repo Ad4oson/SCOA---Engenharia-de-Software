@@ -10,11 +10,15 @@ import academico.model.Professor;
 import academico.model.Sala;
 import academico.model.TipoUsuario;
 import academico.model.Usuario;
+import almoxarifado.model.BemPatrimonial;
 import biblioteca.model.Obra;
+import biblioteca.model.statusEmprestimo;
 import biblioteca.model.Bibliotecario;
+import biblioteca.model.Emprestimo;
 import biblioteca.model.statusObra;
 import biblioteca.model.tipoUsuario;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 public class BibliotecarioController {
 
@@ -224,14 +228,109 @@ public class BibliotecarioController {
 
 
     }
-
-
     //#endregion
+
+
+    //#region CRUD EMPRESTIMO
+
+
+
+    public void cadastrarEmprestimo(LocalDateTime data_emprestimo, LocalDateTime previsao_devolucao, LocalDateTime prazo_devolucao,
+        statusEmprestimo status, Integer obra_id, Integer usuarioId){
+
+        
+        try {
+            em.getTransaction().begin();
+            Emprestimo emprestimo = new Emprestimo();
+            
+            if (data_emprestimo != null) emprestimo.setData_emprestimo(data_emprestimo);
+            if (previsao_devolucao != null) emprestimo.setPrevisao_devolucao(previsao_devolucao);
+            if (prazo_devolucao != null) emprestimo.setPrazo_devolucao(prazo_devolucao);
+            if (status != null) emprestimo.setStatus(status);
+            
+
+            Obra obra = em.find(Obra.class, obra_id);
+            Usuario usuario = em.find(Usuario.class, usuarioId);
+
+            emprestimo.setObra(obra);
+            emprestimo.setUsuario(usuario);
+
+            emprestimo.setCreated_at(LocalDateTime.now());
+            emprestimo.setDeleted(false);
+
+            em.persist(emprestimo);
+            em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        }
+
+    }
+
+    public void atualizarEmprestimo(Integer emprestimoId, statusEmprestimo status, Boolean deleted){
+
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            Emprestimo emprestimo = em.find(Emprestimo.class, emprestimoId);
+            
+            
+            if ( status != null) emprestimo.setStatus(status);
+            if (deleted == true) emprestimo.setDeleted(true);
+
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    public List<Emprestimo> consultarEmprestimo(LocalDateTime data){
+
+
+         
+        if (data != null) {
+            System.out.println("\nPESQUISANDO EMPRESTIMO\n");
+                
+            String jpql = """
+                    SELECT e
+                    FROM Emprestimo e
+                    WHERE e.data_emprestimo > :data AND e.deleted = false
+                    ORDER BY e.data_emprestimo ASC
+            """;
+
+            return em.createQuery(jpql, Emprestimo.class)
+            .setParameter("data", data)
+            .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                    SELECT e
+                    FROM Emprestimo e
+                    WHERE e.deleted = false
+                    ORDER BY e.data_emprestimo ASC
+            """;
+
+            return em.createQuery(jpql, Emprestimo.class)
+            .getResultList();
+        }
+
+
+    }
+    //#endregion
+
 
 
     //#region Consultar usuario (professor / aluno)
 
-    
     //consulta lista ou por ID
     public List<Professor> consultarProfessores(String professorId){
         
