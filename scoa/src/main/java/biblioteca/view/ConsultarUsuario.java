@@ -4,6 +4,19 @@
  */
 package biblioteca.view;
 
+import academico.controller.CoordenadorController;
+import academico.model.Aluno;
+import academico.model.ContatosAluno;
+import academico.model.ContatosProfessor;
+import academico.model.Disciplina;
+import academico.model.JPAUtil;
+import academico.model.Professor;
+import biblioteca.controller.BibliotecarioController;
+import jakarta.persistence.EntityManager;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Windows 11
@@ -17,6 +30,7 @@ public class ConsultarUsuario extends javax.swing.JFrame {
      */
     public ConsultarUsuario() {
         initComponents();
+        invisivelBox.setVisible(false);
     }
 
     /**
@@ -31,34 +45,25 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         nomeField = new javax.swing.JTextField();
-        cargaField = new javax.swing.JTextField();
-        creditosField = new javax.swing.JTextField();
-        disciplinaPreField = new javax.swing.JTextField();
+        cpfField = new javax.swing.JTextField();
+        poloField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        cursoTable = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        turmaTable = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ementaText = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        bibliografiaText = new javax.swing.JTextArea();
         pesquisaField = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         filtrarButton = new javax.swing.JButton();
-        disciplinaBox = new javax.swing.JComboBox<>();
+        usuarioBox = new javax.swing.JComboBox<>();
         idField = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        salvarButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        contatoTable1 = new javax.swing.JTable();
+        invisivelBox = new javax.swing.JComboBox<>();
         menu = new javax.swing.JPanel();
         obraCombo = new javax.swing.JComboBox<>();
         notificacaoCombo = new javax.swing.JComboBox<>();
         bibliotecarioCombo = new javax.swing.JComboBox<>();
+        usuarioButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,187 +77,97 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         jLabel15.setText("Nome:");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel16.setText("Carga Horaria:");
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel17.setText("Disciplina pré-requisito:");
+        jLabel16.setText("Cpf:");
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel18.setText("Créditos:");
-
-        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel25.setText("Ementa:");
-
-        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel26.setText("Bibliografia:");
-
-        cursoTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cursoTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Curso"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(cursoTable);
-
-        turmaTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        turmaTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Turma"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(turmaTable);
-
-        ementaText.setColumns(20);
-        ementaText.setRows(5);
-        jScrollPane1.setViewportView(ementaText);
-
-        bibliografiaText.setColumns(20);
-        bibliografiaText.setRows(5);
-        jScrollPane2.setViewportView(bibliografiaText);
+        jLabel18.setText("Polo:");
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel27.setText("Digite Curso:");
+        jLabel27.setText("Tipo Usuário:");
 
         filtrarButton.setText("Filtrar");
         filtrarButton.addActionListener(this::filtrarButtonActionPerformed);
 
-        disciplinaBox.setMaximumRowCount(10);
-        disciplinaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
-        disciplinaBox.addActionListener(this::disciplinaBoxActionPerformed);
+        usuarioBox.setMaximumRowCount(10);
+        usuarioBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
+        usuarioBox.addActionListener(this::usuarioBoxActionPerformed);
 
+        idField.setFocusable(false);
+        idField.setRequestFocusEnabled(false);
         idField.addActionListener(this::idFieldActionPerformed);
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel19.setText("Id:");
 
-        salvarButton1.setBackground(new java.awt.Color(200, 177, 43));
-        salvarButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        salvarButton1.setText("SALVAR");
-        salvarButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                salvarButton1salvarActionEvent(evt);
+        contatoTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        contatoTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Contato"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
-        salvarButton1.addActionListener(this::salvarButton1ActionPerformed);
+        jScrollPane3.setViewportView(contatoTable1);
+
+        invisivelBox.setMaximumRowCount(10);
+        invisivelBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", "" }));
+        invisivelBox.addActionListener(this::invisivelBoxActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(155, 155, 155)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salvarButton1))
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(creditosField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel16)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cargaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel17)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(disciplinaPreField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel15)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel19)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(disciplinaBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(filtrarButton)))))
-                .addGap(33, 33, 33))
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(poloField, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))))
+                .addGap(71, 71, 71)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel27)
+                    .addComponent(invisivelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(usuarioBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(filtrarButton)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25))
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel26))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(filtrarButton)
-                            .addComponent(jLabel27))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(disciplinaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(97, 97, 97))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,25 +176,27 @@ public class ConsultarUsuario extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(34, 34, 34)
+                        .addGap(27, 27, 27))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cargaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
+                            .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filtrarButton)
+                            .addComponent(jLabel27))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(creditosField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(disciplinaPreField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(salvarButton1)
-                .addGap(95, 95, 95))
+                            .addComponent(usuarioBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(invisivelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(poloField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(214, 214, 214))
         );
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
@@ -295,6 +212,14 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
         bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
+        usuarioButton.setText("Consultar Usuário");
+        usuarioButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        usuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuarioButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -302,21 +227,20 @@ public class ConsultarUsuario extends javax.swing.JFrame {
             .addGroup(menuLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(obraCombo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(bibliotecarioCombo)
+            .addComponent(notificacaoCombo)
+            .addComponent(usuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -333,7 +257,7 @@ public class ConsultarUsuario extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(36, 36, 36)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -359,160 +283,103 @@ public class ConsultarUsuario extends javax.swing.JFrame {
     private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
         // TODO add your handling code here:
 
-        CoordenadorController coordenador = new CoordenadorController();
+        BibliotecarioController bibliotecario = new BibliotecarioController();
         EntityManager em = JPAUtil.getEntityManager();
-        System.out.println("\nCURSO: " + pesquisaField.getText() + "\n");
-
+        System.out.println("\n TIPO: " + pesquisaField.getText() + "\n");
+        
         if (!pesquisaField.getText().contentEquals("")) {
             try {
-                String jpqlDisciplina = """
-                SELECT d
-                FROM Disciplina
-                WHERE d.cursos.nome = :cursoNome AND d.deleted = false
-                ORDER BY d.nome
-                """;
-                List<Disciplina> disciplinas = em.createQuery(jpqlDisciplina,Disciplina.class).setParameter("cursoNome", pesquisaField.getText().toUpperCase()).getResultList();
-
-                for (Disciplina d : disciplinas){
-                    disciplinaBox.addItem(d.getNome());
+                if (pesquisaField.getText().toUpperCase().contains("ALUNO")){
+                    
+                    List<Aluno> alunos = bibliotecario.consultarAlunos(null);
+                    
+                    for (Aluno a : alunos) {
+                        usuarioBox.addItem(a.getNome());
+                        invisivelBox.addItem(String.valueOf(a.getId()));
+                    }
+                    
                 }
-
+                else if (pesquisaField.getText().toUpperCase().contains("PROFESSOR")){
+                    
+                    List<Professor> professores = bibliotecario.consultarProfessores(null);
+                    for (Professor p : professores){
+                        usuarioBox.addItem(p.getNome());
+                        invisivelBox.addItem(String.valueOf(p.getId()));
+                    }
+                    
+                }
+                else {
+                
+                    JOptionPane.showMessageDialog(this, "Nenhum tipo de usuário selecionado, imposssível continuar!");
+                
+                }
+ 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Dados inválidos!");
             }
-        } else {
-            System.out.println("\n\nENTROU ELSE\n\n");
-            JOptionPane.showMessageDialog(this, "Pesquisa sem filtro, todas turmas serão disponibilizadas!");
-
-            List<Disciplina> disciplinas = coordenador.consultarDisciplinas(em, null);
-
-            System.out.println("\n\nPASSOU QUERY\n\n");
-
-            for (Disciplina d : disciplinas){
-                disciplinaBox.addItem(d.getNome());
-            }
-
-        }
+            
+        } else JOptionPane.showMessageDialog(this, "Por favor preencha tipo de usuário para prosseguir com a consulta!");
+        
+        
+        
     }//GEN-LAST:event_filtrarButtonActionPerformed
 
-    private void disciplinaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disciplinaBoxActionPerformed
+    private void usuarioBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioBoxActionPerformed
         // TODO add your handling code here:
 
         EntityManager em = JPAUtil.getEntityManager();
-        SecretarioController secretario = new SecretarioController();
-
-        Disciplina d = secretario.consultarDisciplinas(em, disciplinaBox.getSelectedItem().toString()).get(0);
-
-        System.out.println("\nINICIOU FIELD\n");
-
-        idField.setText(String.valueOf(d.getId()));
-        if (d.getNome()!= null) nomeField.setText(d.getNome());
-        if (d.getEmenta( )!= null) ementaText.setText(String.valueOf(d.getEmenta()));
-        if (d.getBibliografia( )!= null) bibliografiaText.setText(d.getBibliografia());
-        cargaField.setText(String.valueOf(d.getCargaHoraria()));
-        creditosField.setText(String.valueOf(d.getCreditos()));
-        if (d.getDisciplinapre( )!= null) disciplinaPreField.setText(d.getDisciplinapre().getNome());
-
-        if (d.getCursos()!= null){
-            DefaultTableModel modelC = (DefaultTableModel) cursoTable.getModel();
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+        
+         if (pesquisaField.getText().toUpperCase().contains("ALUNO")){
+             
+             System.out.println("INVISIVEL: " + invisivelBox.getItemAt(2) + " USUARIO: " + usuarioBox.getSelectedIndex());
+                    
+            Aluno a = bibliotecario.consultarAlunos(invisivelBox.getItemAt(usuarioBox.getSelectedIndex())).getLast();
+            System.out.println("PASSOU CONSULTAR ALUNOS");
+            
+            idField.setText(String.valueOf(a.getId()));
+            nomeField.setText(a.getNome());
+            cpfField.setText (a.getCpf());
+            poloField.setText (a.getPolo());
+            
+            DefaultTableModel modelC = (DefaultTableModel) contatoTable1.getModel();
             modelC.setRowCount(0);
-            for (Curso c : d.getCursos()){
-                modelC.addRow(new Object[]{
-                    c.getNome()
-                });
+            for (ContatosAluno ca : a.getContatos()) {
+                modelC.addRow(new Object []{ca.getContato()});
+            }
+            modelC.addRow(new Object [] {""});
+
+     
+                    
+        }
+        else if (pesquisaField.getText().toUpperCase().contains("PROFESSOR")){
+                    
+            Professor p = bibliotecario.consultarProfessores(invisivelBox.getItemAt(usuarioBox.getSelectedIndex())).getLast();
+            
+            idField.setText(String.valueOf(p.getId()));
+            nomeField.setText(p.getNome());
+            cpfField.setText (p.getCpf());
+            poloField.setText (p.getPolo());
+            
+          
+            DefaultTableModel modelC = (DefaultTableModel) contatoTable1.getModel();
+            modelC.setRowCount(0);
+            for (ContatosProfessor cp : p.getContatos()){
+                modelC.addRow(new Object[] {cp.getContato()});
             }
             modelC.addRow(new Object[]{""});
-
+            
+                    
         }
 
-        if (d.getTurmas()!= null){
-            DefaultTableModel modelT = (DefaultTableModel) turmaTable.getModel();
-            modelT.setRowCount(0);
-            for (Turma t  : d.getTurmas()){
-                modelT.addRow(new Object[]{
-                    t.getNome()
-                });
-            }
-            modelT.addRow(new Object[]{""});
+        System.out.println("\nFIM BOX PRINT\n");
 
-        }
-    }//GEN-LAST:event_disciplinaBoxActionPerformed
+
+    }//GEN-LAST:event_usuarioBoxActionPerformed
 
     private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idFieldActionPerformed
-
-    private void salvarButton1salvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButton1salvarActionEvent
-        // TODO add your handling code here:
-    }//GEN-LAST:event_salvarButton1salvarActionEvent
-
-    private void salvarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButton1ActionPerformed
-        // TODO add your handling code here:
-
-        CoordenadorController coordenador = new CoordenadorController();
-        EntityManager em = JPAUtil.getEntityManager();
-
-        try {
-
-            //Pegar lista turma
-            List<String> listaTurmaT = new ArrayList<>();
-            for (int r=0; r<turmaTable.getRowCount(); r++){
-
-                if (turmaTable.getValueAt(r,0)!= null) {
-
-                    String turmaT;
-                    turmaT = turmaTable.getValueAt(r,0).toString();
-                    listaTurmaT.add(turmaT);
-                }
-
-            }
-            System.out.println("PASSOU TURMA");
-
-            //Pegar lista Curso
-            List<String> listaCursoT = new ArrayList<>();
-            for (int r=0; r<cursoTable.getRowCount(); r++){
-
-                if (cursoTable.getValueAt(r,0)!= null) {
-
-                    String cursoT;
-                    cursoT = cursoTable.getValueAt(r,0).toString();
-                    listaCursoT.add(cursoT);
-                }
-
-            }
-            System.out.println("PASSOU CURSO");
-
-            //Pegar Disciplina Pre
-            Disciplina disciplinaPreT = new Disciplina();
-            try {
-                if (!disciplinaPreField.getText().equals("")){
-                    String jpqlDisciplina = """
-                    SELECT d
-                    FROM Disciplina d
-                    WHERE d.nome = :disciplinaNome AND d.deleted = false
-                    """;
-                    disciplinaPreT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaPreField.getText()).getSingleResult();
-                }
-            }
-            catch (Exception e){
-                JOptionPane.showMessageDialog(this, "Disciplina sem Pré-requisito!");
-                disciplinaPreT = null;
-            }
-
-            Integer cargaT = Integer.parseInt(cargaField.getText());
-            Integer creditosT = Integer.parseInt(creditosField.getText());
-            String ementaT = ementaText.getText();
-            String bibliografiaT = bibliografiaText.getText();
-            Integer disciplinaId = Integer.parseInt(idField.getText());
-
-            coordenador.atualizarDisciplina(em, disciplinaId, nomeField.getText(), ementaT, cargaT, creditosT,
-                bibliografiaT, disciplinaPreT, listaCursoT, listaTurmaT);
-
-        }
-        catch (Exception e ){
-            JOptionPane.showMessageDialog(this, "Dados inválidos!");
-        }
-    }//GEN-LAST:event_salvarButton1ActionPerformed
 
     private void obraComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraComborequisicaoComboEvent
         // TODO add your handling code here:
@@ -565,6 +432,16 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bibliotecarioComboEvent
 
+    private void usuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarUsuario().setVisible(true);
+    }//GEN-LAST:event_usuarioButtonMouseClicked
+
+    private void invisivelBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invisivelBoxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -591,36 +468,27 @@ public class ConsultarUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea bibliografiaText;
     private javax.swing.JComboBox<String> bibliotecarioCombo;
-    private javax.swing.JTextField cargaField;
-    private javax.swing.JTextField creditosField;
-    private javax.swing.JTable cursoTable;
-    private javax.swing.JComboBox<String> disciplinaBox;
-    private javax.swing.JTextField disciplinaPreField;
-    private javax.swing.JTextArea ementaText;
+    private javax.swing.JTable contatoTable1;
+    private javax.swing.JTextField cpfField;
     private javax.swing.JButton filtrarButton;
     private javax.swing.JTextField idField;
+    private javax.swing.JComboBox<String> invisivelBox;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel menu;
     private javax.swing.JTextField nomeField;
     private javax.swing.JComboBox<String> notificacaoCombo;
     private javax.swing.JComboBox<String> obraCombo;
     private javax.swing.JTextField pesquisaField;
-    private javax.swing.JButton salvarButton1;
-    private javax.swing.JTable turmaTable;
+    private javax.swing.JTextField poloField;
+    private javax.swing.JComboBox<String> usuarioBox;
+    private javax.swing.JButton usuarioButton;
     // End of variables declaration//GEN-END:variables
 }

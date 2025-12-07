@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Bibliotecario")
-public class Bibliotecario extends Usuario{
+public class Bibliotecario{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +70,12 @@ public class Bibliotecario extends Usuario{
     }
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 

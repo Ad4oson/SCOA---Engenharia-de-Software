@@ -19,6 +19,7 @@ import jakarta.persistence.CascadeType;
 @Table(name = "ContatosProfessor")
 public class ContatosProfessor {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

@@ -62,6 +62,15 @@
 
 ----------- GRAVE GRAVE GRAVE: alterar sql em SALVAR BUTTON, na GUI colocar campo ID não-editavel para referencia permanente
 
+
+
+-------------TABELA->NULO / FIELD->VAZIO--------------
+if (turmaTable.getValueAt(0,0) == null) System.out.println("\nÉ NULO TABELA\n"); // Campo tabela é nulo
+if (localField == null) System.out.println("\nÉ NULO LOCAL\n"); //Campo field não é nulo, é ""
+
+
+
+
 -CREATE TABLE Curso (
 id serial,
 nome varchar(50) not null,

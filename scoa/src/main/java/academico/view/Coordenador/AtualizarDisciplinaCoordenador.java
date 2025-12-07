@@ -650,6 +650,7 @@ public class AtualizarDisciplinaCoordenador extends javax.swing.JFrame {
             }
             catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Disciplina sem Pré-requisito!");
+                disciplinaPreT = null;
             }
 
             Integer cargaT = Integer.parseInt(cargaField.getText());

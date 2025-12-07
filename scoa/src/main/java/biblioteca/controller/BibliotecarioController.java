@@ -4,11 +4,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import academico.model.Aluno;
 import academico.model.JPAUtil;
+import academico.model.Professor;
 import academico.model.Sala;
+import academico.model.TipoUsuario;
+import academico.model.Usuario;
 import biblioteca.model.Obra;
 import biblioteca.model.Bibliotecario;
 import biblioteca.model.statusObra;
+import biblioteca.model.tipoUsuario;
 import jakarta.persistence.EntityManager;
 
 public class BibliotecarioController {
@@ -18,7 +23,7 @@ public class BibliotecarioController {
 
     //#region CRUD Obra
 
-    public void criarObra(String titulo, String autor, String tipomaterial, String editora, String anoPublicacao,
+    public void cadastrarObra(String titulo, String autor, String tipomaterial, String editora, String anoPublicacao,
          String localizacao, statusObra status) {
         
         try {
@@ -112,7 +117,7 @@ public class BibliotecarioController {
     //#region CRUD Bibliotecario
 
 
-    public void criar(String nome, String cpf, String rg, LocalDate nascimento, String endereco, String email,
+    public void cadastrarBibliotecario(String nome, String cpf, String rg, LocalDate nascimento, String endereco, String email,
          String contato, String login, String senha) {
         
         try {
@@ -127,14 +132,19 @@ public class BibliotecarioController {
             if (endereco != null) bibliotecario.setEndereco(endereco);
             if (email != null) bibliotecario.setEmail(email);
             if (contato != null)bibliotecario.setContato(contato);
-            if (login != null) bibliotecario.setLogin(login);
-            if (senha != null) bibliotecario.setSenha(senha);
+
+            Usuario usuario = new Usuario();
+            usuario.setTipoUsuario(TipoUsuario.BIBLIOTECA);
+            if (login != null) usuario.setLogin(login);
+            if (senha != null) usuario.setSenha(senha);
+            bibliotecario.setUsuario(usuario);
 
             bibliotecario.setCreated_at(LocalDateTime.now());
             bibliotecario.setDeleted(false);
 
 
             em.persist(bibliotecario);
+            em.persist(usuario);
             em.getTransaction().commit();
         }
         catch (Exception e){
@@ -192,8 +202,8 @@ public class BibliotecarioController {
             if (endereco != null) bibliotecario.setEndereco(endereco);
             if (email != null) bibliotecario.setEmail(email);
             if (contato != null)bibliotecario.setContato(contato);
-            if (login != null) bibliotecario.setLogin(login);
-            if (senha != null) bibliotecario.setSenha(senha);
+            if (login != null) bibliotecario.getUsuario().setLogin(login);
+            if (senha != null) bibliotecario.getUsuario().setSenha(senha);
 
             if(deleted == true) bibliotecario.setDeleted(true);
             
@@ -212,8 +222,85 @@ public class BibliotecarioController {
 
     public void enviarNotificacao(){
 
-        
+
     }
+
+
+    //#endregion
+
+
+    //#region Consultar usuario (professor / aluno)
+
+    
+    //consulta lista ou por ID
+    public List<Professor> consultarProfessores(String professorId){
+        
+        if (professorId != null){
+
+            String jpql = """
+                SELECT p
+                FROM Professor p
+                JOIN usuario u
+                WHERE p.deleted = false AND p.id = :id
+                ORDER BY p.nome
+            """;
+
+            return em.createQuery(jpql, Professor.class)
+                .setParameter("id", professorId)
+                .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                SELECT p
+                FROM Professor p
+                JOIN usuario u
+                WHERE p.deleted = false
+                ORDER BY p.nome
+            """;
+
+            return em.createQuery(jpql, Professor.class)
+                .getResultList();
+
+        }
+
+    }
+
+
+
+    //consulta lista ou por ID
+    public List<Aluno> consultarAlunos(String alunoId){
+        
+        if (alunoId != null){
+
+            String jpql = """
+                SELECT a
+                FROM Aluno a
+                JOIN a.usuario u
+                WHERE a.deleted = false AND a.id = :alunoId
+                ORDER BY a.nome
+            """;
+            return em.createQuery(jpql, Aluno.class)
+            .setParameter("alunoId", alunoId)
+            .getResultList();
+        }
+        else {
+
+            String jpql = """
+                SELECT a
+                FROM Aluno a 
+                JOIN usuario u
+                WHERE a.deleted = false
+                ORDER BY a.nome
+            """;
+            return em.createQuery(jpql, Aluno.class)
+            .getResultList();
+
+        }
+
+    }
+    
 
 
     //#endregion

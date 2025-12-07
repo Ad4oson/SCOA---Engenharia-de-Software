@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +23,10 @@ public class Produto {
 
     private String codigo;
     private String nome;
+
+    @Enumerated(EnumType.STRING)
     private tipoProduto tipo;
+
     private String descricao;
     private String unidade_medida;
     private Integer qt_atual;
