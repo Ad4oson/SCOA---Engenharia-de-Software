@@ -34,6 +34,8 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         notificacaoCombo = new javax.swing.JComboBox<>();
         usuarioButton = new javax.swing.JButton();
         bibliotecarioCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,6 +64,11 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
         bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
+        emprestimoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Obra", "Atualizar Obra", "Consultar Obra", " " }));
+
+        emprestimoCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Empréstimo", "Atualizar Empréstimo", "Consultar Empréstimo", " " }));
+        emprestimoCombo1.addActionListener(this::emprestimoCombo1ActionPerformed);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -73,9 +80,13 @@ public class InicialBibliotecario extends javax.swing.JFrame {
                 .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(emprestimoCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(147, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,7 +96,9 @@ public class InicialBibliotecario extends javax.swing.JFrame {
                     .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -99,22 +112,18 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(349, 349, 349)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(349, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(341, 341, 341)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(819, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(352, 352, 352)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(353, Short.MAX_VALUE)))
+                .addGap(248, 248, 248)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(412, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,6 +205,24 @@ public class InicialBibliotecario extends javax.swing.JFrame {
         new ConsultarUsuario().setVisible(true);
     }//GEN-LAST:event_usuarioButtonActionPerformed
 
+    private void emprestimoCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emprestimoCombo1ActionPerformed
+        // TODO add your handling code here:
+
+        this.dispose();
+        if(emprestimoCombo.getSelectedIndex() == 0){
+            new CadastrarEmprestimo1().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+    }//GEN-LAST:event_emprestimoCombo1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,6 +250,8 @@ public class InicialBibliotecario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> bibliotecarioCombo;
+    private javax.swing.JComboBox<String> emprestimoCombo;
+    private javax.swing.JComboBox<String> emprestimoCombo1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menu;

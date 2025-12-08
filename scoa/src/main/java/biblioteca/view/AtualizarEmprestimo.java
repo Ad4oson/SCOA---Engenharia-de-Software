@@ -4,6 +4,12 @@
  */
 package biblioteca.view;
 
+import biblioteca.controller.BibliotecarioController;
+import biblioteca.model.Emprestimo;
+import biblioteca.model.statusEmprestimo;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Windows 11
@@ -17,6 +23,7 @@ public class AtualizarEmprestimo extends javax.swing.JFrame {
      */
     public AtualizarEmprestimo() {
         initComponents();
+        invisivelBox.setVisible(false);
     }
 
     /**
@@ -28,21 +35,436 @@ public class AtualizarEmprestimo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        pesquisaField = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        filtrarButton = new javax.swing.JButton();
+        obraBox = new javax.swing.JComboBox<>();
+        salvarButton1 = new javax.swing.JButton();
+        invisivelBox = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        deletedCheck = new javax.swing.JCheckBox();
+        jLabel8 = new javax.swing.JLabel();
+        dataField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        previsaoField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        prazoField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        statusBox = new javax.swing.JComboBox<>();
+        menu = new javax.swing.JPanel();
+        obraCombo = new javax.swing.JComboBox<>();
+        notificacaoCombo = new javax.swing.JComboBox<>();
+        usuarioButton = new javax.swing.JButton();
+        bibliotecarioCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo = new javax.swing.JComboBox<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+
+        pesquisaField.addActionListener(this::pesquisaFieldActionPerformed);
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel27.setText("Digite Título:");
+
+        filtrarButton.setText("Filtrar");
+        filtrarButton.addActionListener(this::filtrarButtonActionPerformed);
+
+        obraBox.setMaximumRowCount(10);
+        obraBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", " " }));
+        obraBox.addActionListener(this::obraBoxalunoActionEvent);
+
+        salvarButton1.setBackground(new java.awt.Color(200, 177, 43));
+        salvarButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        salvarButton1.setText("SALVAR");
+        salvarButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salvarButton1salvarActionEvent(evt);
+            }
+        });
+        salvarButton1.addActionListener(this::salvarButton1ActionPerformed);
+
+        invisivelBox.setMaximumRowCount(10);
+        invisivelBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pressionar Filtrar", "" }));
+        invisivelBox.addActionListener(this::invisivelBoxActionPerformed);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel10.setText("Deletar:");
+
+        deletedCheck.setText("Marque para deletar\n");
+        deletedCheck.addActionListener(this::deletedCheckActionPerformed);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setText("Data (aaaa-mm-ddThh:mm:ss):");
+
+        dataField.setEditable(false);
+        dataField.setFocusable(false);
+        dataField.setRequestFocusEnabled(false);
+        dataField.addActionListener(this::dataFieldActionPerformed);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("Previsão-Devolução (aaaa-mm-ddThh:mm:ss):");
+
+        previsaoField.setEditable(false);
+        previsaoField.setFocusable(false);
+        previsaoField.setRequestFocusEnabled(false);
+        previsaoField.addActionListener(this::previsaoFieldActionPerformed);
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Prazo-Devolução (aaaa-mm-ddThh:mm:ss):");
+
+        prazoField.setEditable(false);
+        prazoField.setFocusable(false);
+        prazoField.setRequestFocusEnabled(false);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setText("Status:");
+
+        statusBox.setEditable(true);
+        statusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Atrasado", "Devolvido" }));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addComponent(prazoField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dataField)
+                            .addComponent(previsaoField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel27)
+                                    .addComponent(invisivelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(obraBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(salvarButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addComponent(filtrarButton))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(deletedCheck))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addGap(18, 18, 18)
+                            .addComponent(statusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(previsaoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(prazoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(deletedCheck))
+                .addGap(80, 80, 80)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtrarButton)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(obraBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invisivelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(salvarButton1)
+                .addGap(155, 155, 155))
+        );
+
+        menu.setBackground(new java.awt.Color(153, 153, 153));
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(200, 177, 43)));
+        menu.setForeground(new java.awt.Color(255, 0, 204));
+
+        obraCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Obra", "Atualizar Obra", "Consultar Obra", " " }));
+        obraCombo.addActionListener(this::obraComborequisicaoComboEvent);
+
+        notificacaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enviar Notificação", "Consultar Notificação" }));
+        notificacaoCombo.addActionListener(this::notificacaoComboEvent);
+
+        usuarioButton.setText("Consultar Usuário");
+        usuarioButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        usuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usuarioButtonMouseClicked(evt);
+            }
+        });
+        usuarioButton.addActionListener(this::usuarioButtonActionPerformed);
+
+        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
+        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
+
+        emprestimoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Empréstimo", "Atualizar Empréstimo", "Consultar Empréstimo", " " }));
+        emprestimoCombo.addActionListener(this::emprestimoComboActionPerformed);
+
+        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
+        menu.setLayout(menuLayout);
+        menuLayout.setHorizontalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(228, Short.MAX_VALUE))
+        );
+        menuLayout.setVerticalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void pesquisaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisaFieldActionPerformed
+
+    private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
+        // TODO add your handling code here:
+
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+        System.out.println("\n TITULO: " + pesquisaField.getText() + "\n");
+
+        if (!pesquisaField.getText().contentEquals("")) {
+            try {
+
+                List<Emprestimo> emprestimos = bibliotecario.consultarEmprestimo(pesquisaField.getText());
+
+                for (Emprestimo e : emprestimos) {
+                    obraBox.addItem(String.valueOf(e.getData_emprestimo()));
+                    invisivelBox.addItem(String.valueOf(e.getId()));
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            }
+
+        } else {
+
+            List<Emprestimo> emprestimos = bibliotecario.consultarEmprestimo(null);
+
+            for (Emprestimo e : emprestimos) {
+                obraBox.addItem(String.valueOf(e.getData_emprestimo()));
+                invisivelBox.addItem(String.valueOf(String.valueOf(e.getId())));
+            }
+
+        }
+    }//GEN-LAST:event_filtrarButtonActionPerformed
+
+    private void obraBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraBoxalunoActionEvent
+        // TODO add your handling code here:
+
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        Emprestimo e = bibliotecario.consultarEmprestimoId(Integer.parseInt(invisivelBox.getItemAt(obraBox.getSelectedIndex())));
+        
+        dataField.setText(String.valueOf(e.getData_emprestimo()));
+        prazoField.setText(String.valueOf(e.getPrazo_devolucao()));
+        previsaoField.setText(String.valueOf(e.getPrevisao_devolucao()));
+        
+        statusBox.setSelectedItem(e.getStatus());
+
+        
+    }//GEN-LAST:event_obraBoxalunoActionEvent
+
+    private void salvarButton1salvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButton1salvarActionEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarButton1salvarActionEvent
+
+    private void salvarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButton1ActionPerformed
+        // TODO add your handling code here:
+
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        try {
+            statusEmprestimo status = statusEmprestimo.valueOf(statusBox.getSelectedItem().toString());
+
+
+            Integer emprestimoId = Integer.parseInt(invisivelBox.getItemAt(obraBox.getSelectedIndex()));
+
+            bibliotecario.atualizarEmprestimo(emprestimoId, status, deletedCheck.isSelected());
+
+        }
+        catch (Exception e ){
+            JOptionPane.showMessageDialog(this, "Dados inválidos!");
+        }
+    }//GEN-LAST:event_salvarButton1ActionPerformed
+
+    private void invisivelBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invisivelBoxActionPerformed
+
+    private void deletedCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletedCheckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deletedCheckActionPerformed
+
+    private void obraComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraComborequisicaoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(obraCombo.getSelectedIndex() == 0){
+            new CadastrarObraBibliotecario().setVisible(true);
+
+        }
+        else if (obraCombo.getSelectedIndex() == 1){
+            new AtualizarObraBibliotecario().setVisible(true);
+
+        }
+        else if (obraCombo.getSelectedIndex() == 2){
+            new AtualizarObraBibliotecario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_obraComborequisicaoComboEvent
+
+    private void notificacaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notificacaoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(notificacaoCombo.getSelectedIndex() == 0){
+            new EnviarNotificacaoBibliotecario().setVisible(true);
+
+        }
+        else if (notificacaoCombo.getSelectedIndex() == 1){
+            new ConsultarNotificacoesBibliotecario().setVisible(true);
+
+        }
+        else if (notificacaoCombo.getSelectedIndex() == 2){
+            new ConsultarNotificacoesBibliotecario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_notificacaoComboEvent
+
+    private void usuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarUsuario().setVisible(true);
+    }//GEN-LAST:event_usuarioButtonMouseClicked
+
+    private void usuarioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarUsuario().setVisible(true);
+    }//GEN-LAST:event_usuarioButtonActionPerformed
+
+    private void bibliotecarioComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibliotecarioComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(bibliotecarioCombo.getSelectedIndex() == 0){
+            new CadastrarBibliotecario().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarBibliotecario().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarBibliotecario().setVisible(true);
+
+        }
+    }//GEN-LAST:event_bibliotecarioComboEvent
+
+    private void dataFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataFieldActionPerformed
+
+    private void previsaoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previsaoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previsaoFieldActionPerformed
+
+    private void emprestimoComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emprestimoComboActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        if(emprestimoCombo.getSelectedIndex() == 0){
+            new CadastrarEmprestimo1().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+    }//GEN-LAST:event_emprestimoComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +492,29 @@ public class AtualizarEmprestimo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> bibliotecarioCombo;
+    private javax.swing.JTextField dataField;
+    private javax.swing.JCheckBox deletedCheck;
+    private javax.swing.JComboBox<String> emprestimoCombo;
+    private javax.swing.JButton filtrarButton;
+    private javax.swing.JComboBox<String> invisivelBox;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel menu;
+    private javax.swing.JComboBox<String> notificacaoCombo;
+    private javax.swing.JComboBox<String> obraBox;
+    private javax.swing.JComboBox<String> obraCombo;
+    private javax.swing.JTextField pesquisaField;
+    private javax.swing.JTextField prazoField;
+    private javax.swing.JTextField previsaoField;
+    private javax.swing.JButton salvarButton1;
+    private javax.swing.JComboBox<String> statusBox;
+    private javax.swing.JButton usuarioButton;
     // End of variables declaration//GEN-END:variables
 }

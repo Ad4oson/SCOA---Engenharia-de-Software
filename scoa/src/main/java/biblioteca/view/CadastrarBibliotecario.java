@@ -38,13 +38,11 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         rgField = new javax.swing.JTextField();
         nascimentoField = new javax.swing.JTextField();
         enderecoField = new javax.swing.JTextField();
-        tipoMaterialField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         salvarButton = new javax.swing.JButton();
         nomeField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -60,6 +58,7 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         notificacaoCombo = new javax.swing.JComboBox<>();
         usuarioButton = new javax.swing.JButton();
         bibliotecarioCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,9 +82,6 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Nascimento:");
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setText("Tipo de material:");
 
         salvarButton.setBackground(new java.awt.Color(200, 177, 43));
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -116,7 +112,7 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(55, 55, 55)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -137,11 +133,7 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tipoMaterialField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -202,11 +194,8 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
                             .addComponent(senhaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))))
                 .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tipoMaterialField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(salvarButton))
-                .addGap(382, 382, 382))
+                .addComponent(salvarButton)
+                .addGap(385, 385, 385))
         );
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
@@ -231,6 +220,9 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
         bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
+        emprestimoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Empréstimo", "Atualizar Empréstimo", "Consultar Empréstimo", " " }));
+        emprestimoCombo.addActionListener(this::emprestimoComboActionPerformed);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -242,9 +234,11 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
                 .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(397, Short.MAX_VALUE))
+                .addContainerGap(221, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +248,8 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
                     .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -262,11 +257,11 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,6 +386,24 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bibliotecarioComboEvent
 
+    private void emprestimoComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emprestimoComboActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        if(emprestimoCombo.getSelectedIndex() == 0){
+            new CadastrarEmprestimo1().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+    }//GEN-LAST:event_emprestimoComboActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -421,6 +434,7 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
     private javax.swing.JTextField contatoField;
     private javax.swing.JTextField cpfField;
     private javax.swing.JTextField emailField;
+    private javax.swing.JComboBox<String> emprestimoCombo;
     private javax.swing.JTextField enderecoField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -431,7 +445,6 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField loginField;
@@ -443,7 +456,6 @@ public class CadastrarBibliotecario extends javax.swing.JFrame {
     private javax.swing.JTextField rgField;
     private javax.swing.JButton salvarButton;
     private javax.swing.JTextField senhaField;
-    private javax.swing.JTextField tipoMaterialField;
     private javax.swing.JButton usuarioButton;
     // End of variables declaration//GEN-END:variables
 }

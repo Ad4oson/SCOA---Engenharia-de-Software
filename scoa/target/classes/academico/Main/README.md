@@ -244,7 +244,7 @@ Substituir pool embutido por um pool de produção: configure HikariCP (ou simil
 
 - REMOVER TODAS ALUSÕES A TIPO DE USUARIO. HAVERÁ APENAS 1 TIPO: BIBLIOTECARIO. O resto dos usuários serão entidades do módulo academico(prof, aluno)
 
-- TIPO USUARIO ADICIONADO EM >>NOTIFICACAO<<, destinatario_id -> usuario_login FK de usuario login
+- TIPO USUARIO ADICIONADO EM >>NOTIFICACAO<<, destinatario_id -> destinatario_login FK de usuario login
 
 ### MÓDULO ALMOXARIFADO
 

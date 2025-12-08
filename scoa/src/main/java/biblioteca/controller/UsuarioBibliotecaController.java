@@ -10,7 +10,7 @@ public class UsuarioBibliotecaController {
 
     EntityManager em = JPAUtil.getEntityManager();
 
-    public List<Obra> buscarObra(String titulo) {
+    public List<Obra> consultarObra(String titulo) {
         
         
         if (titulo != null) {
@@ -38,6 +38,25 @@ public class UsuarioBibliotecaController {
             return em.createQuery(jpql, Obra.class)
             .getResultList();
         }
+
+    }
+    
+        
+    public Obra consultarObraId(Integer id) {
+        
+    
+            System.out.println("\nPESQUISANDO OBRA\n");
+                
+            String jpql = """
+                SELECT o
+                FROM Obra o
+                WHERE o.deleted = false AND o.id = :obraId
+            """;
+
+            return em.createQuery(jpql, Obra.class)
+            .setParameter("obraId", id)
+            .getSingleResult();
+
 
         
     }

@@ -5,20 +5,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import academico.model.Aluno;
+import academico.model.ContatosAluno;
+import academico.model.ContatosProfessor;
 import academico.model.JPAUtil;
 import academico.model.Professor;
 import academico.model.Sala;
 import academico.model.TipoUsuario;
 import academico.model.Usuario;
+import academico.model.tipoContato;
 import almoxarifado.model.BemPatrimonial;
 import biblioteca.model.Obra;
 import biblioteca.model.statusEmprestimo;
 import biblioteca.model.Bibliotecario;
 import biblioteca.model.Emprestimo;
+import biblioteca.model.Notificacao;
 import biblioteca.model.statusObra;
+import biblioteca.model.tipoNotificacao;
 import biblioteca.model.tipoUsuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Enumerated;
 
 public class BibliotecarioController {
 
@@ -56,20 +62,27 @@ public class BibliotecarioController {
     }
 
 
-    public List<Obra> buscarObra(String titulo) {
+    public Obra consultarObraId (Integer id){
+
+        return em.find(Obra.class, id);
+    }
+
+
+    public List<Obra> consultarObra(String material) {
         
         
-        if (titulo != null) {
+        if (material != null) {
             System.out.println("\nPESQUISANDO OBRA\n");
                 
             String jpql = """
                 SELECT o
                 FROM Obra o
-                WHERE o.deleted = false AND o.titulo = :obraTitulo
+                WHERE o.deleted = false AND o.tipomaterial = :material
+                ORDER BY o.titulo
             """;
 
             return em.createQuery(jpql, Obra.class)
-            .setParameter("obraTitulo", titulo)
+            .setParameter("material", material)
             .getResultList();
 
         }
@@ -79,6 +92,7 @@ public class BibliotecarioController {
             SELECT o
             FROM Obra o
             WHERE o.deleted = false
+            ORDER BY o.titulo
             """;
 
             return em.createQuery(jpql, Obra.class)
@@ -224,10 +238,146 @@ public class BibliotecarioController {
 
     //#region CRUD notificacao
 
-    public void enviarNotificacao(){
+
+    //Falta fazer integração para realizar envio por email
+    public String enviarNotificacao(String mensagem, tipoNotificacao notificacao, tipoUsuario usuario, String usuarioLogin){
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Notificacao notificacaoT = new Notificacao();
+            Usuario usuarioT = em.find(Usuario.class, usuarioLogin);
+
+            notificacaoT.setUsuario(usuarioT);
+            notificacaoT.setTipoUsuario(usuario);
+            notificacaoT.setMensagem(mensagem);
+            notificacaoT.setCreated_at(LocalDateTime.now());
+            notificacaoT.setDeleted(false);
+
+            if (usuario.equals(tipoUsuario.ALUNO)){
+
+                String jpqlAluno = """
+                        SELECT a
+                        FROM Aluno a
+                        JOIN a.contatos
+                        WHERE a.login = :loginUsuario
+                        """;
+                Aluno alunoT = em.createQuery(jpqlAluno, Aluno.class).setParameter("loginUsuario", usuarioT.getLogin()).getSingleResult();
+                String emailC = null;
+                for (ContatosAluno c : alunoT.getContatos()){
+
+                    if (c.getTipo().equals(tipoContato.EMAIL)){
+                        //Enviar notificacao por email
+                        System.out.println("Notificação enviada! Email: " + c.getContato());
+                        emailC = c.getContato();
+                    }
+                    
+                }
+
+                em.persist(notificacaoT);
+                tx.commit();
+                return emailC;
+
+            }
+            else if (usuario.equals(tipoUsuario.PROFESSOR)){
+
+                String jpqlProfessor = """
+                        SELECT p
+                        FROM Professor p
+                        JOIN p.contatos
+                        WHERE p.login = :loginUsuario
+                        """;
+                Professor professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginUsuario", usuarioT.getLogin()).getSingleResult();
+
+                String emailC = null;
+                for (ContatosProfessor c : professorT.getContatos()){
+
+
+                    if (c.getTipo().equals(tipoContato.EMAIL)){
+                        //Enviar notificacao por email
+                        System.out.println("Notificação enviada! Email: " + c.getContato());
+
+                        System.out.println("Notificação enviada! Email: " + c.getContato());
+                        emailC = c.getContato();
+                    }
+                    
+                }
+                em.persist(notificacaoT);
+                tx.commit();
+                return emailC;
+
+            }
+            
+
+            return "Notificacao criada porém nenhum email enviado!";
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Erro ocorrido ao enviar notificação!");
+            return "Erro ocorrido ao enviar notificação!";
+        }
+    }
+
+
+
+    
+    public List<Notificacao> consultarNotificacao(String usuarioLogin) {
+        
+        
+        if (usuarioLogin != null) {
+            System.out.println("\nPESQUISANDO BIBLIOTECARIO\n");
+                
+            String jpql = """
+                SELECT n
+                FROM Notificacao n
+                WHERE n.deleted = false AND n.destinatario_login = :login
+            """;
+
+            return em.createQuery(jpql, Notificacao.class)
+            .setParameter("login", usuarioLogin)
+            .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+                SELECT n
+                FROM Notificacao n
+                WHERE n.deleted = false
+            """;
+
+            return em.createQuery(jpql, Notificacao.class)
+            .getResultList();
+        }
 
 
     }
+
+    public Notificacao consultarNotificacaoId (Integer id){
+        return em.find(Notificacao.class, id);
+    }
+
+
+
+
+    public void deletarNotificacao(Integer notificacaoId, Boolean deleted) {
+        em.getTransaction().begin();
+
+        try {
+        Notificacao notificacaoT = em.find(Notificacao.class, notificacaoId);
+        if (deleted == true) notificacaoT.setDeleted(true);
+
+        
+        em.getTransaction().commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        }
+    }
+
+
+
     //#endregion
 
 
@@ -291,22 +441,22 @@ public class BibliotecarioController {
 
     }
 
-    public List<Emprestimo> consultarEmprestimo(LocalDateTime data){
+    public List<Emprestimo> consultarEmprestimo(String titulo){
 
 
          
-        if (data != null) {
+        if (titulo != null) {
             System.out.println("\nPESQUISANDO EMPRESTIMO\n");
                 
             String jpql = """
                     SELECT e
                     FROM Emprestimo e
-                    WHERE e.data_emprestimo > :data AND e.deleted = false
+                    WHERE e.obra.titulo = :tituloObra AND e.deleted = false
                     ORDER BY e.data_emprestimo ASC
             """;
 
             return em.createQuery(jpql, Emprestimo.class)
-            .setParameter("data", data)
+            .setParameter("tituloObra", titulo)
             .getResultList();
 
         }
@@ -324,6 +474,11 @@ public class BibliotecarioController {
         }
 
 
+    }
+
+    public Emprestimo consultarEmprestimoId (Integer id){
+
+        return em.find(Emprestimo.class, id);
     }
     //#endregion
 

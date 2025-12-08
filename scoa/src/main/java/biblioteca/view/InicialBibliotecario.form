@@ -47,12 +47,10 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="menu" alignment="0" max="32767" attributes="0"/>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="349" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="404" max="-2" attributes="0"/>
-                      <EmptySpace pref="349" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="341" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="404" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -60,14 +58,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Component id="menu" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="819" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="352" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="159" max="-2" attributes="0"/>
-                      <EmptySpace pref="353" max="32767" attributes="0"/>
-                  </Group>
+                  <EmptySpace min="-2" pref="248" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="159" max="-2" attributes="0"/>
+                  <EmptySpace pref="412" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -100,9 +93,13 @@
                       <Component id="notificacaoCombo" min="-2" pref="134" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bibliotecarioCombo" min="-2" pref="163" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="emprestimoCombo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="usuarioButton" min="-2" pref="115" max="-2" attributes="0"/>
-                      <EmptySpace pref="449" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="emprestimoCombo1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="147" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -115,6 +112,8 @@
                               <Component id="bibliotecarioCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="notificacaoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="usuarioButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="emprestimoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="emprestimoCombo1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <Component id="obraCombo" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -183,6 +182,39 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bibliotecarioComboEvent"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="emprestimoCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Cadastrar Obra"/>
+                    <StringItem index="1" value="Atualizar Obra"/>
+                    <StringItem index="2" value="Consultar Obra"/>
+                    <StringItem index="3" value=" "/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="emprestimoCombo1">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Cadastrar Empr&#xe9;stimo"/>
+                    <StringItem index="1" value="Atualizar Empr&#xe9;stimo"/>
+                    <StringItem index="2" value="Consultar Empr&#xe9;stimo"/>
+                    <StringItem index="3" value=" "/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emprestimoCombo1ActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

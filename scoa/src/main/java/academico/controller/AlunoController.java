@@ -71,6 +71,8 @@ public class AlunoController {
 
             String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
+            System.out.println("CONSULTAR NOTAS, LOGIN ALUNO: " + alunoLogin);
+
             String jpql = """
                 SELECT n
                 FROM NotaAluno n

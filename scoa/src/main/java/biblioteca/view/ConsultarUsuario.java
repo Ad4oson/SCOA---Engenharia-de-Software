@@ -62,8 +62,9 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         menu = new javax.swing.JPanel();
         obraCombo = new javax.swing.JComboBox<>();
         notificacaoCombo = new javax.swing.JComboBox<>();
-        bibliotecarioCombo = new javax.swing.JComboBox<>();
         usuarioButton = new javax.swing.JButton();
+        bibliotecarioCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,7 +162,7 @@ public class ConsultarUsuario extends javax.swing.JFrame {
                     .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filtrarButton)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,16 +202,13 @@ public class ConsultarUsuario extends javax.swing.JFrame {
 
         menu.setBackground(new java.awt.Color(153, 153, 153));
         menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(200, 177, 43)));
-        menu.setForeground(new java.awt.Color(102, 102, 255));
+        menu.setForeground(new java.awt.Color(255, 0, 204));
 
         obraCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Obra", "Atualizar Obra", "Consultar Obra", " " }));
         obraCombo.addActionListener(this::obraComborequisicaoComboEvent);
 
         notificacaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enviar Notificação", "Consultar Notificação" }));
         notificacaoCombo.addActionListener(this::notificacaoComboEvent);
-
-        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
-        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
         usuarioButton.setText("Consultar Usuário");
         usuarioButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
@@ -219,6 +217,13 @@ public class ConsultarUsuario extends javax.swing.JFrame {
                 usuarioButtonMouseClicked(evt);
             }
         });
+        usuarioButton.addActionListener(this::usuarioButtonActionPerformed);
+
+        bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
+        bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
+
+        emprestimoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Empréstimo", "Atualizar Empréstimo", "Consultar Empréstimo", " " }));
+        emprestimoCombo.addActionListener(this::emprestimoComboActionPerformed);
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
@@ -227,37 +232,44 @@ public class ConsultarUsuario extends javax.swing.JFrame {
             .addGroup(menuLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
+                .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(obraCombo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-            .addComponent(bibliotecarioCombo)
-            .addComponent(notificacaoCombo)
-            .addComponent(usuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
-            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(41, 41, 41)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -381,6 +393,10 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_idFieldActionPerformed
 
+    private void invisivelBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invisivelBoxActionPerformed
+
     private void obraComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraComborequisicaoComboEvent
         // TODO add your handling code here:
         this.dispose();
@@ -415,6 +431,18 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_notificacaoComboEvent
 
+    private void usuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarUsuario().setVisible(true);
+    }//GEN-LAST:event_usuarioButtonMouseClicked
+
+    private void usuarioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarUsuario().setVisible(true);
+    }//GEN-LAST:event_usuarioButtonActionPerformed
+
     private void bibliotecarioComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bibliotecarioComboEvent
         // TODO add your handling code here:
         this.dispose();
@@ -432,15 +460,23 @@ public class ConsultarUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bibliotecarioComboEvent
 
-    private void usuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioButtonMouseClicked
+    private void emprestimoComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emprestimoComboActionPerformed
         // TODO add your handling code here:
+        
         this.dispose();
-        new ConsultarUsuario().setVisible(true);
-    }//GEN-LAST:event_usuarioButtonMouseClicked
+        if(emprestimoCombo.getSelectedIndex() == 0){
+            new CadastrarEmprestimo1().setVisible(true);
 
-    private void invisivelBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_invisivelBoxActionPerformed
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarEmprestimo().setVisible(true);
+
+        }
+    }//GEN-LAST:event_emprestimoComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -471,6 +507,7 @@ public class ConsultarUsuario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> bibliotecarioCombo;
     private javax.swing.JTable contatoTable1;
     private javax.swing.JTextField cpfField;
+    private javax.swing.JComboBox<String> emprestimoCombo;
     private javax.swing.JButton filtrarButton;
     private javax.swing.JTextField idField;
     private javax.swing.JComboBox<String> invisivelBox;

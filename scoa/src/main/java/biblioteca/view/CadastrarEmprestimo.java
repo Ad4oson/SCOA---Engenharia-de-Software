@@ -4,6 +4,11 @@
  */
 package biblioteca.view;
 
+import biblioteca.controller.BibliotecarioController;
+import biblioteca.model.statusEmprestimo;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author Windows 11
@@ -12,10 +17,17 @@ public class CadastrarEmprestimo extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastrarEmprestimo.class.getName());
 
+    private Integer usuarioId, obraId;
     /**
      * Creates new form CadastrarEmprestimo
      */
     public CadastrarEmprestimo() {
+        initComponents();
+    }
+    
+    public CadastrarEmprestimo(Integer usuarioId, Integer obraId) {
+        this.usuarioId = usuarioId;
+        this.obraId = obraId;
         initComponents();
     }
 
@@ -28,21 +40,290 @@ public class CadastrarEmprestimo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        previsaoField = new javax.swing.JTextField();
+        prazoField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        salvarButton1 = new javax.swing.JButton();
+        dataField = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        previsaoField1 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        dataField1 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        prazoField1 = new javax.swing.JTextField();
+        statusBox = new javax.swing.JComboBox<>();
+        menu = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+
+        previsaoField.setEditable(false);
+        previsaoField.setFocusable(false);
+        previsaoField.setRequestFocusEnabled(false);
+        previsaoField.addActionListener(this::previsaoFieldActionPerformed);
+
+        prazoField.setEditable(false);
+        prazoField.setFocusable(false);
+        prazoField.setRequestFocusEnabled(false);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("Previsão-Devolução (aaaa-mm-dd):");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setText("Data (aaaa-mm-dd):");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setText("Status:");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Prazo-Devolução (aaaa-mm-dd):");
+
+        salvarButton1.setBackground(new java.awt.Color(200, 177, 43));
+        salvarButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        salvarButton1.setText("CONCLUIR EMPRÉSTIMO");
+        salvarButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salvarButton1salvarActionEvent(evt);
+            }
+        });
+        salvarButton1.addActionListener(this::salvarButton1ActionPerformed);
+
+        dataField.setEditable(false);
+        dataField.setFocusable(false);
+        dataField.setRequestFocusEnabled(false);
+        dataField.addActionListener(this::dataFieldActionPerformed);
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel17.setText("Hora (hh:mm:ss):");
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel20.setText("Empréstimo");
+
+        previsaoField1.setEditable(false);
+        previsaoField1.setFocusable(false);
+        previsaoField1.setRequestFocusEnabled(false);
+        previsaoField1.addActionListener(this::previsaoField1ActionPerformed);
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel18.setText("Hora (hh:mm:ss):");
+
+        dataField1.setEditable(false);
+        dataField1.setFocusable(false);
+        dataField1.setRequestFocusEnabled(false);
+        dataField1.addActionListener(this::dataField1ActionPerformed);
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel19.setText("Hora (hh:mm:ss):");
+
+        prazoField1.setEditable(false);
+        prazoField1.setFocusable(false);
+        prazoField1.setRequestFocusEnabled(false);
+        prazoField1.addActionListener(this::prazoField1ActionPerformed);
+
+        statusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aberto", "Atrasado", "Devolvido" }));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addComponent(prazoField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel20)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel3))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(dataField, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                                .addComponent(previsaoField)))))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel17)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(dataField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(previsaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(prazoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 111, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(266, 266, 266)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(statusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(salvarButton1)
+                .addGap(344, 344, 344))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17)
+                    .addComponent(dataField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(previsaoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18)
+                    .addComponent(previsaoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(prazoField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel19)
+                    .addComponent(prazoField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(382, 382, 382)
+                .addComponent(salvarButton1)
+                .addGap(70, 70, 70))
+        );
+
+        menu.setBackground(new java.awt.Color(153, 153, 153));
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(200, 177, 43)));
+        menu.setForeground(new java.awt.Color(255, 0, 204));
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel21.setText("Termine o Cadastro de Empréstimo");
+
+        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
+        menu.setLayout(menuLayout);
+        menuLayout.setHorizontalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(287, 287, 287)
+                .addComponent(jLabel21)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        menuLayout.setVerticalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel21))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1039, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 876, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void dataFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataFieldActionPerformed
+
+    private void salvarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        
+        LocalDateTime dataEmprestimo = LocalDateTime.parse(dataField.getText()+ 'T' + dataField1.getText(), formatter);
+        
+        LocalDateTime previsaoDevolucao =  LocalDateTime.parse(previsaoField.getText()+ 'T' + previsaoField1.getText(), formatter);
+        LocalDateTime prazoDevolucao =  LocalDateTime.parse(prazoField.getText()+ 'T' + prazoField1.getText(), formatter);
+        
+        statusEmprestimo status = null;
+        
+        switch (statusBox.getSelectedItem().toString().toUpperCase()){
+            
+            case "ABERTO" -> status = statusEmprestimo.ABERTO;
+                
+            case "ATRASADO" -> status = statusEmprestimo.ATRASADO;
+                    
+            case "DEVOLVIDO" -> status = statusEmprestimo.DEVOLVIDO;
+        }
+        
+        bibliotecario.cadastrarEmprestimo(dataEmprestimo, previsaoDevolucao, prazoDevolucao, status, usuarioId, obraId);
+        
+
+    }//GEN-LAST:event_salvarButton1ActionPerformed
+
+    private void salvarButton1salvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButton1salvarActionEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarButton1salvarActionEvent
+
+    private void previsaoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previsaoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previsaoFieldActionPerformed
+
+    private void previsaoField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previsaoField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previsaoField1ActionPerformed
+
+    private void dataField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataField1ActionPerformed
+
+    private void prazoField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prazoField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prazoField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +351,25 @@ public class CadastrarEmprestimo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField dataField;
+    private javax.swing.JTextField dataField1;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel menu;
+    private javax.swing.JTextField prazoField;
+    private javax.swing.JTextField prazoField1;
+    private javax.swing.JTextField previsaoField;
+    private javax.swing.JTextField previsaoField1;
+    private javax.swing.JButton salvarButton1;
+    private javax.swing.JComboBox<String> statusBox;
     // End of variables declaration//GEN-END:variables
 }

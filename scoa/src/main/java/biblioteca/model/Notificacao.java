@@ -1,6 +1,8 @@
 package biblioteca.model;
 
 import java.time.LocalDateTime;
+
+import academico.model.Usuario;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,11 +14,10 @@ public class Notificacao {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "destinatario_id")
-    private Bibliotecario destinatario;
+    @JoinColumn(name = "destinatario_login")
+    private Usuario destinatario_login;
 
     private String mensagem;
-    private LocalDateTime data_envio;
 
     @Enumerated(EnumType.STRING)
     private tipoNotificacao tipo;
@@ -31,14 +32,11 @@ public class Notificacao {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public Bibliotecario getDestinatario() { return destinatario; }
-    public void setDestinatario(Bibliotecario destinatario) { this.destinatario = destinatario; }
+
 
     public String getMensagem() { return mensagem; }
     public void setMensagem(String mensagem) { this.mensagem = mensagem; }
 
-    public LocalDateTime getData_envio() { return data_envio; }
-    public void setData_envio(LocalDateTime data_envio) { this.data_envio = data_envio; }
 
     public tipoNotificacao getTipo() { return tipo; }
     public void setTipo(tipoNotificacao tipo) { this.tipo = tipo; }
@@ -61,6 +59,12 @@ public class Notificacao {
     }
     public void setTipoUsuario(tipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+    public Usuario getUsuario() {
+        return destinatario_login;
+    }
+    public void setUsuario(Usuario login) {
+        this.destinatario_login = login;
     }
 
 

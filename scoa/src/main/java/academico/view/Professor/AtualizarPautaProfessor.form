@@ -141,7 +141,9 @@
                       <Component id="frequenciaButton" min="-2" pref="102" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="notaButton" min="-2" pref="102" max="-2" attributes="0"/>
-                      <EmptySpace pref="669" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="pautaCombo" min="-2" pref="102" max="-2" attributes="0"/>
+                      <EmptySpace pref="549" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -151,7 +153,10 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="frequenciaButton" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="notaButton" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="notaButton" alignment="3" max="32767" attributes="0"/>
+                      <Component id="pautaCombo" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -182,6 +187,24 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="notaButtonAction"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="pautaCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="Criar Pauta"/>
+                    <StringItem index="1" value="Consultar Pauta"/>
+                    <StringItem index="2" value="Atualizar Pauta"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="pautaComboEvent"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pautaComboActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

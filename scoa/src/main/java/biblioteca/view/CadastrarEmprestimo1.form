@@ -43,12 +43,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="menu" alignment="1" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
-              <Component id="menu" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -86,6 +86,7 @@
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Component id="usuarioBox" pref="208" max="32767" attributes="0"/>
                                                   <Component id="pesquisaField" max="32767" attributes="0"/>
+                                                  <Component id="invisivelBox" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="filtrarButton" min="-2" max="-2" attributes="0"/>
@@ -104,7 +105,7 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="autorFIeld" min="-2" pref="275" max="-2" attributes="0"/>
+                                              <Component id="autorField" min="-2" pref="275" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
@@ -150,6 +151,7 @@
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                       <Component id="materialBox" alignment="0" max="32767" attributes="0"/>
                                                       <Component id="pesquisaField1" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                                      <Component id="invisivelBox1" alignment="1" max="32767" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="filtrarButton1" min="-2" max="-2" attributes="0"/>
@@ -191,7 +193,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cpfField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" max="32767" attributes="0"/>
-                          <Component id="autorFIeld" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="autorField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -228,28 +230,35 @@
                               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane3" min="-2" pref="208" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="pesquisaField1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Component id="filtrarButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="pesquisaField1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="filtrarButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="materialBox" min="-2" pref="41" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="materialBox" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="pesquisaField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="filtrarButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Component id="usuarioBox" min="-2" pref="41" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="pesquisaField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Component id="filtrarButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  <Component id="usuarioBox" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="invisivelBox" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="invisivelBox1" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -327,7 +336,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="24" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="CADASTRAR EMPR&#xc9;STIMO"/>
+                <Property name="text" type="java.lang.String" value="PROSSEGUIR EMPR&#xc9;STIMO"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="salvarButtonsalvarActionEvent"/>
@@ -362,7 +371,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tituloFieldActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="autorFIeld">
+            <Component class="javax.swing.JTextField" name="autorField">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -528,6 +537,40 @@
                 <Property name="text" type="java.lang.String" value="(Selecionar usu&#xe1;rio e obra antes)"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JComboBox" name="invisivelBox">
+              <Properties>
+                <Property name="maximumRowCount" type="int" value="10"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value="Id"/>
+                  </StringArray>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="invisivelBoxalunoActionEvent"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="invisivelBox1">
+              <Properties>
+                <Property name="maximumRowCount" type="int" value="10"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value="Id"/>
+                  </StringArray>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="invisivelBox1alunoActionEvent"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="menu">
@@ -558,8 +601,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bibliotecarioCombo" min="-2" pref="163" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="emprestimoCombo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="usuarioButton" min="-2" pref="115" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="231" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -572,6 +617,7 @@
                               <Component id="bibliotecarioCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="notificacaoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="usuarioButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="emprestimoCombo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <Component id="obraCombo" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
@@ -640,6 +686,24 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bibliotecarioComboEvent"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="emprestimoCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Cadastrar Empr&#xe9;stimo"/>
+                    <StringItem index="1" value="Atualizar Empr&#xe9;stimo"/>
+                    <StringItem index="2" value="Consultar Empr&#xe9;stimo"/>
+                    <StringItem index="3" value=" "/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emprestimoComboActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

@@ -46,8 +46,11 @@ public class NotaProfessor extends javax.swing.JFrame {
         menu = new javax.swing.JPanel();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
+        pautaCombo = new javax.swing.JComboBox<>();
         dataField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        salvarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,6 +90,10 @@ public class NotaProfessor extends javax.swing.JFrame {
             }
         });
 
+        pautaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Criar Pauta", "Consultar Pauta", "Atualizar Pauta" }));
+        pautaCombo.addItemListener(this::pautaComboEvent);
+        pautaCombo.addActionListener(this::pautaComboActionPerformed);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -96,14 +103,15 @@ public class NotaProfessor extends javax.swing.JFrame {
                 .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pautaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(notaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(notaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(frequenciaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pautaCombo, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
         );
 
         dataField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -111,34 +119,54 @@ public class NotaProfessor extends javax.swing.JFrame {
         jButton3.setText("Pesquisar");
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Digite Turma para filtrar:");
+
+        salvarButton.setBackground(new java.awt.Color(102, 102, 255));
+        salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        salvarButton.setText("SALVAR");
+        salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salvarButtonsalvarActionEvent(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(72, 72, 72)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton3)
+                            .addGap(49, 49, 49)
+                            .addComponent(salvarButton))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGap(370, 370, 370)))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(salvarButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,6 +237,45 @@ public class NotaProfessor extends javax.swing.JFrame {
         new NotaProfessor().setVisible(true);
     }//GEN-LAST:event_notaButtonAction
 
+    private void pautaComboEvent(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pautaComboEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pautaComboEvent
+
+    private void pautaComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pautaComboActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        if(pautaCombo.getSelectedIndex() == 0){
+            new CriarPautaProfessor().setVisible(true);
+
+        }
+        else if (pautaCombo.getSelectedIndex() == 1){
+            new AtualizarPautaProfessor().setVisible(true);
+
+        }
+        else if (pautaCombo.getSelectedIndex() == 2){
+            new AtualizarPautaProfessor().setVisible(true);
+
+        }
+    }//GEN-LAST:event_pautaComboActionPerformed
+
+    private void salvarButtonsalvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButtonsalvarActionEvent
+        // TODO add your handling code here:
+        /*
+        ProfessorController professor = new ProfessorController();
+        EntityManager em = JPAUtil.getEntityManager();
+        LocalDate data;
+        try {
+            data = LocalDate.parse(dataField.getText());
+
+            professor.lancarPauta(em, turmaField.getText(), data, conteudoText.getText(), atividadeText.getText(), observacaoText.getText());
+
+        }
+        catch (Exception e ){
+            JOptionPane.showMessageDialog(this, "Data inválida! Use yyyy-MM-dd");
+        }
+        */
+    }//GEN-LAST:event_salvarButtonsalvarActionEvent
+
     
     /**
      * @param args the command line arguments
@@ -239,10 +306,13 @@ public class NotaProfessor extends javax.swing.JFrame {
     private javax.swing.JTextField dataField;
     private javax.swing.JButton frequenciaButton;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
+    private javax.swing.JComboBox<String> pautaCombo;
+    private javax.swing.JButton salvarButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,14 +5,14 @@
 package biblioteca.view;
 
 import academico.model.Aluno;
-import academico.model.JPAUtil;
+import academico.model.ContatosAluno;
+import academico.model.ContatosProfessor;
 import academico.model.Professor;
 import biblioteca.controller.BibliotecarioController;
 import biblioteca.model.Obra;
-import jakarta.persistence.EntityManager;
-import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,6 +27,8 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
      */
     public CadastrarEmprestimo1() {
         initComponents();
+        invisivelBox.setVisible(false);
+        invisivelBox1.setVisible(false);
     }
 
     /**
@@ -51,7 +53,7 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         nomeField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         tituloField = new javax.swing.JTextField();
-        autorFIeld = new javax.swing.JTextField();
+        autorField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         anoField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -70,11 +72,14 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         materialBox = new javax.swing.JComboBox<>();
         filtrarButton1 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
+        invisivelBox = new javax.swing.JComboBox<>();
+        invisivelBox1 = new javax.swing.JComboBox<>();
         menu = new javax.swing.JPanel();
         obraCombo = new javax.swing.JComboBox<>();
         notificacaoCombo = new javax.swing.JComboBox<>();
         usuarioButton = new javax.swing.JButton();
         bibliotecarioCombo = new javax.swing.JComboBox<>();
+        emprestimoCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,7 +114,7 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
 
         salvarButton.setBackground(new java.awt.Color(200, 177, 43));
         salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        salvarButton.setText("CADASTRAR EMPRÉSTIMO");
+        salvarButton.setText("PROSSEGUIR EMPRÉSTIMO");
         salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salvarButtonsalvarActionEvent(evt);
@@ -130,9 +135,9 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         tituloField.setRequestFocusEnabled(false);
         tituloField.addActionListener(this::tituloFieldActionPerformed);
 
-        autorFIeld.setEditable(false);
-        autorFIeld.setFocusable(false);
-        autorFIeld.setRequestFocusEnabled(false);
+        autorField.setEditable(false);
+        autorField.setFocusable(false);
+        autorField.setRequestFocusEnabled(false);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel11.setText("Autor:");
@@ -209,6 +214,16 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         jLabel29.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel29.setText("(Selecionar usuário e obra antes)");
 
+        invisivelBox.setMaximumRowCount(10);
+        invisivelBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id" }));
+        invisivelBox.setFocusable(false);
+        invisivelBox.addActionListener(this::invisivelBoxalunoActionEvent);
+
+        invisivelBox1.setMaximumRowCount(10);
+        invisivelBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id" }));
+        invisivelBox1.setFocusable(false);
+        invisivelBox1.addActionListener(this::invisivelBox1alunoActionEvent);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -225,7 +240,8 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(usuarioBox, 0, 208, Short.MAX_VALUE)
-                                            .addComponent(pesquisaField))
+                                            .addComponent(pesquisaField)
+                                            .addComponent(invisivelBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGap(18, 18, 18)
                                         .addComponent(filtrarButton))
                                     .addComponent(jLabel27)))
@@ -239,7 +255,7 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(autorFIeld, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(autorField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel13)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -273,7 +289,8 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(materialBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(pesquisaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(pesquisaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(invisivelBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                             .addGap(18, 18, 18)
                                             .addComponent(filtrarButton1))
                                         .addComponent(jLabel28))))))
@@ -301,7 +318,7 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(autorFIeld, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autorField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,25 +344,30 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                                     .addComponent(poloField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(43, 43, 43)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel28)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(pesquisaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(filtrarButton1))
-                            .addGap(26, 26, 26)
-                            .addComponent(materialBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel27)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(filtrarButton))
-                            .addGap(26, 26, 26)
-                            .addComponent(usuarioBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(pesquisaField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(filtrarButton1))
+                                .addGap(26, 26, 26)
+                                .addComponent(materialBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(pesquisaField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(filtrarButton))
+                                .addGap(26, 26, 26)
+                                .addComponent(usuarioBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(invisivelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(invisivelBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(104, 104, 104)
                 .addComponent(salvarButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -375,6 +397,9 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         bibliotecarioCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Bibliotecário", "Atualizar Bibliotecário", "Consultar Bibliotecário" }));
         bibliotecarioCombo.addActionListener(this::bibliotecarioComboEvent);
 
+        emprestimoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cadastrar Empréstimo", "Atualizar Empréstimo", "Consultar Empréstimo", " " }));
+        emprestimoCombo.addActionListener(this::emprestimoComboActionPerformed);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -387,8 +412,10 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,7 +425,8 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
                     .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bibliotecarioCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(notificacaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(usuarioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emprestimoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(obraCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -406,11 +434,11 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,31 +473,211 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
         // TODO add your handling code here:
-        
-        BibliotecarioController bibliotecario = new BibliotecarioController();
-
-        try {
-            LocalDate nascimento = null;
-            try {
-                nascimento = LocalDate.parse(nascimentoField.getText());
-            }
-            catch (Exception e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Data inválida! Digite no formato aaaa-mm-dd");
-
-            }
-            /*
-            bibliotecario.cadastrarEmprestimo();
-            */
-        }
-        catch (Exception e ){
-            JOptionPane.showMessageDialog(this, "Dados inválidos!");
-        }
+        Integer usuarioId = Integer.parseInt(invisivelBox.getItemAt(usuarioBox.getSelectedIndex()));
+        Integer obraId = Integer.parseInt(invisivelBox1.getItemAt(materialBox.getSelectedIndex()));
+                
+        this.dispose();
+        new CadastrarEmprestimo(usuarioId, obraId).setVisible(true);
     }//GEN-LAST:event_salvarButtonActionPerformed
 
     private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeFieldActionPerformed
+
+    private void pesquisaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisaFieldActionPerformed
+
+    private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
+        // TODO add your handling code here:
+        
+        
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        System.out.println("\nTIPO USUÁRIO: " + pesquisaField.getText() + "\n");
+
+        if (!pesquisaField.getText().contentEquals("")) {
+            
+            if (pesquisaField.getText().toUpperCase().contentEquals("ALUNO")){
+      
+                try {
+
+                    List<Aluno> alunos = bibliotecario.consultarAlunos(null);
+
+                    for (Aluno a : alunos){
+                        usuarioBox.addItem(a.getNome());
+                        invisivelBox.addItem(String.valueOf(a.getId()));
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro de execução!");
+                }    
+                
+            }
+            else if (pesquisaField.getText().toUpperCase().contentEquals("PROFESSOR")){
+                
+                
+                try {
+                    List<Professor> professores = bibliotecario.consultarProfessores(null);
+
+                    for (Professor p : professores){
+                        usuarioBox.addItem(p.getNome());
+                        invisivelBox.addItem(String.valueOf(p.getId()));
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro de execução!");
+                }    
+                
+            }
+            else JOptionPane.showMessageDialog(this, "Filtro inválido, digite PROFESSOR ou ALUNO!");
+
+        } else JOptionPane.showMessageDialog(this, "Por favor digite um filtro!");
+        
+    }//GEN-LAST:event_filtrarButtonActionPerformed
+
+    private void usuarioBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioBoxalunoActionEvent
+        // TODO add your handling code here:
+
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        if (pesquisaField.getText().toUpperCase().contentEquals("ALUNO")){
+            
+            Aluno u = bibliotecario.consultarAlunos(invisivelBox.getItemAt(usuarioBox.getSelectedIndex())).getLast();
+
+            System.out.println("\nINICIOU FIELD\n");
+
+            nomeField.setText(u.getNome());
+            nascimentoField.setText(String.valueOf(u.getNascimento()));
+            cpfField.setText(u.getCpf());
+            poloField.setText(u.getPolo());
+
+             //Tabela Contato
+            DefaultTableModel modelT = (DefaultTableModel) contatoTable1.getModel();
+            modelT.setRowCount(0);
+            for (ContatosAluno c : u.getContatos()){
+
+                modelT.addRow(new Object[]{
+                    c.getContato()
+                });
+
+            }
+            modelT.addRow(new Object[]{""});
+            
+            
+            System.out.println("\nTERMINOU FIELD\n");
+        }
+        else if (pesquisaField.getText().toUpperCase().contentEquals("PROFESSOR")){
+            
+            Professor u = bibliotecario.consultarProfessores(invisivelBox.getItemAt(usuarioBox.getSelectedIndex())).getLast();
+
+            System.out.println("\nINICIOU FIELD\n");
+
+            nomeField.setText(u.getNome());
+            nascimentoField.setText(String.valueOf(u.getNascimento()));
+            cpfField.setText(u.getCpf());
+            poloField.setText(u.getPolo());
+
+            
+            DefaultTableModel modelT = (DefaultTableModel) contatoTable1.getModel();
+            modelT.setRowCount(0);
+            for (ContatosProfessor c : u.getContatos()){
+
+                modelT.addRow(new Object[]{
+                    c.getContato()
+                });
+
+            }
+            modelT.addRow(new Object[]{""});
+            
+            
+            System.out.println("\nTERMINOU FIELD\n");
+        }
+
+        
+ 
+    }//GEN-LAST:event_usuarioBoxalunoActionEvent
+
+    private void pesquisaField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pesquisaField1ActionPerformed
+
+    private void materialBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialBoxalunoActionEvent
+        // TODO add your handling code here:
+        
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        Obra obra = bibliotecario.consultarObraId(Integer.parseInt(invisivelBox1.getItemAt(materialBox.getSelectedIndex())));
+
+        System.out.println("\nINICIOU FIELD\n");
+        
+        tituloField.setText(obra.getTitulo());
+        autorField.setText(obra.getAutor());
+        editoraField.setText(obra.getEditora());
+        anoField.setText(obra.getAnoPublicacao());
+        
+        System.out.println("\nTERMINOU FIELD\n");
+
+        
+        
+    }//GEN-LAST:event_materialBoxalunoActionEvent
+
+    private void filtrarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButton1ActionPerformed
+        // TODO add your handling code here:
+
+        BibliotecarioController bibliotecario = new BibliotecarioController();
+
+        System.out.println("\nTIPO MATERIAL: " + pesquisaField1.getText() + "\n");
+
+        if (!pesquisaField1.getText().contentEquals("")) {
+
+                try {
+
+                    List<Obra> obras = bibliotecario.consultarObra(pesquisaField1.getText().toUpperCase());
+
+                    for (Obra o : obras){
+                        materialBox.addItem(o.getTitulo());
+                        invisivelBox1.addItem(String.valueOf(o.getId()));
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Não existe obra deste material!");
+                }    
+                
+        }
+        else {
+            
+            
+            try {
+
+                    List<Obra> obras = bibliotecario.consultarObra(null);
+
+                    for (Obra o : obras){
+                        usuarioBox.addItem(o.getTitulo());
+                        invisivelBox1.addItem(String.valueOf(o.getId()));
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Um erro aconteceu!");
+                }    
+            
+            
+        }
+        
+        
+    }//GEN-LAST:event_filtrarButton1ActionPerformed
+
+    private void tituloFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tituloFieldActionPerformed
+
+    private void invisivelBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBoxalunoActionEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invisivelBoxalunoActionEvent
+
+    private void invisivelBox1alunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invisivelBox1alunoActionEvent
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invisivelBox1alunoActionEvent
 
     private void obraComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obraComborequisicaoComboEvent
         // TODO add your handling code here:
@@ -534,164 +742,23 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bibliotecarioComboEvent
 
-    private void pesquisaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pesquisaFieldActionPerformed
-
-    private void filtrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButtonActionPerformed
+    private void emprestimoComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emprestimoComboActionPerformed
         // TODO add your handling code here:
         
-        
-        BibliotecarioController bibliotecario = new BibliotecarioController();
-        EntityManager em = JPAUtil.getEntityManager();
-        System.out.println("\nTIPO USUÁRIO: " + pesquisaField.getText() + "\n");
-
-        if (!pesquisaField.getText().contentEquals("")) {
-            
-            if (pesquisaField.getText().toUpperCase().contentEquals("ALUNO")){
-      
-                try {
-                    String jpqlAluno = """
-                    SELECT a
-                    FROM Aluno a
-                    WHERE a.deleted = false
-                    ORDER BY a.nome
-                    """;
-                    List<Aluno> alunos = em.createQuery(jpqlAluno, Aluno.class).getResultList();
-
-                    for (Aluno a : alunos){
-                        usuarioBox.addItem(a.getNome());
-                    }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Aluno não existe!");
-                }    
-                
-            }
-            else if (pesquisaField.getText().toUpperCase().contentEquals("PROFESSOR")){
-                
-                
-                try {
-                    String jpqlProfessor = """
-                    SELECT p
-                    FROM Professor p
-                    WHERE p.deleted = false
-                    ORDER BY p.nome
-                    """;
-                    List<Professor> professores = em.createQuery(jpqlProfessor, Professor.class).getResultList();
-
-                    for (Professor p : professores){
-                        usuarioBox.addItem(p.getNome());
-                    }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Professor não existe!");
-                }    
-                
-            }
-            else JOptionPane.showMessageDialog(this, "Filtro inválido, digite PROFESSOR ou ALUNO!");
-
-        } else JOptionPane.showMessageDialog(this, "Por favor digite um filtro!");
-        
-    }//GEN-LAST:event_filtrarButtonActionPerformed
-
-    private void usuarioBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioBoxalunoActionEvent
-        // TODO add your handling code here:
-        
-        /*
-        EntityManager em = JPAUtil.getEntityManager();
-        SecretarioController secretario = new SecretarioController();
-
-        Sala s = secretario.consultarSalas(em, salaBox.getSelectedItem().toString()).get(0);
-
-        System.out.println("\nINICIOU FIELD\n");
-        localField.setText(s.getLocal());
-        capacidadeField.setText(String.valueOf(s.getCapacidade()));
-        idField.setText(String.valueOf(s.getId()));
-        System.out.println("\nTERMINOU FIELD\n");
-
-        //Tabela Turma
-        DefaultTableModel modelT = (DefaultTableModel) turmaTable.getModel();
-        modelT.setRowCount(0);
-        for (Turma t : s.getTurmas()){
-
-            modelT.addRow(new Object[]{
-                t.getNome()
-            });
+        this.dispose();
+        if(emprestimoCombo.getSelectedIndex() == 0){
+            new CadastrarEmprestimo1().setVisible(true);
 
         }
-        modelT.addRow(new Object[]{""});
-        
-        */
-    }//GEN-LAST:event_usuarioBoxalunoActionEvent
+        else if (bibliotecarioCombo.getSelectedIndex() == 1){
+            new AtualizarEmprestimo().setVisible(true);
 
-    private void pesquisaField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pesquisaField1ActionPerformed
-
-    private void materialBoxalunoActionEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialBoxalunoActionEvent
-        // TODO add your handling code here:
-    }//GEN-LAST:event_materialBoxalunoActionEvent
-
-    private void filtrarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        
-         
-        BibliotecarioController bibliotecario = new BibliotecarioController();
-        EntityManager em = JPAUtil.getEntityManager();
-        System.out.println("\nTIPO MATERIAL: " + pesquisaField.getText() + "\n");
-
-        if (!pesquisaField.getText().contentEquals("")) {
-
-
-                try {
-                    String jpqlObra = """
-                    SELECT o
-                    FROM Obra o
-                    WHERE o.tipomaterial = :material AND o.deleted = false
-                    ORDER BY o.titulo
-                    """;
-                    List<Obra> obras = em.createQuery(jpqlObra, Obra.class).setParameter("tipomaterial",pesquisaField.getText().toUpperCase()).getResultList();
-
-                    for (Obra o : obras){
-                        materialBox.addItem(o.getTitulo());
-                    }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Não existe obra deste material!");
-                }    
-                
         }
-        else {
-            
-            
-            try {
-                    String jpqlObra = """
-                    SELECT o
-                    FROM Obra o
-                    WHERE o.deleted = false
-                    ORDER BY o.titulo
-                    """;
-                    List<Obra> obras = em.createQuery(jpqlObra, Obra.class).getResultList();
+        else if (bibliotecarioCombo.getSelectedIndex() == 2){
+            new AtualizarEmprestimo().setVisible(true);
 
-                    for (Obra o : obras){
-                        usuarioBox.addItem(o.getTitulo());
-                    }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Um erro aconteceu!");
-                }    
-            
-            
         }
-        
-        
-    }//GEN-LAST:event_filtrarButton1ActionPerformed
-
-    private void tituloFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tituloFieldActionPerformed
+    }//GEN-LAST:event_emprestimoComboActionPerformed
 
         
     /**
@@ -721,13 +788,16 @@ public class CadastrarEmprestimo1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField anoField;
-    private javax.swing.JTextField autorFIeld;
+    private javax.swing.JTextField autorField;
     private javax.swing.JComboBox<String> bibliotecarioCombo;
     private javax.swing.JTable contatoTable1;
     private javax.swing.JTextField cpfField;
     private javax.swing.JTextField editoraField;
+    private javax.swing.JComboBox<String> emprestimoCombo;
     private javax.swing.JButton filtrarButton;
     private javax.swing.JButton filtrarButton1;
+    private javax.swing.JComboBox<String> invisivelBox;
+    private javax.swing.JComboBox<String> invisivelBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
