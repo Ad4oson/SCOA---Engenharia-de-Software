@@ -50,7 +50,6 @@ public class NotaProfessor extends javax.swing.JFrame {
         dataField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        salvarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,15 +122,6 @@ public class NotaProfessor extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Digite Turma para filtrar:");
 
-        salvarButton.setBackground(new java.awt.Color(102, 102, 255));
-        salvarButton.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        salvarButton.setText("SALVAR");
-        salvarButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                salvarButtonsalvarActionEvent(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -144,9 +134,7 @@ public class NotaProfessor extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton3)
-                            .addGap(49, 49, 49)
-                            .addComponent(salvarButton))
+                            .addComponent(jButton3))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -162,11 +150,10 @@ public class NotaProfessor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(salvarButton))
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addContainerGap(316, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -258,24 +245,6 @@ public class NotaProfessor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pautaComboActionPerformed
 
-    private void salvarButtonsalvarActionEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarButtonsalvarActionEvent
-        // TODO add your handling code here:
-        /*
-        ProfessorController professor = new ProfessorController();
-        EntityManager em = JPAUtil.getEntityManager();
-        LocalDate data;
-        try {
-            data = LocalDate.parse(dataField.getText());
-
-            professor.lancarPauta(em, turmaField.getText(), data, conteudoText.getText(), atividadeText.getText(), observacaoText.getText());
-
-        }
-        catch (Exception e ){
-            JOptionPane.showMessageDialog(this, "Data inválida! Use yyyy-MM-dd");
-        }
-        */
-    }//GEN-LAST:event_salvarButtonsalvarActionEvent
-
     
     /**
      * @param args the command line arguments
@@ -313,6 +282,5 @@ public class NotaProfessor extends javax.swing.JFrame {
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
     private javax.swing.JComboBox<String> pautaCombo;
-    private javax.swing.JButton salvarButton;
     // End of variables declaration//GEN-END:variables
 }

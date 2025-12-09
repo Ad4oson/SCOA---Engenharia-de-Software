@@ -4,6 +4,13 @@
  */
 package academico.view.Aluno;
 
+import academico.controller.AlunoController;
+import academico.model.JPAUtil;
+import academico.model.NotaConsultaDTO;
+import jakarta.persistence.EntityManager;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Windows 11
@@ -17,6 +24,24 @@ public class ConsultarNotaAluno extends javax.swing.JFrame {
      */
     public ConsultarNotaAluno() {
         initComponents();
+        notaPrint();
+    }
+    
+    public void notaPrint(){
+        
+        AlunoController aluno = new AlunoController();
+        EntityManager em = JPAUtil.getEntityManager();
+
+            try { 
+
+                List<NotaConsultaDTO> dados = aluno.consultarNota(em);
+
+                jTable1.setModel(new NotaTableModelAluno(dados));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dados inválidos");
+            }
+ 
+        
     }
 
     /**
@@ -28,21 +53,169 @@ public class ConsultarNotaAluno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        menu = new javax.swing.JPanel();
+        requisicoesCombo = new javax.swing.JComboBox<>();
+        feedbackCombo1 = new javax.swing.JComboBox<>();
+        frequenciaButton = new javax.swing.JButton();
+        notaButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        menu.setBackground(new java.awt.Color(153, 153, 153));
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(102, 102, 255)));
+        menu.setForeground(new java.awt.Color(102, 102, 255));
+
+        requisicoesCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Requisição", "Atualizar Requisição", "Consultar Requisição", " " }));
+        requisicoesCombo.addActionListener(this::requisicoesComborequisicaoComboEvent);
+
+        feedbackCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Feedback", "Atualizar Feedback", "Consultar Feedback" }));
+        feedbackCombo1.addActionListener(this::feedbackCombo1Event);
+
+        frequenciaButton.setText("Frequência");
+        frequenciaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        frequenciaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                frequenciaButtonMouseClicked(evt);
+            }
+        });
+        frequenciaButton.addActionListener(this::frequenciaButtonActionPerformed);
+
+        notaButton.setText("Nota");
+        notaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        notaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                notaButtonMouseClicked(evt);
+            }
+        });
+        notaButton.addActionListener(this::notaButtonActionPerformed);
+
+        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
+        menu.setLayout(menuLayout);
+        menuLayout.setHorizontalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(requisicoesCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(feedbackCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        menuLayout.setVerticalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(requisicoesCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(feedbackCombo1)
+            .addComponent(frequenciaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(notaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(428, Short.MAX_VALUE))
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(408, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void requisicoesComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requisicoesComborequisicaoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(requisicoesCombo.getSelectedIndex() == 0){
+            new CriarRequisicaoAluno().setVisible(true);
+
+        }
+        else if (requisicoesCombo.getSelectedIndex() == 1){
+            new AtualizarRequisicaoAluno().setVisible(true);
+
+        }
+        else if (requisicoesCombo.getSelectedIndex() == 2){
+            new AtualizarRequisicaoAluno().setVisible(true);
+
+        }
+    }//GEN-LAST:event_requisicoesComborequisicaoComboEvent
+
+    private void feedbackCombo1Event(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feedbackCombo1Event
+        // TODO add your handling code here:
+        this.dispose();
+        if(feedbackCombo1.getSelectedIndex() == 0){
+            new CriarFeedbackAluno().setVisible(true);
+
+        }
+        else if (feedbackCombo1.getSelectedIndex() == 1){
+            new AtualizarFeedbackAluno().setVisible(true);
+
+        }
+        else if (feedbackCombo1.getSelectedIndex() == 2){
+            new AtualizarFeedbackAluno().setVisible(true);
+
+        }
+    }//GEN-LAST:event_feedbackCombo1Event
+
+    private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarFrequenciaAluno().setVisible(true);
+    }//GEN-LAST:event_frequenciaButtonMouseClicked
+
+    private void frequenciaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequenciaButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_frequenciaButtonActionPerformed
+
+    private void notaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notaButtonMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new ConsultarNotaAluno().setVisible(true);
+    }//GEN-LAST:event_notaButtonMouseClicked
+
+    private void notaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notaButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notaButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +243,13 @@ public class ConsultarNotaAluno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> feedbackCombo1;
+    private javax.swing.JButton frequenciaButton;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel menu;
+    private javax.swing.JButton notaButton;
+    private javax.swing.JComboBox<String> requisicoesCombo;
     // End of variables declaration//GEN-END:variables
 }

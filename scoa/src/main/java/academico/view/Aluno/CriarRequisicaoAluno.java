@@ -44,11 +44,12 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
         requisicaoLabel = new javax.swing.JLabel();
         tipoLabel = new javax.swing.JLabel();
         salvarButton = new javax.swing.JButton();
+        requisicaoCombo = new javax.swing.JComboBox<>();
         menu = new javax.swing.JPanel();
+        requisicoesCombo = new javax.swing.JComboBox<>();
+        feedbackCombo = new javax.swing.JComboBox<>();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
-        pautaCombo = new javax.swing.JComboBox<>();
-        requisicaoCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,9 +75,18 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
         });
         salvarButton.addActionListener(this::salvarButtonActionPerformed);
 
+        requisicaoCombo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        requisicaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Documento", "Outros", " " }));
+
         menu.setBackground(new java.awt.Color(153, 153, 153));
         menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(102, 102, 255)));
         menu.setForeground(new java.awt.Color(102, 102, 255));
+
+        requisicoesCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Requisição", "Atualizar Requisição", "Consultar Requisição", " " }));
+        requisicoesCombo.addActionListener(this::requisicoesComborequisicaoComboEvent);
+
+        feedbackCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrar Feedback", "Atualizar Feedback", "Consultar Feedback" }));
+        feedbackCombo.addActionListener(this::feedbackComboEvent);
 
         frequenciaButton.setText("Frequência");
         frequenciaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
@@ -91,45 +101,38 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
         notaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
         notaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                notaButtonEvent(evt);
+                notaButtonMouseClicked(evt);
             }
         });
-
-        pautaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Criar Pauta", "Consultar Pauta", "Atualizar Pauta" }));
-        pautaCombo.addItemListener(this::pautaComboEvent);
-        pautaCombo.addActionListener(this::pautaComboActionPerformed);
+        notaButton.addActionListener(this::notaButtonActionPerformed);
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(53, 53, 53)
+                .addComponent(requisicoesCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(feedbackCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pautaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuLayout.createSequentialGroup()
-                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pautaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(requisicoesCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(feedbackCombo)
+            .addComponent(frequenciaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(notaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        requisicaoCombo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        requisicaoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Documento", "Outros", " " }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(68, 68, 68)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,13 +145,14 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
                         .addComponent(requisicaoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(salvarButton)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(25, 25, 25)
                 .addComponent(requisicaoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,46 +202,64 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salvarButtonsalvarActionEvent
 
+    private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarButtonActionPerformed
+
+    private void requisicoesComborequisicaoComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requisicoesComborequisicaoComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(requisicoesCombo.getSelectedIndex() == 0){
+            new CriarRequisicaoAluno().setVisible(true);
+
+        }
+        else if (requisicoesCombo.getSelectedIndex() == 1){
+            new AtualizarRequisicaoAluno().setVisible(true);
+
+        }
+        else if (requisicoesCombo.getSelectedIndex() == 2){
+            new AtualizarRequisicaoAluno().setVisible(true);
+
+        }
+    }//GEN-LAST:event_requisicoesComborequisicaoComboEvent
+
+    private void feedbackComboEvent(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feedbackComboEvent
+        // TODO add your handling code here:
+        this.dispose();
+        if(feedbackCombo.getSelectedIndex() == 0){
+            new CriarFeedbackAluno().setVisible(true);
+
+        }
+        else if (feedbackCombo.getSelectedIndex() == 1){
+            new AtualizarFeedbackAluno().setVisible(true);
+
+        }
+        else if (feedbackCombo.getSelectedIndex() == 2){
+            new AtualizarFeedbackAluno().setVisible(true);
+
+        }
+    }//GEN-LAST:event_feedbackComboEvent
+
     private void frequenciaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frequenciaButtonMouseClicked
         // TODO add your handling code here:
         this.dispose();
-        new FrequenciaProfessor().setVisible(true);
+        new ConsultarFrequenciaAluno().setVisible(true);
+
     }//GEN-LAST:event_frequenciaButtonMouseClicked
 
     private void frequenciaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequenciaButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_frequenciaButtonActionPerformed
 
-    private void notaButtonEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notaButtonEvent
+    private void notaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notaButtonMouseClicked
         // TODO add your handling code here:
         this.dispose();
-        new NotaProfessor().setVisible(true);
-    }//GEN-LAST:event_notaButtonEvent
+        new ConsultarNotaAluno().setVisible(true);
+    }//GEN-LAST:event_notaButtonMouseClicked
 
-    private void pautaComboEvent(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pautaComboEvent
+    private void notaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notaButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pautaComboEvent
-
-    private void pautaComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pautaComboActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        if(pautaCombo.getSelectedIndex() == 0){
-            new CriarPautaProfessor().setVisible(true);
-
-        }
-        else if (pautaCombo.getSelectedIndex() == 1){
-            new AtualizarPautaProfessor().setVisible(true);
-
-        }
-        else if (pautaCombo.getSelectedIndex() == 2){
-            new AtualizarPautaProfessor().setVisible(true);
-
-        }
-    }//GEN-LAST:event_pautaComboActionPerformed
-
-    private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_salvarButtonActionPerformed
+    }//GEN-LAST:event_notaButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,15 +287,16 @@ public class CriarRequisicaoAluno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> feedbackCombo;
     private javax.swing.JButton frequenciaButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
-    private javax.swing.JComboBox<String> pautaCombo;
     private javax.swing.JComboBox<String> requisicaoCombo;
     private javax.swing.JLabel requisicaoLabel;
     private javax.swing.JTextPane requisicaoText;
+    private javax.swing.JComboBox<String> requisicoesCombo;
     private javax.swing.JButton salvarButton;
     private javax.swing.JLabel tipoLabel;
     // End of variables declaration//GEN-END:variables

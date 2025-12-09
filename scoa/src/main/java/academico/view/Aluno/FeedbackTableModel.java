@@ -91,8 +91,7 @@ public class FeedbackTableModel extends AbstractTableModel {
                 em,
                 f.getId(),
                 f.getTexto(),
-                f.getTipoFeedback(),
-                f.isDeleted()
+                f.getTipoFeedback()
                  );
 
                 fireTableCellUpdated(row, col);
@@ -108,8 +107,8 @@ public class FeedbackTableModel extends AbstractTableModel {
                 em,
                 f.getId(),
                 f.getTexto(),
-                f.getTipoFeedback(),
-                f.isDeleted()
+                f.getTipoFeedback()
+
                  );
 
                 fireTableCellUpdated(row, col);
@@ -126,8 +125,7 @@ public class FeedbackTableModel extends AbstractTableModel {
                 em,
                 f.getId(),
                 f.getTexto(),
-                f.getTipoFeedback(),
-                f.isDeleted()
+                f.getTipoFeedback()
                  );
 
                 fireTableCellUpdated(row, col);

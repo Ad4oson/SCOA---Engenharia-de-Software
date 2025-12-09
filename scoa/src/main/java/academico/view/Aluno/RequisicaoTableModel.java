@@ -93,8 +93,7 @@ public class RequisicaoTableModel extends AbstractTableModel {
                 em,
                 r.getId(),
                 r.getTexto(),
-                r.getTipo(),
-                r.isDeleted()
+                r.getTipo()
                  );
 
                 fireTableCellUpdated(row, col);
@@ -110,8 +109,7 @@ public class RequisicaoTableModel extends AbstractTableModel {
                 em,
                 r.getId(),
                 r.getTexto(),
-                r.getTipo(),
-                r.isDeleted()
+                r.getTipo()
                  );
 
                 fireTableCellUpdated(row, col);
@@ -128,8 +126,7 @@ public class RequisicaoTableModel extends AbstractTableModel {
                 em,
                 r.getId(),
                 r.getTexto(),
-                r.getTipo(),
-                r.isDeleted()
+                r.getTipo()
                  );
 
                 fireTableCellUpdated(row, col);

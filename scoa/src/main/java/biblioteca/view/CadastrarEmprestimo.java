@@ -62,6 +62,13 @@ public class CadastrarEmprestimo extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
+            public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
+                formAncestorMoved(evt);
+            }
+            public void ancestorResized(java.awt.event.HierarchyEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -324,6 +331,10 @@ public class CadastrarEmprestimo extends javax.swing.JFrame {
     private void prazoField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prazoField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_prazoField1ActionPerformed
+
+    private void formAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formAncestorMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formAncestorMoved
 
     /**
      * @param args the command line arguments

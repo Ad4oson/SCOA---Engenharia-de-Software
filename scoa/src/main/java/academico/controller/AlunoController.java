@@ -1,11 +1,13 @@
 package academico.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import academico.model.Aluno;
 import academico.model.Feedback;
 import academico.model.FrequenciaAluno;
 import academico.model.NotaAluno;
+import academico.model.NotaConsultaDTO;
 import academico.model.Requisicao;
 import academico.model.TipoFeedback;
 import academico.model.TipoRequisicao;
@@ -41,16 +43,16 @@ public class AlunoController {
 
         try {
             Permissoes.exigirAluno();
+            System.out.println("ALUNO LOGIN:" + Sessao.getUsuarioLogado().getLogin());
             String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
             String jpql = """
 
-                SELECT f, d
+                SELECT f
                 FROM FrequenciaAluno f 
                 INNER JOIN f.turma t
-                INNER JOIN t.disciplina
-                WHERE f.aluno.login = :alunoLogin AND f.deleted = false
-                ORDER BY f.data
+                WHERE f.aluno.usuario.login = :alunoLogin AND f.deleted = false
+                ORDER BY t.nome ASC, f.created_at DESC
             
                     """;
 
@@ -59,38 +61,61 @@ public class AlunoController {
             .getResultList();
         }
         catch (Exception e){
-            return null;
+            e.printStackTrace();
+            return List.of();
         }
     }
 
 
-    public List<NotaAluno> consultarNotas(EntityManager em) {
-        try {
-            // Garante que apenas alunos acessem
-            Permissoes.exigirAluno();
+    public List<NotaConsultaDTO> consultarNota(EntityManager em){
 
-            String alunoLogin = Sessao.getUsuarioLogado().getLogin();
+        Permissoes.exigirAluno();
+        System.out.println("ALUNO LOGIN:" + Sessao.getUsuarioLogado().getLogin());
+        String alunoLogin = Sessao.getUsuarioLogado().getLogin();
 
-            System.out.println("CONSULTAR NOTAS, LOGIN ALUNO: " + alunoLogin);
 
             String jpql = """
-                SELECT n
-                FROM NotaAluno n
-                INNER JOIN n.avaliacao a
-                INNER JOIN a.disciplina d
-                WHERE n.deleted = false
-                AND n.aluno.login = :alunoLogin
-                ORDER BY d.nome, a.data
+                SELECT DISTINCT new academico.model.NotaConsultaDTO(
+                    a.nome,
+                    t.nome,
+                    d.nome,
+                    p1.valor,
+                    p2.valor,
+                    pf.valor
+                )
+                FROM Turma t
+                JOIN t.disciplina d
+                JOIN t.avaliacoes av
+                JOIN av.notas n
+                JOIN n.aluno a
+
+                LEFT JOIN NotaAluno p1
+                    ON p1.aluno = a
+                    AND p1.deleted = false
+                    AND p1.avaliacao.tipo = 'P1'
+                    AND p1.avaliacao.turma = t
+
+                LEFT JOIN NotaAluno p2
+                    ON p2.aluno = a
+                    AND p2.deleted = false
+                    AND p2.avaliacao.tipo = 'P2'
+                    AND p2.avaliacao.turma = t
+
+                LEFT JOIN NotaAluno pf
+                    ON pf.aluno = a
+                    AND pf.deleted = false
+                    AND pf.avaliacao.tipo = 'PF'
+                    AND pf.avaliacao.turma = t
+
+                WHERE n.deleted = false AND a.usuario.login = :alunoLogin
+                ORDER BY t.nome
             """;
 
-            return em.createQuery(jpql, NotaAluno.class)
+            return em.createQuery(jpql, NotaConsultaDTO.class)
                 .setParameter("alunoLogin", alunoLogin)
                 .getResultList();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        
     }
 
     //NÃO FEITO
@@ -140,6 +165,9 @@ public class AlunoController {
             feedback.setTipoFeedback(tipoFeedback);
             feedback.setAluno(alunoT);
 
+            feedback.setDeleted(false);
+            feedback.setCreated_at(LocalDateTime.now());
+
             em.persist(feedback);
             tx.commit();
         }
@@ -162,7 +190,8 @@ public class AlunoController {
             String jpql = """
                 SELECT f 
                 FROM Feedback f
-                WHERE f.id = :id AND f.aluno.usuario.login = :alunoLogin
+                WHERE f.id = :id AND f.aluno.usuario.login = :alunoLogin AND f.deleted = false
+                ORDER BY f.id DESC
             """;
 
             return em.createQuery(jpql, Feedback.class)
@@ -175,7 +204,7 @@ public class AlunoController {
             String jpql = """
                 SELECT f 
                 FROM Feedback f
-                WHERE f.aluno.usuario.login = :alunoLogin
+                WHERE f.aluno.usuario.login = :alunoLogin AND f.deleted = false
                 ORDER BY f.id DESC
             """;
 
@@ -186,7 +215,7 @@ public class AlunoController {
 
     }
 
-    public void atualizarFeedback(EntityManager em, int feedbackId, String novoTexto, TipoFeedback novoTipo, Boolean deleted) {
+    public void atualizarFeedback(EntityManager em, int feedbackId, String novoTexto, TipoFeedback novoTipo) {
 
         Permissoes.exigirAluno();
 
@@ -202,15 +231,14 @@ public class AlunoController {
             if (feedback == null)
                 throw new IllegalArgumentException("Feedback não encontrado.");
 
-            if (feedback.getAluno().getUsuario().getLogin() != alunoLogin)
+            System.out.println("LoginSessao: " + alunoLogin + " | LoginFeedback: " + feedback.getAluno().getUsuario().getLogin() + " | feedbackId: " + feedback.getId());
+
+            if (!feedback.getAluno().getUsuario().getLogin().equals(alunoLogin)){
                 throw new SecurityException("Você não pode alterar um feedback que não é seu.");
+            }
 
             feedback.setTexto(novoTexto);
             feedback.setTipoFeedback(novoTipo);
-
-            if (deleted != null) feedback.setDeleted(deleted);
-
-            em.merge(feedback);
 
             tx.commit();
         }
@@ -279,6 +307,9 @@ public class AlunoController {
             req.setAluno(alunoT);
             req.setTipo(tipo);
 
+            req.setDeleted(false);
+            req.setCreated_at(LocalDateTime.now());
+
             em.persist(req);
 
             tx.commit();
@@ -325,7 +356,7 @@ public class AlunoController {
     }
 
 
-    public void atualizarRequisicao(EntityManager em, int id, String novoTexto, TipoRequisicao tipo, Boolean deleted) {
+    public void atualizarRequisicao(EntityManager em, int id, String novoTexto, TipoRequisicao tipo) {
 
         Permissoes.exigirAluno();
         EntityTransaction tx = em.getTransaction();
@@ -338,13 +369,12 @@ public class AlunoController {
             // Verifica se a requisição é do aluno
             Requisicao req = em.find(Requisicao.class, id);
 
-            if (req == null || req.getAluno().getUsuario().getLogin() != alunoLogin) {
+            if (req == null || !req.getAluno().getUsuario().getLogin().equals( alunoLogin)) {
                 throw new RuntimeException("Requisição não encontrada ou não pertence ao aluno logado.");
             }
 
             req.setTexto(novoTexto);
             req.setTipo(tipo);
-            req.setDeleted(deleted);
 
             tx.commit();
         }
