@@ -1,10 +1,15 @@
 package academico;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,24 +17,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 import academico.controller.SecretarioController;
 import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
+import academico.model.ContatosAluno;
 import academico.model.Curso;
 import academico.model.Disciplina;
+import academico.model.DocumentosAluno;
 import academico.model.Professor;
 import academico.model.StatusCurso;
 import academico.model.Turma;
 import academico.model.TurnoType;
+import academico.model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 
 
-/* 
+
 public class SecretarioTest {
 
     private SecretarioController secretario;
@@ -50,97 +60,111 @@ public class SecretarioTest {
     }
 
     //Cadastro Aluno com dados corretos e data congruente
-    @Test
-    void testCadastrarAluno() {
+@Test
+void testCadastrarAluno() {
 
-        //Transforma String em LocalDate
-        String dataNascimento = "2008-12-01";
-        LocalDate dataNascimentoReal = LocalDate.parse(dataNascimento);
+    // prepara valores
+    String cursoNome = "1";
+    LocalDate nascimento = LocalDate.parse("2008-12-01");
 
-        secretario.cadastrarAluno(
+    // mock da query de curso
+    TypedQuery<Curso> queryCurso = mock(TypedQuery.class);
+    when(em.createQuery(anyString(), eq(Curso.class))).thenReturn(queryCurso);
+    when(queryCurso.setParameter(eq("cursoNome"), eq(cursoNome))).thenReturn(queryCurso);
+    Curso cursoFake = new Curso();
+    when(queryCurso.getSingleResult()).thenReturn(cursoFake);
+
+    // mock da query de bolsa
+    TypedQuery<BolsaFinanciamento> queryBolsa = mock(TypedQuery.class);
+    when(em.createQuery(contains("BolsaFinanciamento"), eq(BolsaFinanciamento.class))).thenReturn(queryBolsa);
+    when(queryBolsa.setParameter(eq("bolsaNome"), eq(1))).thenReturn(queryBolsa);
+    BolsaFinanciamento bolsaFake = new BolsaFinanciamento();
+    when(queryBolsa.getSingleResult()).thenReturn(bolsaFake);
+
+    // execução
+    secretario.cadastrarAluno(
             em,
             "loginUser",
             "123",
             "NomeTeste",
             "11111111111",
             "2222222",
-            dataNascimentoReal,
+            "POLO",
+            nascimento,
             "Rua X",
             "202501",
-            1,  
-            1   
-        );
+            cursoNome,
+            1,
+            "statusFinanceiroBom",
+            new ArrayList<>(),
+            new ArrayList<>());
 
-        // Verifica se iniciou transação
-        verify(tx).begin();
+    verify(tx).begin();
 
-        // Verifica se o curso foi buscado
-        verify(em).getReference(Curso.class, 1);
+    // verifica se query de curso foi chamada
+    verify(em).createQuery(anyString(), eq(Curso.class));
+    verify(queryCurso).setParameter("cursoNome", cursoNome);
+    verify(queryCurso).getSingleResult();
 
-        // Verifica se a bolsa foi buscada
-        verify(em).getReference(BolsaFinanciamento.class, 1);
+    // verifica persistência do aluno
+    ArgumentCaptor<Aluno> cap = ArgumentCaptor.forClass(Aluno.class);
+    verify(em).persist(cap.capture());
+    Aluno aluno = cap.getValue();
 
-        // Captura o aluno persistido
-        ArgumentCaptor<Aluno> alunoCaptor = ArgumentCaptor.forClass(Aluno.class);
-        verify(em).persist(alunoCaptor.capture());
+    assertEquals("NomeTeste", aluno.getNome());
+    assertEquals("11111111111", aluno.getCpf());
+    assertEquals(nascimento, aluno.getNascimento());
+    assertFalse(aluno.isDeleted());
+    assertNotNull(aluno.getCreated_at());
 
-        Aluno aluno = alunoCaptor.getValue();
-
-        // Verifica se informações principais foram atribuídas corretamente
-        assertEquals("NomeTeste", aluno.getNome());
-        assertEquals("11111111111", aluno.getCpf());
-        assertEquals("Rua X", aluno.getEndereco());
-        assertEquals(aluno.getNascimento(), dataNascimentoReal);
-        assertNotNull(aluno.getCreated_at());
-        assertEquals(aluno.isDeleted(), false);
+    verify(tx).commit();
+}
 
 
-        // Verifica commit
-        verify(tx).commit();
-    }
 
-    @Test
-    void testCadastrarAlunoCursoInexistente() {
+ @Test
+void testCadastrarAlunoCursoInexistente() {
 
-    // Simula que o curso não existe → lança EntityNotFoundException
-    when(em.getReference(Curso.class, 999))
-        .thenThrow(new jakarta.persistence.EntityNotFoundException("Curso não encontrado"));
+    // simula query de curso
+    TypedQuery<Curso> queryCurso = mock(TypedQuery.class);
+    when(em.createQuery(anyString(), eq(Curso.class))).thenReturn(queryCurso);
+    when(queryCurso.setParameter(eq("cursoNome"), eq("999"))).thenReturn(queryCurso);
+    when(queryCurso.getSingleResult()).thenThrow(new EntityNotFoundException("Curso não encontrado"));
 
+    List<DocumentosAluno> documentos = new ArrayList<>();
+    List<ContatosAluno> contatos= new ArrayList<>();
     try {
-        LocalDate dataNascimentoReal = LocalDate.parse("2001-02-10");
         secretario.cadastrarAluno(
-            em,
-            "loginUser",
-            "123",
-            "Fulano",
-            "11111111111",
-            "2222222",
-            dataNascimentoReal,
-            "Rua X",
-            "2025001",
-            999,   // curso inexistente
-            1
+                em,
+                "loginUser",
+                "123",
+                "Nome",
+                "Fulano",
+                "11111111111",
+                "2222222",
+                LocalDate.parse("2001-02-10"),
+                "Rua X",
+                "2025001",
+                "999",
+                1,
+                "statusOk",
+                documentos,
+                contatos
         );
 
-        // transação deve iniciar
+        fail("Era esperado lançar EntityNotFoundException");
+
+    } catch (Exception e) {
+
         verify(tx).begin();
 
-        // deve ter tentado buscar o curso
-        verify(em).getReference(Curso.class, 999);
+        verify(queryCurso).getSingleResult();
 
-        // aluno NÃO deve ser persistido
         verify(em, never()).persist(any(Aluno.class));
 
-        // como houve exceção, commit NÃO deve ocorrer
-        verify(tx, never()).commit();
-        }
-    catch(EntityNotFoundException e) {
-        // rollback deve ocorrer
         verify(tx).rollback();
     }
-
-
-    }
+}
 
 
     @Test
@@ -152,11 +176,16 @@ public class SecretarioTest {
         when(em.getReference(BolsaFinanciamento.class, 999))
             .thenThrow(new jakarta.persistence.EntityNotFoundException("Bolsa não encontrada"));
 
+            List<DocumentosAluno> documentos = new ArrayList<>();
+            List<ContatosAluno> contatos= new ArrayList<>();
         try {
             LocalDate dataNascimentoReal = LocalDate.parse("2002-10-10");
+
+
             secretario.cadastrarAluno(
                 em,
                 "loginUser",
+                "Nome",
                 "123",
                 "Fulano",
                 "11111111111",
@@ -164,8 +193,11 @@ public class SecretarioTest {
                 dataNascimentoReal,
                 "Rua X",
                 "2025001",
-                1,     // curso ok
-                999    // bolsa inexistente
+                "1",     // curso ok
+                999,    // bolsa inexistente
+                "statusFinanceiro",
+                documentos,
+                contatos
             );
 
             verify(tx).begin();
@@ -195,94 +227,97 @@ public class SecretarioTest {
 
 
     //Cadastro de Professor com dados corretos e data congruente
-    @Test
+   @Test
     void testProfessor() {
-        
-        when(em.getReference(Turma.class, 1)).thenReturn(new Turma());
-        when(em.getReference(Turma.class, 2)).thenReturn(new Turma());
-        when(em.getReference(Turma.class, 3)).thenReturn(new Turma());
-        //Transforma String em LocalDate
-        String dataAdmissao = "2025-10-20";
-        LocalDate dataAdmissaoReal = LocalDate.parse(dataAdmissao);
-        String dataNascimento = "2003-06-10";
-        LocalDate dataNascimentoReal = LocalDate.parse(dataNascimento);
 
+        // Mock de turmas reais
+        Turma t1 = new Turma();
+        Turma t2 = new Turma();
+        Turma t3 = new Turma();
 
-        ArrayList<Integer> turmas = new ArrayList<>();
-        turmas.add(1);
-        turmas.add(2);
-        turmas.add(3);
+        List<Turma> turmas = Arrays.asList(t1, t2, t3);
 
-        secretario.cadastrarProfessor(em,
-            "login01", 
+        LocalDate dataAdmissaoReal = LocalDate.parse("2025-10-20");
+        LocalDate dataNascimentoReal = LocalDate.parse("2003-06-10");
+
+        secretario.cadastrarProfessor(
+            em,
+            "login01",
             "senha01",
             "nome01",
             "cpf01",
             "rg01",
-            dataNascimentoReal, 
-            "end01", 
-            "formacao01", 
-            "registro01", 
+            dataNascimentoReal,
+            "end01",
+            "formacao01",
+            "registro01",
             dataAdmissaoReal,
-            turmas);
+            5000,      // salario – obrigatório no método atual
+            turmas
+        );
 
         verify(tx).begin();
 
         ArgumentCaptor<Professor> profCaptor = ArgumentCaptor.forClass(Professor.class);
-
         verify(em).persist(profCaptor.capture());
+
         Professor prof = profCaptor.getValue();
 
-
-        assertEquals(prof.getNome(), "nome01");
-        assertEquals(prof.getCpf(), "cpf01");
-        assertEquals(prof.getDataAdmissao(), dataAdmissaoReal);
-        assertEquals(prof.getNascimento(), dataNascimentoReal);
+        assertEquals("nome01", prof.getNome());
+        assertEquals("cpf01", prof.getCpf());
+        assertEquals(dataAdmissaoReal, prof.getDataAdmissao());
+        assertEquals(dataNascimentoReal, prof.getNascimento());
         assertNotNull(prof.getCreated_at());
         assertFalse(prof.isDeleted());
+        assertEquals(5000, prof.getSalario());
+        assertEquals(turmas, prof.getTurmas());
 
         verify(tx).commit();
-        
     }
 
     //Cadastro de Professor junto de Turma inexistente
-    @Test
-    void testCadastrarProfessorTurmaInexistente(){
-        
-        when(em.getReference(Turma.class, 999)).thenThrow(new jakarta.persistence.EntityNotFoundException("\nTurma não encontrada"));
-        ArrayList<Integer> turmas = new ArrayList<>();
-        turmas.add(999);
+   @Test
+void testCadastrarProfessorTurmaInexistente() {
+    // given
+    final Turma TURMA_INEXISTENTE = new Turma();
+    when(em.getReference(Turma.class, TURMA_INEXISTENTE))
+        .thenThrow(new EntityNotFoundException("Turma não encontrada"));
 
-        try {
+    List<Turma> turmas = List.of(TURMA_INEXISTENTE);
 
-            LocalDate dataAdmissaoReal = LocalDate.parse("2022-02-10");
-            LocalDate dataNascimentoReal = LocalDate.parse("2001-02-10");
-            secretario.cadastrarProfessor(em,
-            "login01", 
+    LocalDate dataAdmissao = LocalDate.parse("2022-02-10");
+    LocalDate dataNascimento = LocalDate.parse("2001-02-10");
+
+    // when + then
+    assertThrows(EntityNotFoundException.class, () -> 
+        secretario.cadastrarProfessor(
+            em,
+            "login01",
             "senha01",
             "nome01",
             "cpf01",
             "rg01",
-            dataNascimentoReal, 
-            "end01", 
-            "formacao01", 
-            "registro01", 
-            dataAdmissaoReal,
-            turmas);
-            
-            verify(tx).begin();
-            
+            dataNascimento,
+            "end01",
+            "formacao01",
+            "registro01",
+            dataAdmissao,
+            100,
+            turmas
+        )
+    );
 
-            ArgumentCaptor<Professor> profCaptor = ArgumentCaptor.forClass(Professor.class);
-            verify(em, never()).persist(profCaptor.capture());
+    // then (verificações)
+    verify(tx).begin();
+    verify(em, never()).persist(any(Professor.class));
+    verify(tx, never()).commit();
+    verify(tx).rollback();
 
-
-            verify(tx, never()).commit();
-        }
-        catch(EntityNotFoundException e1){
-            verify(tx).rollback();
-        }
-    }
+    // opcional: verificar ordem begin -> rollback
+    InOrder inOrder = inOrder(tx);
+    inOrder.verify(tx).begin();
+    inOrder.verify(tx).rollback();
+}
 
 
     //Cadastro de Curso (ALUNOS null | DISCIPLINAS null | COORDENADOR null), sem referências
@@ -321,83 +356,87 @@ public class SecretarioTest {
     }
 
     //Cadastro de Curso Coordenador Inexistente
-    @Test
-    void testCadastrarCursoCoordenadorInexistente(){
+   @Test
+void testCadastrarCursoCoordenadorInexistente() {
 
-        when(em.getReference(Coordenador.class, 999))
-        .thenThrow(new jakarta.persistence.EntityNotFoundException("\nCoordenador Inexistente"));
-  
-        try {
-                
-            secretario.cadastrarCurso(
+    TypedQuery<Professor> queryMock = mock(TypedQuery.class);
+
+    when(em.createQuery(anyString(), eq(Professor.class))).thenReturn(queryMock);
+    when(queryMock.setParameter(eq("cpf"), eq("999"))).thenReturn(queryMock);
+    when(queryMock.getSingleResult()).thenThrow(new EntityNotFoundException("Coordenador Inexistente"));
+
+    assertThrows(EntityNotFoundException.class, () -> {
+
+        secretario.cadastrarCurso(
             em,
-            "cursonome1", 
-            "mensalidade1", 
-            TurnoType.MATUTINO, 
-            3600, 
-            8, 
-            null, 
-            null, 
-            null, 
-            StatusCurso.AGUARDO, 
-            null, 
-            null, 
-            999);
+            "cursonome1",
+            "mensalidade1",
+            TurnoType.MATUTINO,
+            3600,
+            8,
+            null,
+            null,
+            null,
+            StatusCurso.AGUARDO,
+            null,
+            null,
+            "999"     // <----- importante: coordenadorCpf é STRING no método
+        );
 
-            verify(tx).begin();
-            
-            //tenta buscar o coordenador
-            verify(em).getReference(Coordenador.class, 999);
+    });
 
-            verify(em, never()).persist(any());
-            verify(tx, never()).commit();
-        }
-        catch(EntityNotFoundException e1){
-            verify(tx).rollback();
-        }
+    verify(tx).begin();
 
-    }
+    // Confirmamos que NADA foi persistido
+    verify(em, never()).persist(any(Curso.class));
 
+    // Commit não deve ser chamado
+    verify(tx, never()).commit();
+
+    // Rollback deve ser chamado
+    verify(tx).rollback();
+}
+    /* 
     //Cadastro turma (SALA null | ALUNOS null)
     @Test
     void testCadastrarTurma(){
 
+        when(em.getReference(Disciplina.class, 1)).thenReturn(new Disciplina());
+        when(em.getReference(Professor.class, 1)).thenReturn(new Professor());
 
-            when(em.getReference(Disciplina.class, 1)).thenReturn(new Disciplina());
+        LocalTime horario = LocalTime.parse("22:45");
 
-            when(em.getReference(Professor.class, 1)).thenReturn(new Professor());
+        secretario.cadastrarTurma(
+            em,
+            "TURMA01",
+            horario,
+            10,
+            TurnoType.VESPERTINO,
+            null,
+            1,
+            1
+        );
 
-            LocalTime horario = LocalTime.parse("22:45");
-            secretario.cadastrarTurma(em,
-                horario,
-                10, 
-                TurnoType.VESPERTINO, 
-                null, 
-                1, 
-                1, 
-                null);
+        verify(tx).begin();
 
-            verify(tx).begin();
+        verify(em).getReference(Disciplina.class, 1);
+        verify(em).getReference(Professor.class, 1);
 
-            //Verifica disciplina/professor id=1
-            verify(em).getReference(Disciplina.class, 1);
-            verify(em).getReference(Professor.class, 1);
+        ArgumentCaptor<Turma> turmaCaptor = ArgumentCaptor.forClass(Turma.class);
+        verify(em).persist(turmaCaptor.capture());
 
-            
-            ArgumentCaptor<Turma> turmaCaptor = ArgumentCaptor.forClass(Turma.class);
-            verify(em).persist(turmaCaptor.capture());
-            Turma turma = turmaCaptor.getValue();
-            
-            
-            assertEquals(10, turma.getNumerovagas());
-            assertEquals(null, turma.getSala());
-            assertEquals(null, turma.getAlunos());
+        Turma turma = turmaCaptor.getValue();
 
-            verify(tx).commit();
+        assertEquals(10, turma.getNumerovagas());
+        assertNull(turma.getSala());
+        assertNull(turma.getAlunos());
+
+        verify(tx).commit();
     }
+*/
+
+
 
 
 }
 
-
-*/

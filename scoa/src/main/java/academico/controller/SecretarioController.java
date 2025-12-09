@@ -57,7 +57,7 @@ public class SecretarioController {
                     """;
             
 
-            BolsaFinanciamento bolsaT = em.createQuery(jpqlBolsa, BolsaFinanciamento.class).setParameter("bolsaNome", bolsaId).getSingleResult();
+            BolsaFinanciamento bolsaT = em.createQuery(jpqlBolsa, BolsaFinanciamento.class).setParameter("bolsaId", bolsaId).getSingleResult();
             if (bolsaId != null) novoAluno.setBolsa(bolsaT);
             
             Usuario usuario = new Usuario();
