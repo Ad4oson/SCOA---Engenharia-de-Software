@@ -16,7 +16,6 @@ import org.mockito.ArgumentCaptor;
 import academico.controller.SecretarioController;
 import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
-import academico.model.Coordenador;
 import academico.model.Curso;
 import academico.model.Disciplina;
 import academico.model.Professor;

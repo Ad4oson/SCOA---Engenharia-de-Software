@@ -16,12 +16,12 @@ public class Mensalidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int valorbase;
-    private int cargahoraria;
-    private int desconto;
-    private int valorfinal;
+    private float valorbase;
+    private Integer cargahoraria;
+    private float desconto;
+    private float valorfinal;
 
     private LocalDateTime created_at;
     private boolean deleted;
@@ -38,43 +38,43 @@ public class Mensalidade {
 
 
     //#region getters e setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getValorbase() {
+    public float getValorbase() {
         return valorbase;
     }
 
-    public void setValorbase(int valorbase) {
+    public void setValorbase(float valorbase) {
         this.valorbase = valorbase;
     }
 
-    public int getCargahoraria() {
+    public Integer getCargahoraria() {
         return cargahoraria;
     }
 
-    public void setCargahoraria(int cargahoraria) {
+    public void setCargahoraria(Integer cargahoraria) {
         this.cargahoraria = cargahoraria;
     }
 
-    public int getDesconto() {
+    public float getDesconto() {
         return desconto;
     }
 
-    public void setDesconto(int desconto) {
+    public void setDesconto(float desconto) {
         this.desconto = desconto;
     }
 
-    public int getValorfinal() {
+    public float getValorfinal() {
         return valorfinal;
     }
 
-    public void setValorfinal(int valorfinal) {
+    public void setValorfinal(float valorfinal) {
         this.valorfinal = valorfinal;
     }
 

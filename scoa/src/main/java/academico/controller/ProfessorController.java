@@ -126,7 +126,7 @@ public class ProfessorController {
 
     
     public void lancarFrequencia(EntityManager em, Integer turmaId, Integer alunoId, 
-        LocalDate data, String justificativa, int tempoDeAula, boolean presente){
+        LocalDate data,  int tempoDeAula, boolean presente){
 
 
         EntityTransaction tx = em.getTransaction();
@@ -138,7 +138,6 @@ public class ProfessorController {
             Aluno aluno = em.getReference(Aluno.class, alunoId);
 
             frequencia.setPresente(presente);
-            frequencia.setJustificativa(justificativa);
             frequencia.setTempo_de_aula(tempoDeAula);
             frequencia.setData(data);
             frequencia.setAluno(aluno);
@@ -207,7 +206,7 @@ public class ProfessorController {
     }
     
 
-    public void atualizarFrequencia(EntityManager em, int frequenciaId, String novaJustificativa, boolean presente, LocalDate data) {
+    public void atualizarFrequencia(EntityManager em, int frequenciaId, boolean presente, LocalDate data) {
 
         EntityTransaction tx = em.getTransaction();
 
@@ -218,7 +217,6 @@ public class ProfessorController {
             if (frequencia == null)
                 throw new EntityNotFoundException("Frequência não encontrada");
 
-            if (novaJustificativa != null) frequencia.setJustificativa(novaJustificativa);
             frequencia.setPresente(presente);
             if (data != null) frequencia.setData(data);
 

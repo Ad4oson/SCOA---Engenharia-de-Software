@@ -74,7 +74,6 @@ public class FrequenciaTableModel extends AbstractTableModel {
             professor.atualizarFrequencia(
             em,
             f.getId(),
-            f.getJustificativa(),
             presente,
             f.getData()
              );

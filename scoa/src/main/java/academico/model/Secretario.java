@@ -2,7 +2,7 @@ package academico.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+/* 
 
 public class Secretario extends Aluno{
 
@@ -49,3 +49,5 @@ public class Secretario extends Aluno{
 
 
 }
+
+*/

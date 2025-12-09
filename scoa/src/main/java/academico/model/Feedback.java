@@ -18,7 +18,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String texto;
 
     @Enumerated(EnumType.STRING)
@@ -36,9 +36,14 @@ public class Feedback {
 
 
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
     public LocalDateTime getCreated_at() {
         return created_at;
@@ -56,9 +61,6 @@ public class Feedback {
         this.deleted = deleted;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTexto() {
         return texto;

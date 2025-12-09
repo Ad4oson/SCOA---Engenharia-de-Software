@@ -17,13 +17,12 @@ public class FrequenciaAluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     //LEMBRAR DE ALTERAR NOMES NO BD
     private LocalDate data;
     private boolean presente;
-    private String justificativa;
-    private int tempo_de_aula;
+    private Integer tempo_de_aula;
 
     private LocalDateTime created_at;
     private boolean deleted;
@@ -39,10 +38,16 @@ public class FrequenciaAluno {
     private Aluno aluno;
 
 
-    //#region
-    public int getId() {
+    //#region getters e setters
+    public Integer getId() {
         return id;
     }
+
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
 
     public LocalDateTime getCreated_at() {
@@ -65,10 +70,6 @@ public class FrequenciaAluno {
     }
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
 
     public LocalDate getData() {
         return data;
@@ -90,22 +91,12 @@ public class FrequenciaAluno {
     }
 
 
-    public String getJustificativa() {
-        return justificativa;
-    }
-
-
-    public void setJustificativa(String justificativa) {
-        this.justificativa = justificativa;
-    }
-
-
-    public int getTempo_de_aula() {
+    public Integer getTempo_de_aula() {
         return tempo_de_aula;
     }
 
 
-    public void setTempo_de_aula(int tempo_de_aula) {
+    public void setTempo_de_aula(Integer tempo_de_aula) {
         this.tempo_de_aula = tempo_de_aula;
     }
 

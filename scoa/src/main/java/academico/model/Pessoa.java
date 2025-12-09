@@ -14,11 +14,9 @@ public class Pessoa{
     private LocalDate nascimento;
     private String polo;
     private String endereco;
-
     
     private LocalDateTime created_at;
     private boolean deleted;
-
 
 
     //#region Getters e Setters

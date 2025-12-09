@@ -11,7 +11,6 @@ import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
 import academico.model.ContatosAluno;
 import academico.model.ContatosProfessor;
-import academico.model.Coordenador;
 import academico.model.Curso;
 import academico.model.Disciplina;
 import academico.model.DocumentosAluno;
@@ -621,9 +620,9 @@ public class SecretarioController {
                 String jpqlCoordenador = """
                         SELECT p
                         FROM Professor p
-                        WHERE p.cpf = :coordenadorCpf
+                        WHERE p.cpf = :cpf
                         """;
-                Coordenador coordenadorNovo = em.createQuery(jpqlCoordenador, Coordenador.class).setParameter("cpf", coordenadorCpf).getSingleResult();
+                Professor coordenadorNovo = em.createQuery(jpqlCoordenador, Professor.class).setParameter("cpf", coordenadorCpf).getSingleResult();
 
                 cursoNovo.setCoordenador(coordenadorNovo);
             }

@@ -23,9 +23,6 @@ public class EspecialidadesProfessor {
     private Professor professor;
 
 
-
-    
-
     
     public String getEspecialidade() {
         return especialidade;

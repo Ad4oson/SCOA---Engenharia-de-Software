@@ -1,5 +1,6 @@
 package academico.model;
 
+/* 
 public class Coordenador extends Professor{
     //Não necessária integração com JPA, apenas utilizar construtor com base em Professor
 
@@ -41,4 +42,7 @@ public class Coordenador extends Professor{
 
 
 }
+
+
+*/
 
