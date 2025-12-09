@@ -16,8 +16,6 @@ import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 
 public class ProfessorController {

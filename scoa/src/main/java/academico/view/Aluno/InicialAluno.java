@@ -38,6 +38,7 @@ public class InicialAluno extends javax.swing.JFrame {
         feedbackCombo = new javax.swing.JComboBox<>();
         frequenciaButton = new javax.swing.JButton();
         notaButton = new javax.swing.JButton();
+        turmaButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +77,15 @@ public class InicialAluno extends javax.swing.JFrame {
         });
         notaButton.addActionListener(this::notaButtonActionPerformed);
 
+        turmaButton.setText("Turma");
+        turmaButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 3, 0, 3, new java.awt.Color(0, 0, 0)));
+        turmaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                turmaButtonMouseClicked(evt);
+            }
+        });
+        turmaButton.addActionListener(this::turmaButtonActionPerformed);
+
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
@@ -89,14 +99,17 @@ public class InicialAluno extends javax.swing.JFrame {
                 .addComponent(notaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(frequenciaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(turmaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(requisicoesCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
             .addComponent(feedbackCombo)
-            .addComponent(frequenciaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(notaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(turmaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(frequenciaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -189,6 +202,19 @@ public class InicialAluno extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_notaButtonActionPerformed
 
+    private void turmaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_turmaButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_turmaButtonMouseClicked
+
+    private void turmaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turmaButtonActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        new InscreverTurmaAluno().setVisible(true);
+        
+        
+    }//GEN-LAST:event_turmaButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -222,5 +248,6 @@ public class InicialAluno extends javax.swing.JFrame {
     private javax.swing.JPanel menu;
     private javax.swing.JButton notaButton;
     private javax.swing.JComboBox<String> requisicoesCombo;
+    private javax.swing.JButton turmaButton;
     // End of variables declaration//GEN-END:variables
 }

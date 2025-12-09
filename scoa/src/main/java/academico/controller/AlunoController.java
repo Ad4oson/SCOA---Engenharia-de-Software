@@ -6,11 +6,12 @@ import java.util.List;
 import academico.model.Aluno;
 import academico.model.Feedback;
 import academico.model.FrequenciaAluno;
-import academico.model.NotaAluno;
 import academico.model.NotaConsultaDTO;
 import academico.model.Requisicao;
+import academico.model.Sala;
 import academico.model.TipoFeedback;
 import academico.model.TipoRequisicao;
+import academico.model.Turma;
 import auth.Permissoes;
 import auth.Sessao;
 import jakarta.persistence.EntityManager;
@@ -67,6 +68,37 @@ public class AlunoController {
     }
 
 
+    public List<Sala> consultarSalasAluno (EntityManager em, String salaLocal){
+        //Lembrar de atualizar as outras consultas duplas para serem uma só, utilizando um Id nullable
+
+        if (salaLocal != null) {
+            System.out.println("\nPESQUISANDO SALA LOCAL\n");
+                
+            String jpql = """
+                SELECT s
+                FROM Sala s
+                WHERE s.deleted = false AND s.local = :salaLocal
+            """;
+
+            return em.createQuery(jpql, Sala.class)
+            .setParameter("salaLocal", salaLocal)
+            .getResultList();
+
+        }
+        else {
+
+            String jpql = """
+            SELECT s
+            FROM Sala s
+            WHERE s.deleted = false
+            """;
+
+            return em.createQuery(jpql, Sala.class)
+            .getResultList();
+        }
+    }
+
+
     public List<NotaConsultaDTO> consultarNota(EntityManager em){
 
         Permissoes.exigirAluno();
@@ -118,27 +150,105 @@ public class AlunoController {
         
     }
 
+
+
+
     //NÃO FEITO
-    public void inscreverEmTurma (EntityManager em, String disciplinaNome){
+    public String inscreverEmTurma (EntityManager em, String turmaNome){
 
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
             
+            String jpqlTurma = """
+                    SELECT t
+                    FROM Turma t
+                    WHERE t.nome = :turmaNome AND t.deleted = false
+                    """;
+            Turma turmaT = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaNome", turmaNome).getSingleResult();
+
+            System.out.println("TURMA ATUAL: " + turmaT.getNome());
+            String loginAtual = Sessao.getUsuarioLogado().getLogin();
+            System.out.println("LOGIN ATUAL: " + loginAtual);
+
+            
+            String jpqlAluno = """
+                    SELECT a
+                    FROM Aluno a
+                    JOIN a.usuario u
+                    WHERE u.login = :loginAtual AND a.deleted = false
+                    """;
+
+            Aluno alunoT = em.createQuery(jpqlAluno, Aluno.class).setParameter("loginAtual", loginAtual).getSingleResult();
 
 
+            for (Aluno a : turmaT.getAlunos()){
+
+                if (a.getCpf().equals(alunoT.getCpf())){
+                    System.out.println("Aluno já cadastrado nesta turma!");
+                    return "Aluno já cadastrado nesta turma! Cancelando...";
+                }
+            }
+
+
+            turmaT.getAlunos().add(alunoT);
+            alunoT.getTurmas().add(turmaT);
 
 
             tx.commit();
+
+            return "Aluno matriculado na turma com sucesso!";
         }
         catch (Exception e){
             if (tx.isActive()) tx.rollback();
             e.printStackTrace();
         }
 
+        return "Aluno matriculado na turma com sucesso!";
 
     }
+
+
+    public List<Turma> consultarTurmas(EntityManager em, String turmaNome){
+        
+        LocalDateTime dias35 = LocalDateTime.now().minusDays(35);
+        if (turmaNome != null) {
+
+            //variavel com data de 35 dias anteriores
+            
+            
+
+            String jpql = """
+                SELECT t
+                FROM Turma t
+                WHERE t.deleted = false AND t.nome = :turmaNome AND t.created_at > :diasAtras35
+                ORDER BY t.nome
+            """;
+
+
+            return  em.createQuery(jpql, Turma.class)
+            .setParameter("turmaNome", turmaNome)
+            .setParameter("diasAtras35", dias35)
+            .getResultList(); 
+
+        }
+        else {
+
+            String jpql = """
+                SELECT t
+                FROM Turma t
+                WHERE t.deleted = false AND t.created_at > :diasAtras35
+                ORDER BY t.nome
+            """;
+            return em.createQuery(jpql, Turma.class)
+            .setParameter("diasAtras35", dias35)
+            .getResultList();
+        }
+
+
+    }
+
 
     //#region CRUD Feedback
     public void registrarFeedback(EntityManager em, String texto, TipoFeedback tipoFeedback){
@@ -413,4 +523,8 @@ public class AlunoController {
 
     //#endregion
     
+
+
+
+
 }

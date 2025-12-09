@@ -22,7 +22,7 @@ public class Aluno extends Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String statusfinanceiro;
     private String matricula;
 
@@ -83,10 +83,10 @@ public class Aluno extends Pessoa {
     public List<FrequenciaAluno> getFrequencia() {
         return frequencia;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public List<Requisicao> getRequisicoes() {

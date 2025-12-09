@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.JOptionPane;
-
 import academico.model.Aluno;
 import academico.model.BolsaFinanciamento;
 import academico.model.ContatosAluno;
@@ -1000,6 +998,7 @@ public class SecretarioController {
 
     //#endregion
     
+
     //#region CRUD SALA
 
     
@@ -1120,21 +1119,6 @@ public class SecretarioController {
                     if (t == null) continue;
                     else {
                         System.out.println("\nTURMA: " + t.getNome());
-
-                        try {
-                            String jpqlTurma = """
-                                    SELECT t
-                                    FROM Turma t
-                                    WHERE t.id = :turmaId AND t.deleted = false
-                                    """;
-                            Turma t2 = em.createQuery(jpqlTurma, Turma.class).setParameter("turmaId", t.getId()).getSingleResult();
-
-                        }
-                        catch (EntityNotFoundException e) {
-                            System.out.println("\nTurma não encontrada!\n");
-                            e.printStackTrace();
-                        }
-
 
                         t.setSala(sala);
                         turmasT.add(t);

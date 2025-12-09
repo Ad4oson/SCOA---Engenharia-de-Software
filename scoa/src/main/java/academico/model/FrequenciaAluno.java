@@ -3,8 +3,6 @@ package academico.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.annotation.processing.Generated;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

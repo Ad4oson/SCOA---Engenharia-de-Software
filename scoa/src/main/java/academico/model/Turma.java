@@ -1,7 +1,6 @@
 package academico.model;
 
 import java.time.LocalDateTime;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 import java.util.List;
@@ -16,10 +15,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "turma")
@@ -33,6 +31,7 @@ public class Turma {
 
     private LocalTime horario;
     private Integer numerovagas;
+
 
     @Enumerated(EnumType.STRING)
     private TurnoType turno;

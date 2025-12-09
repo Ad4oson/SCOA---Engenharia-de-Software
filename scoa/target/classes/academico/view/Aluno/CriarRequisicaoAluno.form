@@ -177,6 +177,8 @@
                       <Component id="notaButton" min="-2" pref="102" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="frequenciaButton" min="-2" pref="102" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="turmaButton" min="-2" pref="102" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -185,8 +187,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="requisicoesCombo" alignment="1" pref="40" max="32767" attributes="0"/>
                   <Component id="feedbackCombo" alignment="0" max="32767" attributes="0"/>
-                  <Component id="frequenciaButton" alignment="0" max="32767" attributes="0"/>
                   <Component id="notaButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="turmaButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="frequenciaButton" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -252,6 +255,20 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="notaButtonMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notaButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="turmaButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Turma"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                    <MatteColorBorder bottom="0" left="3" right="3" top="0"/>
+                  </Border>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="turmaButtonMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="turmaButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
