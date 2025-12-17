@@ -1,0 +1,61 @@
+package biblioteca.model;
+
+import java.time.LocalDateTime;
+
+import academico.model.Usuario;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Emprestimo")
+public class Emprestimo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "obra_id")
+    private Obra obra;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_login")
+    private Usuario usuario;
+
+    private LocalDateTime data_emprestimo;
+    private LocalDateTime previsao_devolucao;
+    private LocalDateTime prazo_devolucao;
+    
+    @Enumerated(EnumType.STRING)
+    private statusEmprestimo status;
+
+    private LocalDateTime created_at;
+    private boolean deleted;
+
+    // GETTERS & SETTERS
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public Obra getObra() { return obra; }
+    public void setObra(Obra obra) { this.obra = obra; }
+
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    public LocalDateTime getData_emprestimo() { return data_emprestimo; }
+    public void setData_emprestimo(LocalDateTime data_emprestimo) { this.data_emprestimo = data_emprestimo; }
+
+    public LocalDateTime getPrevisao_devolucao() { return previsao_devolucao; }
+    public void setPrevisao_devolucao(LocalDateTime previsao_devolucao) { this.previsao_devolucao = previsao_devolucao; }
+
+    public LocalDateTime getPrazo_devolucao() { return prazo_devolucao; }
+    public void setPrazo_devolucao(LocalDateTime prazo_devolucao) { this.prazo_devolucao = prazo_devolucao; }
+
+    public statusEmprestimo getStatus() { return status; }
+    public void setStatus(statusEmprestimo status) { this.status = status; }
+
+    public LocalDateTime getCreated_at() { return created_at; }
+    public void setCreated_at(LocalDateTime created_at) { this.created_at = created_at; }
+
+    public boolean isDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+}

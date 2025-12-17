@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Arquivo de configuração JPA (Jakarta Persistence) para PostgreSQL -->
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+  <persistence-unit name="meuPU" transaction-type="RESOURCE_LOCAL">
+    <!-- List entity classes here (use your actual package names) -->
+    <class>academico.Aluno</class>
+    <class>academico.Curso</class>
+    <class>academico.Avaliacao</class>
+    <class>academico.Boleto</class>
+    <class>academico.BoletoPagamento</class>
+    <class>academico.BolsaFinanciamento</class>
+    <class>academico.CentroCusto</class>
+    <class>academico.ContatosAluno</class>
+    <class>academico.ContatosProfessor</class>
+    <class>academico.Disciplina</class>
+    <class>academico.Professor</class>
+
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/scoa"/>
+      <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+      <property name="jakarta.persistence.jdbc.password" value="unidade9"/>
+      <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.use_sql_comments" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>
