@@ -319,7 +319,7 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
                                     FROM Disciplina d
                                     WHERE d.nome = :disciplinaNome AND deleted = false
                                     """;
-            Disciplina disciplinaT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaField.getText()).getSingleResult();
+            Disciplina disciplinaT = em.createQuery(jpqlDisciplina, Disciplina.class).setParameter("disciplinaNome",disciplinaField.getText().toUpperCase()).getSingleResult();
 
             Integer vagasT = Integer.parseInt(vagasField.getText().toString());
             LocalTime horarioT = LocalTime.parse(horarioField.getText().toString());
@@ -330,6 +330,7 @@ public class RegistrarTurmaSecretario extends javax.swing.JFrame {
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_salvarButton1ActionPerformed
 

@@ -12,6 +12,7 @@ import academico.model.JPAUtil;
 import auth.Sessao;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -449,12 +450,12 @@ public class RegistrarAlunoSecretario extends javax.swing.JFrame {
         try {
             
             //Pegar lista documento
-            List<DocumentosAluno> listaDocumento = null;
-            for (int r=0; r<=documentoTable1.getRowCount(); r++){
+            List<DocumentosAluno> listaDocumento = new ArrayList<>();
+            for (int r=0; r<documentoTable1.getRowCount(); r++){
 
                 if (documentoTable1.getValueAt(r,0)!= null) {
                     DocumentosAluno docTemp = new DocumentosAluno();
-
+                    
                     docTemp.setCaminho_arquivo(documentoTable1.getValueAt(r, 0).toString());
                     docTemp.setTipo_documento(documentoTable1.getValueAt(r, 1).toString( ));
                     listaDocumento.add(docTemp);
@@ -463,8 +464,8 @@ public class RegistrarAlunoSecretario extends javax.swing.JFrame {
             }
 
             //Pegar lista documento
-            List<ContatosAluno> listaContato = null;
-            for (int r=0; r<=contatoTable1.getRowCount(); r++){
+            List<ContatosAluno> listaContato = new ArrayList<>();
+            for (int r=0; r<contatoTable1.getRowCount(); r++){
 
                 if (contatoTable1.getValueAt(r, 0) != null) {
                     ContatosAluno contatoTemp = new ContatosAluno();
@@ -476,12 +477,13 @@ public class RegistrarAlunoSecretario extends javax.swing.JFrame {
             }
 
             secretario.cadastrarAluno(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
-                poloField1.getText(),nascimento, enderecoField1.getText(), matriculaField1.getText(), cursoField1.getText(), Integer.valueOf(bolsaField1.getText()),
+                poloField1.getText(),nascimento, enderecoField1.getText(), matriculaField1.getText(), cursoField1.getText().toUpperCase(), Integer.valueOf(bolsaField1.getText()),
                 financeiroField1.getText(), listaDocumento, listaContato);
 
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
         
         

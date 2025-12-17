@@ -519,6 +519,7 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
                 }
             } catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Turma sem sala!");
+                salaT = null;
                 
             }
             System.out.println("PASSOU SALA");
@@ -537,6 +538,7 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
             }
             catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Turma sem disciplina!");
+                disciplinaT = null;
             }
             
             
@@ -554,6 +556,7 @@ public class AtualizarTurmaSecretario extends javax.swing.JFrame {
             }
             catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Turma sem professor!");
+                professorT = null;
             }
             
             

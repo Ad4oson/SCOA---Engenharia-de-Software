@@ -77,10 +77,16 @@ public class SecretarioController {
             novoAluno.setDocumentos(documentos);
             novoAluno.setContatos(contatos);
 
+            for (DocumentosAluno d : documentos) d.setAluno(novoAluno);
+            
+
+            for (ContatosAluno c : contatos) c.setAluno(novoAluno);
+
             novoAluno.setCreated_at(LocalDateTime.now());
             novoAluno.setDeleted(false);
-            em.persist(novoAluno);
             em.persist(usuario);
+            em.persist(novoAluno);
+
             
             tx.commit();
             System.out.println("\n\nAluno cadastrado com sucesso!\n\n");
@@ -350,14 +356,14 @@ public class SecretarioController {
             novoProfessor.setUsuario(usuario);
             novoProfessor.setNome(nome);
             novoProfessor.setCpf(cpf);
-            novoProfessor.setRg(rg);
-            novoProfessor.setEndereco(endereco);
-            novoProfessor.setNascimento(nascimento);
-            novoProfessor.setFormacao(formacao);
-            novoProfessor.setRegistros(registros);
-            novoProfessor.setDataAdmissao(dataAdmissao);
-            novoProfessor.setSalario(salario);
-            novoProfessor.setTurmas(turmas);
+            if (rg != null) novoProfessor.setRg(rg);
+            if (endereco != null) novoProfessor.setEndereco(endereco);
+            if (nascimento != null) novoProfessor.setNascimento(nascimento);
+            if (formacao != null)novoProfessor.setFormacao(formacao);
+            if (registros != null) novoProfessor.setRegistros(registros);
+            if (dataAdmissao != null) novoProfessor.setDataAdmissao(dataAdmissao);
+            if (salario != null) novoProfessor.setSalario(salario);
+            if (turmas != null) novoProfessor.setTurmas(turmas);
 
             
             novoProfessor.setCreated_at(LocalDateTime.now());
@@ -615,7 +621,7 @@ public class SecretarioController {
         try {
             tx.begin();
 
-            if (coordenadorCpf != null){
+            if (!coordenadorCpf.equals("")){
                 
                 String jpqlCoordenador = """
                         SELECT p
@@ -754,9 +760,14 @@ public class SecretarioController {
                         e.printStackTrace();
                     }
                     
-                    if (disciplina != null){
+                    if (disciplina.getCursos() != null){
                         disciplina.getCursos().add(curso);
                         disciplinasT.add(disciplina);
+                    }
+                    else {
+                        List<Curso> cursos = new ArrayList<>();
+                        cursos.add(curso);
+                        disciplina.setCursos(cursos);
                     }
  
                 }
@@ -861,19 +872,19 @@ public class SecretarioController {
             tx.begin();
 
             if (sala !=null){
-                Sala salaNova = em.getReference(Sala.class, sala);
-                turmaNova.setSala(salaNova);
+             
+                turmaNova.setSala(sala);
             }
             if (disciplina !=null) {
-                Disciplina disciplinaNova = em.getReference(Disciplina.class, disciplina);
-                turmaNova.setDisciplina(disciplinaNova);
+               
+                turmaNova.setDisciplina(disciplina);
             }
             if(professor !=null){
-                Professor professorNovo = em.getReference(Professor.class, professor);
-                turmaNova.setProfessor(professorNovo);
+                
+                turmaNova.setProfessor(professor);
             }
             
-            
+            turmaNova.setNome(nome);
             turmaNova.setHorario(horario);
             turmaNova.setNumerovagas(numerovagas);
             turmaNova.setTurno(turno);
@@ -952,15 +963,18 @@ public class SecretarioController {
                 System.out.println("ALUNO SIZE: " + alunos.size());
 
                 for (int r=0; r<alunos.size(); r++){
-                    System.out.println("matricula : " + alunos.get(r));
-                    String jpqlAluno = """
-                            SELECT a
-                            FROM Aluno a
-                            WHERE a.matricula = :matricula AND a.deleted = false
-                            """;
-                    Aluno alunoTemp = em.createQuery(jpqlAluno, Aluno.class).setParameter("matricula", alunos.get(r)).getSingleResult();
-                    
-                    alunosT.add(alunoTemp);
+
+                    if (!alunos.get(r).equals("")) {
+                        System.out.println("matricula : " + alunos.get(r));
+                        String jpqlAluno = """
+                                SELECT a
+                                FROM Aluno a
+                                WHERE a.matricula = :matricula AND a.deleted = false
+                                """;
+                        Aluno alunoTemp = em.createQuery(jpqlAluno, Aluno.class).setParameter("matricula", alunos.get(r)).getSingleResult();
+                        
+                        alunosT.add(alunoTemp);
+                    }
 
                 }
                 System.out.println("PASSOU ALUNO \n");

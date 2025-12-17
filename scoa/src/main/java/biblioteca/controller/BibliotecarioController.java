@@ -254,15 +254,17 @@ public class BibliotecarioController {
             notificacaoT.setCreated_at(LocalDateTime.now());
             notificacaoT.setDeleted(false);
 
+            System.out.println("LOGIN: " + usuarioLogin);
+
             if (usuario.equals(tipoUsuario.ALUNO)){
 
                 String jpqlAluno = """
                         SELECT a
                         FROM Aluno a
-                        JOIN a.contatos
-                        WHERE a.login = :loginUsuario
+                        JOIN a.contatos c
+                        WHERE a.usuario.login = :loginUsuario
                         """;
-                Aluno alunoT = em.createQuery(jpqlAluno, Aluno.class).setParameter("loginUsuario", usuarioT.getLogin()).getSingleResult();
+                Aluno alunoT = em.createQuery(jpqlAluno, Aluno.class).setParameter("loginUsuario", usuarioLogin).getSingleResult();
                 String emailC = null;
                 for (ContatosAluno c : alunoT.getContatos()){
 
@@ -284,10 +286,10 @@ public class BibliotecarioController {
                 String jpqlProfessor = """
                         SELECT p
                         FROM Professor p
-                        JOIN p.contatos
-                        WHERE p.login = :loginUsuario
+                        JOIN p.contatos c
+                        WHERE p.usuario.login = :loginUsuario
                         """;
-                Professor professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginUsuario", usuarioT.getLogin()).getSingleResult();
+                Professor professorT = em.createQuery(jpqlProfessor, Professor.class).setParameter("loginUsuario", usuarioLogin).getSingleResult();
 
                 String emailC = null;
                 for (ContatosProfessor c : professorT.getContatos()){

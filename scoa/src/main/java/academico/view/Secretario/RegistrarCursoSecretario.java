@@ -524,8 +524,7 @@ public class RegistrarCursoSecretario extends javax.swing.JFrame {
 
     private void salvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarButtonActionPerformed
         // TODO add your handling code here:
-        
-        
+
         
         SecretarioController secretario = new SecretarioController();
         EntityManager em = JPAUtil.getEntityManager();
@@ -536,10 +535,12 @@ public class RegistrarCursoSecretario extends javax.swing.JFrame {
             try {
                 //Pegar lista disciplina
                 
-                for (int r=0; r<=disciplinaTable.getRowCount(); r++){
+                for (int r=0; r<disciplinaTable.getRowCount(); r++){
 
-                    if (disciplinaTable.getValueAt(r,0)!= null) {
+                    if (disciplinaTable.getValueAt(r,0) != null) {
                         Disciplina disciplinaTemp = new Disciplina();
+
+                        System.out.println("ENTROU NAO NULO DISCIPLINA");
 
                         String jpqlDisciplina = """
                                                 SELECT d
@@ -558,13 +559,16 @@ public class RegistrarCursoSecretario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Dados inválidos! Disciplina já deve estar cadastrada!");
                 e.printStackTrace();
             }
+
+
             List<Aluno> listaAluno = new ArrayList<>();
             try {
                 //Pegar lista alunos
                 
-                for (int r=0; r<=matriculaTable.getRowCount(); r++){
+                for (int r=0; r<matriculaTable.getRowCount(); r++){
 
                     if (matriculaTable.getValueAt(r, 0) != null) {
+                        System.out.println("ENTROU NAO NULO ALUNO");
                         Aluno alunoTemp = new Aluno();
 
                         String jpqlAluno = """
