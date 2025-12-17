@@ -79,7 +79,7 @@ public class EnviarNotificacaoBibliotecario extends javax.swing.JFrame {
         jLabel6.setText("TipoNotificacao:");
 
         tipoBox.setEditable(true);
-        tipoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponível", "Indisponível" }));
+        tipoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empréstimo", "Devolução", "Atraso", "Geral" }));
         tipoBox.addActionListener(this::tipoBoxActionPerformed);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -263,6 +263,7 @@ public class EnviarNotificacaoBibliotecario extends javax.swing.JFrame {
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_salvarButtonActionPerformed
 

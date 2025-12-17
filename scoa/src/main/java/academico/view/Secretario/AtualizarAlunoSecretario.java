@@ -498,7 +498,9 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
             List<DocumentosAluno> listaDocumento = new ArrayList<>();
             for (int r=0; r<documentoTable1.getRowCount(); r++){
 
-                if (documentoTable1.getValueAt(r,0)!= null) {
+                System.out.println("É NULO: " + documentoTable1.getValueAt(r, 0));
+
+                if (!(documentoTable1.getValueAt(r,0).equals("") || documentoTable1.getValueAt(r, 1).equals(""))) {
                 
                     DocumentosAluno docTemp = new DocumentosAluno();
   
@@ -512,10 +514,11 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
             
 
             //Pegar lista contato
+            System.out.println("LISTA CONTATO");
             List<ContatosAluno> listaContato = new ArrayList<>();
             for (int r=0; r<contatoTable1.getRowCount(); r++){
 
-                if (contatoTable1.getValueAt(r, 0) != null) {
+                if (!contatoTable1.getValueAt(r, 0).equals("")) {
                     ContatosAluno contatoTemp = new ContatosAluno();
 
                     contatoTemp.setContato(contatoTable1.getValueAt(r, 0).toString());
@@ -541,6 +544,7 @@ public class AtualizarAlunoSecretario extends javax.swing.JFrame {
         }
         catch (Exception e ){
             JOptionPane.showMessageDialog(this, "Dados inválidos!");
+            e.printStackTrace();
         }
         
 

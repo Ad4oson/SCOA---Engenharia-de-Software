@@ -557,9 +557,11 @@ public class RegistrarProfessorSecretario extends javax.swing.JFrame {
             LocalDate nascimentoT = LocalDate.parse(nascimentoField1.getText().toString());
             LocalDate admissaoT = LocalDate.parse(admissaoField1.getText().toString());
 
+            System.out.println("SALARIO:" + salarioField1.getText() + " SALARIO INT: " + Integer.parseInt(salarioField1.getText()));
+
             secretario.cadastrarProfessor(em, loginField1.getText(),senhaField1.getText(), nomeField1.getText(), cpfField1.getText(), rgField1.getText(),
                 nascimentoT, enderecoField1.getText(), formacaoField1.getText(), registrosField1.getText(), 
-                admissaoT, Integer.getInteger(salarioField1.getText()), listaTurma);
+                admissaoT, Integer.parseInt(salarioField1.getText()), listaTurma);
 
         }
         catch (Exception e ){

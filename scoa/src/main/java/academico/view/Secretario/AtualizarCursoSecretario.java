@@ -583,7 +583,7 @@ public class AtualizarCursoSecretario extends javax.swing.JFrame {
 
                 for (int r=0; r<disciplinaTable.getRowCount(); r++){
 
-                    if (disciplinaTable.getValueAt(r,0).equals("")) {
+                    if (!disciplinaTable.getValueAt(r,0).equals("")) {
                        
                         String disciplinaNome = disciplinaTable.getValueAt(r, 0).toString();
                         listaDisciplina.add(disciplinaNome);
@@ -603,7 +603,7 @@ public class AtualizarCursoSecretario extends javax.swing.JFrame {
 
                 for (int r=0; r<matriculaTable.getRowCount(); r++){
 
-                    if (matriculaTable.getValueAt(r, 0).equals("")) {
+                    if (!matriculaTable.getValueAt(r, 0).equals("")) {
                         String matricula = matriculaTable.getValueAt(r, 0).toString();
                         listaAluno.add(matricula);
 

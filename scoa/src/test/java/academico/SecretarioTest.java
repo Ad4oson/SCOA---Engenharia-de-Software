@@ -354,36 +354,49 @@ public class SecretarioTest {
     @Test
     void testCadastrarCurso() {
 
-        secretario.cadastrarCurso(
-        em,
-        "cursonome1", 
-        "mensalidade1", 
-        TurnoType.MATUTINO, 
-        3600, 
-        8, 
-        null, 
-        null, 
-        null, 
-        StatusCurso.AGUARDO, 
-        null, 
-        null, 
-        null);
+        when(em.getTransaction()).thenReturn(tx);
 
+
+        secretario.cadastrarCurso(
+            em,
+            "cursonome1", 
+            "mensalidade1", 
+            TurnoType.MATUTINO, 
+            3600, 
+            8, 
+            null, 
+            null, 
+            null, 
+            StatusCurso.AGUARDO, 
+            null, 
+            null, 
+            ""   // coordenadorCpf vazio 
+        );
+
+        // verificações
         verify(tx).begin();
 
         ArgumentCaptor<Curso> cursoCaptor = ArgumentCaptor.forClass(Curso.class);
-
         verify(em).persist(cursoCaptor.capture());
-  
+
         Curso c = cursoCaptor.getValue();
-        assertEquals(c.getNome(), "cursonome1");
-        assertEquals(c.getPrazoconclusao(), null);
-        assertEquals(c.getDescricao(), null);
-        assertEquals(c.getPortaria(), null);
+
+        assertEquals("cursonome1", c.getNome());
+        assertEquals("mensalidade1", c.getMensalidade());
+        assertEquals(TurnoType.MATUTINO, c.getTurno());
+        assertEquals(3600, c.getCargahoraria());
+        assertEquals(8, c.getPeriodos());
+        assertNull(c.getPrazoconclusao());
+        assertNull(c.getDescricao());
+        assertNull(c.getPortaria());
+        assertEquals(StatusCurso.AGUARDO, c.getStatus());
+        assertFalse(c.isDeleted());
+        assertNotNull(c.getCreated_at());
 
         verify(tx).commit();
 
     }
+
 
 //Cadastro de Curso Coordenador Inexistente
     @SuppressWarnings("unchecked")
@@ -433,20 +446,15 @@ public class SecretarioTest {
 
     
     //Cadastro turma (SALA null | ALUNOS null)
-  @Test
+    @Test
     void testCadastrarTurma() {
 
         when(em.getTransaction()).thenReturn(tx);
 
-
+        // instâncias fake
         Disciplina disciplinaFake = new Disciplina();
         Professor professorFake = new Professor();
-        Sala salaFake = null; // sala nula 
-
-   
-        when(em.getReference(Sala.class, salaFake)).thenReturn(null);
-        when(em.getReference(Disciplina.class, disciplinaFake)).thenReturn(disciplinaFake);
-        when(em.getReference(Professor.class, professorFake)).thenReturn(professorFake);
+        Sala salaFake = null; // sala nula
 
         LocalTime horario = LocalTime.parse("22:45");
 
@@ -465,14 +473,12 @@ public class SecretarioTest {
 
         verify(tx).begin();
 
-        verify(em).getReference(Disciplina.class, disciplinaFake);
-        verify(em).getReference(Professor.class, professorFake);
-
         ArgumentCaptor<Turma> turmaCaptor = ArgumentCaptor.forClass(Turma.class);
         verify(em).persist(turmaCaptor.capture());
 
         Turma turma = turmaCaptor.getValue();
 
+        assertEquals("TURMA01", turma.getNome());
         assertEquals(10, turma.getNumerovagas());
         assertEquals(horario, turma.getHorario());
         assertEquals(TurnoType.VESPERTINO, turma.getTurno());
